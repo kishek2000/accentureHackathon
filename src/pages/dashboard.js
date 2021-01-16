@@ -3,8 +3,12 @@ import { jsx, css } from "@emotion/react";
 import { GapVertical } from "../components/GapVertical";
 import { GapHorizontal } from "../components/GapHorizontal";
 import { CourseCard } from "../components/CourseCard";
+import { courses } from "../store/courses";
 
-export default function Dashboard() {
+
+
+export default function Dashboard({courseArr}) {
+  console.log(courseArr);
   return (
     <main
       css={{
@@ -14,12 +18,13 @@ export default function Dashboard() {
         margin: "0px 160px",
       }}
     >
-      <DashboardWindow />
+      <DashboardWindow courseList={courseArr.courses} />
     </main>
   );
 }
 
-function DashboardWindow() {
+function DashboardWindow({courseList}) {
+  console.log(courseList);
   return (
     <div>
       <GapVertical times={35} />
@@ -48,9 +53,13 @@ function DashboardWindow() {
       <div
         css={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
-        <CourseCard title="Shapes" thumbnail="shapesThumbnail.png" />
-        <GapHorizontal times={6} />
-        <CourseCard title="Colours" thumbnail="coloursThumbnail.png" />
+        {courseList.map((i) => {
+          return (
+            <div>
+              <CourseCard title={i.title} thumbnail={i.thumbnail} />
+              <GapHorizontal times={6} />
+            </div>);
+        })}
       </div>
       <GapVertical times={24} />
       <div
@@ -65,4 +74,9 @@ function DashboardWindow() {
       </div>
     </div>
   );
+}
+
+Dashboard.getInitialProps = async (ctx) => {
+  
+  return { courseArr: courses }
 }
