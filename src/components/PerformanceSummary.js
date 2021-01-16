@@ -16,7 +16,7 @@ const PerformanceSummary = ({ childName }) => {
 
     const items = topicAnalytics.map((eachTopic, i) => {
         return {
-            src: 'https://www.robin-noorda.com/uploads/1/6/8/3/16830688/3347022_orig.jpg',
+            src: 'https://images.unsplash.com/photo-1595707678349-4b3f482bfbd3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
             altText: eachTopic.label,
             header: eachTopic.label,
             caption: `
@@ -51,7 +51,7 @@ const PerformanceSummary = ({ childName }) => {
           onExited={() => setAnimating(false)}
           key={item.src}
         >
-          <img src={item.src} alt={item.altText} />
+          <img src={item.src} alt={item.altText} style={{ "width": "100%", "maxHeight": "600px", "filter": "blur(5px)" }}/>
           <a href="https://www.google.com">
             <CarouselCaption captionText={item.caption} captionHeader={item.header} />
           </a>
