@@ -72,7 +72,7 @@ export function Stats() {
 
       <GapVertical times={6} />
       <p css={{ fontFamily: "Poppins", textAlign: "center" }}>
-        NOTE: Proficiency = (difficulty rating * accuracy) / time spend
+        NOTE: Proficiency = (difficulty rating * accuracy) / time spent
       </p>
       <GapVertical times={30} />
     </div>

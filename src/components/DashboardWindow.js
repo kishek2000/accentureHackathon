@@ -28,7 +28,11 @@ export function DashboardWindow({ courseList }) {
   }
 
   return (
-    <div>
+    <div
+      css={{
+        margin: "0px 160px",
+      }}
+    >
       <GapVertical times={35} />
       <div
         css={{

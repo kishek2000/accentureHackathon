@@ -44,6 +44,11 @@ export const allCourseData = [
         background:
           "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
       },
+      {
+        title: "The Star",
+        background:
+          "linear-gradient(198.46deg, #FFD2D2 12.51%, #FF9999 79.66%)",
+      },
     ],
   },
   {
