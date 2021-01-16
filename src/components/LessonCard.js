@@ -3,7 +3,7 @@ import { jsx, css } from "@emotion/react";
 import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
 
-export function LessonCard({ title, background, handleLessonCallback }) {
+export function LessonCard({ title, background, handleLessonCallback, points, difficulty, recommendation }) {
   return (
     <div
       css={{
@@ -33,13 +33,14 @@ export function LessonCard({ title, background, handleLessonCallback }) {
         />
         <GapHorizontal times={1} />
         <div css={{ fontFamily: "Poppins", fontSize: 16, color: "black" }}>
-          {title !== "The Star" ? "12 Points" : "20 Points"}
+          <strong>{points}</strong> Points
         </div>
       </div>
       <div css={{ fontFamily: "Poppins", fontWeight: 700, fontSize: 36 }}>
         {title}
       </div>
-      <div>Difficulty: {title !== "The Star" ? "Easy" : "Medium"}</div>
+      <div>Difficulty: <strong>{difficulty}</strong></div>
+      <div><em><strong style={{"fontSize": "150%"}}>{recommendation}</strong></em></div>
       <GapVertical times={4} />
       <div
         css={{
