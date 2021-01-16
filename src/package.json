@@ -21,6 +21,8 @@
     "react-d3": "^0.4.0",
     "react-dom": "17.0.1",
     "react-grid-system": "^7.1.1",
+    "react-howler": "^5.0.0",
+    "react-use-audio-player": "^1.2.4",
     "reactstrap": "^8.8.1"
   },
   "plugins": [

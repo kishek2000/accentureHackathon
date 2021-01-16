@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { jsx, css } from "@emotion/react";
 import { Router, useRouter } from "next/router";
+import { useAudioPlayer } from "react-use-audio-player"
+import { AudioPlayerProvider } from "react-use-audio-player"
 
 // Will produce these colours on a FF0000 image that has been hue-rotated by these values
 const RED = 0;
@@ -22,6 +24,13 @@ const shapeData = {
     averageTime: 3
 }
 */
+
+function playSFX() {
+  // Path to audio files start from the project directory's public folder ('/' is the public directory)
+  let audio = new Audio("/sfx/bubbles.mp3");
+  console.log("PLAYING SOUND");
+  audio.play();
+}
 
 export function ShapeQuestion({
   shapeData,
@@ -57,8 +66,13 @@ export function ShapeQuestion({
                 // const date = new Date();
                 // const currTime = date.getTime();
                 console.log("Hurrah!");
+                
                 setCurrQuestion(currQuestion + 1);
               }
+
+              // TODO: Play a sound when only the correct shape is clicked.
+              playSFX();
+
             }}
           >
             <img
