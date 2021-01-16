@@ -7,6 +7,7 @@ import { CourseCard } from "../components/CourseCard";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { Stats } from "./Stats";
+import { AllTraits } from "./AllTraits";
 
 export function DashboardWindow({ courseList }) {
   const childName = "Jeremy";
@@ -120,64 +121,7 @@ export function DashboardWindow({ courseList }) {
           </div>
           <Stats />
         </div>
-        <div
-          css={{ display: "flex", flexDirection: "column", paddingLeft: 64 }}
-        >
-          <div
-            css={{
-              fontFamily: "Poppins",
-              fontWeight: 600,
-              fontSize: 36,
-            }}
-          >
-            Traits
-          </div>
-          <GapVertical times={5} />
-          <div css={{ fontFamily: "Poppins", fontWeight: 400, fontSize: 24 }}>
-            Jeremy is...
-          </div>
-          <GapVertical times={4} />
-          <Trait
-            color="green"
-            title="Focused"
-            description="Attention span 17% above the median"
-          />
-          <GapVertical times={6} />
-          <Trait
-            color="orange"
-            title="Communicative"
-            description="Scores in commmunication tasks 29% above the median"
-          />
-          <GapVertical times={6} />
-          <Trait
-            color="blue"
-            title="Auditory"
-            description="Jeremy responds 30% better to tasks involving auditory stimuli than visual tasks"
-          />
-          <GapVertical times={6} />
-          <Trait
-            color="red"
-            title="Slow Learner"
-            description="Masters tasks 7% slower than the median"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Trait({ color, title, description }) {
-  return (
-    <div css={{ display: "flex", flexDirection: "row" }}>
-      <div css={{ height: 48, width: 48, background: color }} />
-      <GapHorizontal times={4} />
-      <div css={{ display: "flex", flexDirection: "column" }}>
-        <div css={{ fontSize: 20, fontFamily: "Poppins", fontWeight: 600 }}>
-          {title}
-        </div>
-        <div css={{ fontSize: 16, fontFamily: "Poppins", fontWeight: 400 }}>
-          {description}
-        </div>
+        <AllTraits childName={childName} />
       </div>
     </div>
   );
