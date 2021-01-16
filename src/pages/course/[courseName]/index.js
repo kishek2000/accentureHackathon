@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 import { useRouter } from "next/router";
-import { GapHorizontal } from "../../components/GapHorizontal";
-import { GapVertical } from "../../components/GapVertical";
-import { LessonCard } from "../../components/LessonCard";
+import { useCallback, useState } from "react";
+import { GapHorizontal } from "../../../components/GapHorizontal";
+import { GapVertical } from "../../../components/GapVertical";
+import { LessonCard } from "../../../components/LessonCard";
 
 const allCourseData = [
   {
@@ -55,11 +56,21 @@ const allCourseData = [
 export default function Course() {
   const router = useRouter();
   const { courseName } = router.query;
+  const [lesson, setLesson] = useState();
 
   if (courseName) {
     const courseData = allCourseData.filter((course) => {
       return course.title === courseName;
     })[0];
+
+    const handleLessonCallback = useCallback((text) => {
+      setLesson(text);
+    });
+
+    if (lesson) {
+      router.push(`${courseName}/${lesson}`);
+    }
+
     return (
       <main css={{ width: "100vw", position: "relative" }}>
         <div css={{ position: "relative" }}>
@@ -120,6 +131,7 @@ export default function Course() {
                 <LessonCard
                   title={lesson.title}
                   background={lesson.background}
+                  handleLessonCallback={handleLessonCallback}
                 />
                 <GapHorizontal times={8} />
               </>

@@ -2,7 +2,7 @@
 import { jsx, css } from "@emotion/react";
 import { GapVertical } from "./GapVertical";
 
-export function LessonCard({ title, background }) {
+export function LessonCard({ title, background, handleLessonCallback }) {
   return (
     <div
       css={{
@@ -29,6 +29,7 @@ export function LessonCard({ title, background }) {
           borderRadius: 16,
           cursor: "pointer",
         }}
+        onClick={() => handleLessonCallback(title)}
       >
         Start Lesson
       </div>
