@@ -30,7 +30,8 @@ export function ShapeQuestion({
   returnToCourse,
 }) {
   if (shapeData) {
-    var places = [0, 300, 600, 900, 1200, 1500];
+    var places = [0, 300, 600, 900, 1200];
+    var attempts = 0;
     return (
       <div css={{ position: "relative" }}>
         {shapeData.shapes.map((shape) => (
@@ -43,7 +44,16 @@ export function ShapeQuestion({
               top: 200,
             }}
             onClick={() => {
+              attempts++;
               if (shape.shape == shapeData.correctShape) {
+                let getData = localStorage.getItem('stats');
+                if (getData !== '' && getData !== null) {
+                    stats = JSON.parse(getData);
+                } else {
+                    stats = {}
+                }
+                
+                localStorage.setItem("stats", JSON.stringify(stats));
                 console.log("Hurrah!");
                 setCurrQuestion(currQuestion + 1);
               }
