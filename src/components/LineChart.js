@@ -44,6 +44,7 @@ const LineChart = ({ category, timeResolution }) => {
         label: `Proficiency in '${eachTopic.label}'`,
         data: datapoints,
         fill: false,
+        hidden: true,
         backgroundColor: eachTopic.colour,
         borderColor: eachTopic.colour,
       };
