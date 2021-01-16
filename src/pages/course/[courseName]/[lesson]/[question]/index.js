@@ -24,6 +24,9 @@ export default function Question() {
         setCurrQuestion={setCurrQuestion}
         currQuestion={currQuestion}
         returnToCourse={returnToCourse}
+        courseName={courseName}
+        lesson={lesson}
+        question={question}
       />
     );
   }

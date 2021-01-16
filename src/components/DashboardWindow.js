@@ -6,9 +6,13 @@ import { GapHorizontal } from "../components/GapHorizontal";
 import { CourseCard } from "../components/CourseCard";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
+import { Stats } from "./Stats";
 
 export function DashboardWindow({ courseList }) {
+  const childName = "Jeremy";
+
   const [course, setCourse] = useState();
+  const [stats, setStats] = useState(false);
   const handleCourseCallback = useCallback(
     (courseTitle) => {
       setCourse(courseTitle[0].toLowerCase() + courseTitle.slice(1));
@@ -16,9 +20,17 @@ export function DashboardWindow({ courseList }) {
     [course]
   );
 
+  const handleStatsCallback = useCallback(() => {
+    setStats(true);
+  });
+  const router = useRouter();
+
+  if (stats) {
+    router.push(`/stats`);
+  }
+
   if (course) {
     console.log(course);
-    const router = useRouter();
     router.push(`/course/${course}`);
   }
 
@@ -38,13 +50,41 @@ export function DashboardWindow({ courseList }) {
       <GapVertical times={12} />
       <div
         css={{
-          fontFamily: "Poppins",
-          fontWeight: 600,
-          fontSize: 36,
-          alignSelf: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        Courses
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 600,
+            fontSize: 36,
+            alignSelf: "center",
+          }}
+        >
+          Curated Courses
+        </div>
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontSize: 20,
+            alignSelf: "center",
+            cursor: "pointer",
+          }}
+        >
+          SEE ALL >
+        </div>
+      </div>
+      <GapVertical times={6} />
+      <div
+        css={{
+          fontFamily: "Poppins",
+          fontWeight: 300,
+          fontSize: 20,
+        }}
+      >
+        Courses that we recommend will benefit your child the most.
       </div>
       <GapVertical times={8} />
       <div
@@ -64,14 +104,34 @@ export function DashboardWindow({ courseList }) {
       <GapVertical times={24} />
       <div
         css={{
-          fontFamily: "Poppins",
-          fontWeight: 600,
-          fontSize: 36,
-          alignSelf: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        Liam's Progress
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 600,
+            fontSize: 36,
+            alignSelf: "center",
+          }}
+        >
+          Jeremy's Progress
+        </div>
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontSize: 20,
+            alignSelf: "center",
+            cursor: "pointer",
+          }}
+          onClick={() => handleStatsCallback()}
+        >
+          SEE ALL >
+        </div>
       </div>
+      <Stats />
     </div>
   );
 }
