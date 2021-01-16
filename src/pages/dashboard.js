@@ -1,13 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-// import { DashboardWindow } from "../components/DashboardWindow";
-import { GapVertical } from "../components/GapVertical";
-import { GapHorizontal } from "../components/GapHorizontal";
-import { CourseCard } from "../components/CourseCard";
-import { courses } from "../store/courses";
 
-export default function Dashboard({ courseArr }) {
-  console.log(courseArr);
+import { courses } from "../store/courses";
+import { DashboardWindow } from "../components/DashboardWindow";
+
+export default function Dashboard() {
   return (
     <main
       css={{
@@ -17,65 +14,7 @@ export default function Dashboard({ courseArr }) {
         margin: "0px 160px",
       }}
     >
-      <DashboardWindow courseList={courseArr.courses} />
+      <DashboardWindow courseList={courses.courses} />
     </main>
   );
 }
-
-function DashboardWindow({ courseList }) {
-  console.log(courseList);
-  return (
-    <div>
-      <GapVertical times={35} />
-      <div
-        css={{
-          fontFamily: "Poppins",
-          fontWeight: 900,
-          fontSize: 64,
-          alignSelf: "center",
-        }}
-      >
-        Welcome Back!
-      </div>
-      <GapVertical times={12} />
-      <div
-        css={{
-          fontFamily: "Poppins",
-          fontWeight: 600,
-          fontSize: 36,
-          alignSelf: "center",
-        }}
-      >
-        Courses
-      </div>
-      <GapVertical times={8} />
-      <div
-        css={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-      >
-        {courseList.map((i) => {
-          return (
-            <>
-              <CourseCard title={i.title} thumbnail={i.thumbnail} />
-              <GapHorizontal times={6} />
-            </>
-          );
-        })}
-      </div>
-      <GapVertical times={24} />
-      <div
-        css={{
-          fontFamily: "Poppins",
-          fontWeight: 600,
-          fontSize: 36,
-          alignSelf: "center",
-        }}
-      >
-        Liam's Progress
-      </div>
-    </div>
-  );
-}
-
-Dashboard.getInitialProps = async (ctx) => {
-  return { courseArr: courses };
-};

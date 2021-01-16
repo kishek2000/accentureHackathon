@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import { GapVertical } from "./GapVertical";
-import { GapHorizontal } from "./GapHorizontal";
-import { CourseCard } from "./CourseCard";
 
-export function DashboardWindow() {
+import { GapVertical } from "../components/GapVertical";
+import { GapHorizontal } from "../components/GapHorizontal";
+import { CourseCard } from "../components/CourseCard";
+
+export function DashboardWindow({ courseList }) {
   return (
     <div>
       <GapVertical times={35} />
@@ -33,9 +34,12 @@ export function DashboardWindow() {
       <div
         css={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
-        <CourseCard title="Shapes" thumbnail="shapesThumbnail.png" />
-        <GapHorizontal times={6} />
-        <CourseCard title="Colours" thumbnail="coloursThumbnail.png" />
+        {courseList.map((i) => (
+          <>
+            <CourseCard title={i.title} thumbnail={i.thumbnail} />
+            <GapHorizontal times={6} />
+          </>
+        ))}
       </div>
       <GapVertical times={24} />
       <div
