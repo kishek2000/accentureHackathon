@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-
 import { courses } from "../store/courses";
 import { DashboardWindow } from "../components/DashboardWindow";
 
