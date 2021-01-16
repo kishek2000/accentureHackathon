@@ -41,7 +41,7 @@ const LineChart = ({ category, timeResolution }) => {
           break;
       }
       return {
-        label: `Proficiency in ${uppercaseAll(eachTopic.label)} this ${uppercaseAll(timeResolution)}`,
+        label: `Proficiency in '${eachTopic.label}'`,
         data: datapoints,
         fill: false,
         backgroundColor: eachTopic.colour,
@@ -79,7 +79,8 @@ const LineChart = ({ category, timeResolution }) => {
   };
   
   return (
-    <div style={{padding: "50px"}}>
+    <div>
+      <h2>Categorical Proficiency</h2>
       <Line data={data} options={options} />
     </div>
   );
