@@ -79,38 +79,39 @@ export const lesson3 = {
       shapes: [{ shape: "triangle", colour: 300 }],
       correctShape: "triangle",
       difficulty: 1,
-      averageTime: 2,
+      averageTime: 2
     },
     {
     shapes: [
       { shape: "circle", colour: 300 },
-      { shape: "triangle", colour: 300 },
+      { shape: "triangle", colour: 300 }
     ],
     correctShape: "triangle",
     difficulty: 2,
-    averageTime: 5,
+    averageTime: 5
     },
     {
       shapes: [
         { shape: "circle", colour: 300 },
         { shape: "square", colour: 300 },
-        { shape: "triangle", colour: 300 },
+        { shape: "triangle", colour: 300 }
       ],
       correctShape: "triangle",
       difficulty: 2,
-      averageTime: 7,
+      averageTime: 7
     },
     {
       shapes: [
         { shape: "circle", colour: 300 },
         { shape: "square", colour: 300 },
         { shape: "triangle", colour: 300 },
-        { shape: "explosion", colour: 300 },
+        { shape: "explosion", colour: 300 }
       ],
       correctShape: "triangle",
       difficulty: 3,
-      averageTime: 10,
+      averageTime: 10
     }
+  ],
 };
 
 export const topicAnalytics = [
