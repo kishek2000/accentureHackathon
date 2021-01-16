@@ -43,7 +43,7 @@ export const allCourseData = [
           "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
           points: 12,
           difficulty: 2,
-          recommendedValue: 0.87
+          recommendedValue: 0.80
       },
       {
         title: "The Triangle",
@@ -51,7 +51,7 @@ export const allCourseData = [
           "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
           points: 12,
           difficulty: 2,
-          recommendedValue: 0.87
+          recommendedValue: 0.76
       },
       {
         title: "The Star",
