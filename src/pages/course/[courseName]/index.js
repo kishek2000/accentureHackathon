@@ -5,53 +5,8 @@ import { useCallback, useState } from "react";
 import { GapHorizontal } from "../../../components/GapHorizontal";
 import { GapVertical } from "../../../components/GapVertical";
 import { LessonCard } from "../../../components/LessonCard";
-
-const allCourseData = [
-  {
-    title: "shapes",
-    image: "/shapeHeader.png",
-    description: "Let's learn about the world of shapes!",
-    lessons: [
-      {
-        title: "The Square",
-        background:
-          "linear-gradient(198.46deg, #D2FFE2 12.51%, #99FFBC 79.66%)",
-      },
-      {
-        title: "The Circle",
-        background:
-          "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
-      },
-      {
-        title: "The Triangle",
-        background:
-          "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
-      },
-    ],
-  },
-  {
-    title: "colours",
-    image: "/colourHeader.png",
-    description: "Let's learn about the world of shapes!",
-    lessons: [
-      {
-        title: "Green",
-        background:
-          "linear-gradient(198.46deg, #D2FFE2 12.51%, #99FFBC 79.66%)",
-      },
-      {
-        title: "Orange",
-        background:
-          "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
-      },
-      {
-        title: "Blue",
-        background:
-          "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
-      },
-    ],
-  },
-];
+import Link from "next/link";
+import { allCourseData } from "../../../store/courses";
 
 export default function Course() {
   const router = useRouter();
@@ -73,8 +28,30 @@ export default function Course() {
 
     return (
       <main css={{ width: "100vw", position: "relative" }}>
+        <div css={{ position: "absolute", zIndex: 3, left: 36, top: 36 }}>
+          <Link href={"/dashboard"}>
+            <p
+              css={{
+                color: "white",
+                fontFamily: "Poppins",
+                fontSize: 20,
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+            >
+              {"< Back"}
+            </p>
+          </Link>
+        </div>
         <div css={{ position: "relative" }}>
-          <div css={{ height: "45vh", width: "100%", position: "relative" }}>
+          <div
+            css={{
+              height: "45vh",
+              width: "100%",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
             <img
               src={`${courseData.image}`}
               css={{ width: "100%", objectFit: "cover", height: "100%" }}
@@ -85,6 +62,7 @@ export default function Course() {
               position: "absolute",
               bottom: 80,
               left: 120,
+              zIndex: 2,
             }}
           >
             <div
@@ -112,11 +90,11 @@ export default function Course() {
               alignSelf: "center",
             }}
           >
-            Lessons
+            Curated Lessons
           </div>
-          <GapVertical times={4} />
-          <div css={{ fontFamily: "Poppins", fontSize: 24, fontWeight: 200 }}>
-            Choose a lesson to get started!
+          <GapVertical times={1} />
+          <div css={{ fontFamily: "Poppins", fontSize: 24, fontWeight: 300 }}>
+            These are the lessons that will most benefit your child!
           </div>
           <GapVertical times={8} />
           <div

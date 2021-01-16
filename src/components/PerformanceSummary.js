@@ -11,14 +11,25 @@ import {
   CarouselCaption,
 } from "reactstrap";
 
+const images = {
+  Shapes:
+    "https://images.unsplash.com/photo-1517036723957-e2891b1b32ae?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=3450&q=80",
+  Colours:
+    "https://images.unsplash.com/photo-1562886350-d59f89f568ac?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=3450&q=80",
+  Objects:
+    "https://images.unsplash.com/photo-1601255596436-3d600117f19e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=3450&q=80",
+  Actions:
+    "https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=3450&q=80",
+};
+
 const PerformanceSummary = ({ childName }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
   const items = topicAnalytics.map((eachTopic, i) => {
     return {
-      src:
-        "https://images.unsplash.com/photo-1473662711507-13345f9d447c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=3450&q=80",
+      src: images[eachTopic.label],
+      // "https://images.unsplash.com/photo-1473662711507-13345f9d447c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=3450&q=80",
       altText: eachTopic.label,
       header: eachTopic.label,
       caption: `
@@ -60,7 +71,12 @@ const PerformanceSummary = ({ childName }) => {
         <img
           src={item.src}
           alt={item.altText}
-          css={{ maxHeight: 400, width: "100%", filter: "brightness(70%)" }}
+          css={{
+            maxHeight: 400,
+            width: "100%",
+            filter: "brightness(70%)",
+            objectFit: "cover",
+          }}
         />
         <CarouselCaption
           captionText={item.caption}

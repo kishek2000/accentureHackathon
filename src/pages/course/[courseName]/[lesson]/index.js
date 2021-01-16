@@ -4,6 +4,7 @@ import { jsx, css } from "@emotion/react";
 import { lesson1, lesson2, lesson3 } from "../../../../store/data";
 import { GapVertical } from "../../../../components/GapVertical";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Lesson() {
   const router = useRouter();
@@ -35,6 +36,22 @@ export default function Lesson() {
           height: "100vh",
         }}
       >
+        <Link href={`/course/${courseName}`}>
+          <p
+            css={{
+              color: "white",
+              fontFamily: "Poppins",
+              fontSize: 20,
+              textDecoration: "none",
+              cursor: "pointer",
+              top: 36,
+              left: 36,
+              position: "absolute",
+            }}
+          >
+            {"< Back"}
+          </p>
+        </Link>
         <div
           css={{
             fontFamily: "Poppins",

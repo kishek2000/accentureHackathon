@@ -90,7 +90,7 @@ export function DashboardWindow({ courseList }) {
               thumbnail={i.thumbnail}
               handleCourseCallback={handleCourseCallback}
             />
-            <GapHorizontal times={6} />
+            <GapHorizontal times={10} />
           </>
         ))}
       </div>
