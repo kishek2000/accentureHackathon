@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
+
 import React from "react";
 import { Line } from "@reactchartjs/react-chart.js";
 import { topicAnalytics } from "../store/data";
@@ -88,7 +89,9 @@ const LineChart = ({ category, timeResolution }) => {
         label: `Proficiency in '${eachTopic.label}'`,
         data: datapoints,
         fill: false,
-        hidden: !(eachTopic.label === "Numbers" || eachTopic.label === "Shapes"),
+        hidden: !(
+          eachTopic.label === "Numbers" || eachTopic.label === "Shapes"
+        ),
         backgroundColor: eachTopic.colour,
         borderColor: eachTopic.colour,
       };
@@ -124,7 +127,13 @@ const LineChart = ({ category, timeResolution }) => {
   };
 
   return (
-    <div css={{ display: "flex", flexDirection: "column" }}>
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        // width: "50%",
+      }}
+    >
       <GapVertical times={4} />
       <div css={{ fontFamily: "Poppins", fontSize: 24, fontWeight: 400 }}>
         Categorical Proficiency

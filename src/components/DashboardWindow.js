@@ -7,12 +7,12 @@ import { CourseCard } from "../components/CourseCard";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { Stats } from "./Stats";
+import { AllTraits } from "./AllTraits";
 
 export function DashboardWindow({ courseList }) {
   const childName = "Jeremy";
 
   const [course, setCourse] = useState();
-  const [stats, setStats] = useState(false);
   const handleCourseCallback = useCallback(
     (courseTitle) => {
       setCourse(courseTitle[0].toLowerCase() + courseTitle.slice(1));
@@ -20,14 +20,7 @@ export function DashboardWindow({ courseList }) {
     [course]
   );
 
-  const handleStatsCallback = useCallback(() => {
-    setStats(true);
-  });
   const router = useRouter();
-
-  if (stats) {
-    router.push(`/stats`);
-  }
 
   if (course) {
     console.log(course);
@@ -35,7 +28,11 @@ export function DashboardWindow({ courseList }) {
   }
 
   return (
-    <div>
+    <div
+      css={{
+        margin: "0px 160px",
+      }}
+    >
       <GapVertical times={35} />
       <div
         css={{
@@ -73,7 +70,7 @@ export function DashboardWindow({ courseList }) {
             cursor: "pointer",
           }}
         >
-          SEE ALL >
+          {"SEE ALL >"}
         </div>
       </div>
       <GapVertical times={6} />
@@ -97,41 +94,39 @@ export function DashboardWindow({ courseList }) {
               thumbnail={i.thumbnail}
               handleCourseCallback={handleCourseCallback}
             />
-            <GapHorizontal times={6} />
+            <GapHorizontal times={10} />
           </>
         ))}
       </div>
-      <GapVertical times={24} />
       <div
         css={{
           display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          flexDirection: "row",
+          marginTop: 96,
         }}
       >
         <div
           css={{
-            fontFamily: "Poppins",
-            fontWeight: 600,
-            fontSize: 36,
-            alignSelf: "center",
+            display: "flex",
+            flexDirection: "column",
+            paddingRight: 64,
+            borderRight: "1px solid rgba(0,0,0,0.05)",
+            width: "50%",
           }}
         >
-          Jeremy's Progress
+          <div
+            css={{
+              fontFamily: "Poppins",
+              fontWeight: 600,
+              fontSize: 36,
+            }}
+          >
+            Progress
+          </div>
+          <Stats />
         </div>
-        <div
-          css={{
-            fontFamily: "Poppins",
-            fontSize: 20,
-            alignSelf: "center",
-            cursor: "pointer",
-          }}
-          onClick={() => handleStatsCallback()}
-        >
-          SEE ALL >
-        </div>
+        <AllTraits childName={childName} />
       </div>
-      <Stats />
     </div>
   );
 }

@@ -9,8 +9,9 @@ export default function Dashboard() {
       css={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh",
-        margin: "0px 160px",
+        // height: "100vh",
+        background:
+          "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(237,237,237,1) 50%, rgba(255,255,255,1) 100%)",
       }}
     >
       <DashboardWindow courseList={courses.courses} />
