@@ -3,21 +3,22 @@ import { jsx, css } from "@emotion/react";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
-export function LoginButton() {
-  const [login, setLogin] = useState(false);
-  const handleLogin = useCallback(() => {
-    setLogin(true);
-  }, [login]);
+export function RegisterButton({ route }) {
+  const [register, setRegister] = useState(false);
+  const handleRegister = useCallback(() => {
+    setRegister(true);
+  }, [register]);
 
-  if (login) {
+  if (register) {
     const router = useRouter();
-    router.push("/dashboard");
+    router.push(route);
   }
   return (
     <div
       css={{
         display: "flex",
         flexDirection: "row",
+        alignSelf: "flex-end",
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#0500FF",
@@ -29,9 +30,9 @@ export function LoginButton() {
         fontWeight: 600,
         cursor: "pointer",
       }}
-      onClick={handleLogin}
+      onClick={handleRegister}
     >
-      LOGIN
+      CONTINUE
     </div>
   );
 }
