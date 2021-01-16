@@ -22,7 +22,7 @@ export const lesson1 = {
             shapes: [
                 {"shape": "square", "colour": "red"},
                 {"shape": "rectangle", "colour": "orange"},
-                {"shape": "rectangle", "colour": "yellow"}
+                {"shape": "rectangle", "colour": "pink"}
             ],
             correctShape: "square",
             difficulty: 2,
@@ -54,7 +54,7 @@ export const lesson2 = {
         {
             shapes: [
                 {"shape": "circle", "colour": "blue"},
-                {"shape": "square", "colour": "yellow"},
+                {"shape": "square", "colour": "pink"},
                 {"shape": "triangle", "colour": "green"},
                 {"shape": "explosion", "colour": "orange"}
             ],
@@ -65,7 +65,7 @@ export const lesson2 = {
         {
             shapes: [
                 {"shape": "circle", "colour": "blue"},
-                {"shape": "oval", "colour": "yellow"},
+                {"shape": "oval", "colour": "pink"},
                 {"shape": "square", "colour": "green"},
                 {"shape": "oval", "colour": "orange"}
             ],
