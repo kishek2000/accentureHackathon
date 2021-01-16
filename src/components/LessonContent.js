@@ -48,10 +48,12 @@ export function ShapeQuestion({
               if (shape.shape == shapeData.correctShape) {
                 let getData = localStorage.getItem('stats');
                 if (getData !== '' && getData !== null) {
-                    this.state = JSON.parse(getData);
+                    stats = JSON.parse(getData);
                 } else {
-                    this.state = {characters: {}};
+                    stats = {}
                 }
+                
+                localStorage.setItem("stats", JSON.stringify(stats));
                 console.log("Hurrah!");
                 setCurrQuestion(currQuestion + 1);
               }
