@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
+import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
 import { GapVertical } from "../components/GapVertical";
 
-export function CourseCard({ title, thumbnail, lesson }) {
+export function CourseCard({ title, thumbnail, handleCourseCallback }) {
   return (
     <div
-      href={"/" + lesson}
+      // href={"/" + lesson}
       css={{
         display: "flex",
         flexDirection: "column",
@@ -18,6 +20,7 @@ export function CourseCard({ title, thumbnail, lesson }) {
         cursor: "pointer",
         transition: "0.1s",
       }}
+      onClick={() => handleCourseCallback(title)}
     >
       <img src={thumbnail} css={{ width: "100%", height: "100%" }} />
       <GapVertical times={10} />

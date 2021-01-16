@@ -4,8 +4,24 @@ import { jsx, css } from "@emotion/react";
 import { GapVertical } from "../components/GapVertical";
 import { GapHorizontal } from "../components/GapHorizontal";
 import { CourseCard } from "../components/CourseCard";
+import { useCallback, useState } from "react";
+import { useRouter } from "next/router";
 
 export function DashboardWindow({ courseList }) {
+  const [course, setCourse] = useState();
+  const handleCourseCallback = useCallback(
+    (courseTitle) => {
+      setCourse(courseTitle[0].toLowerCase() + courseTitle.slice(1));
+    },
+    [course]
+  );
+
+  if (course) {
+    console.log(course);
+    const router = useRouter();
+    router.push(`/course/${course}`);
+  }
+
   return (
     <div>
       <GapVertical times={35} />
@@ -36,7 +52,11 @@ export function DashboardWindow({ courseList }) {
       >
         {courseList.map((i) => (
           <>
-            <CourseCard title={i.title} thumbnail={i.thumbnail} />
+            <CourseCard
+              title={i.title}
+              thumbnail={i.thumbnail}
+              handleCourseCallback={handleCourseCallback}
+            />
             <GapHorizontal times={6} />
           </>
         ))}
