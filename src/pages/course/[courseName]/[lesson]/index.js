@@ -1,19 +1,28 @@
 import { useRouter } from "next/router";
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import { lesson1 } from "../../../../store/data";
+import { lesson1, lesson2, lesson3 } from "../../../../store/data";
 import { GapVertical } from "../../../../components/GapVertical";
 import { useState } from "react";
 
 export default function Lesson() {
   const router = useRouter();
   const [question, setQuestion] = useState();
-  const { lesson } = router.query;
-  if (lesson) {
-    const lessonData = lesson1;
+  const { courseName, lesson } = router.query;
+  if (lesson && courseName) {
+    console.log(lesson);
+    let lessonData;
+    if (lesson.includes("Square")) {
+      lessonData = lesson1;
+    } else if (lesson.includes("Circle")) {
+      lessonData = lesson2;
+    } else {
+      lessonData = lesson3;
+    }
+
     if (question) {
       console.log(question);
-      router.push(`${lesson}/${question}`);
+      router.push(`/course/${courseName}/${lesson}/${question}`);
     }
     return (
       <div

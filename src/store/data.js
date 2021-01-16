@@ -1,4 +1,5 @@
 export const lesson1 = {
+  course: "shapes",
   lesson: "What's that Shape?",
   prompt: "Select the square in each question to pass!",
   questions: [
@@ -31,8 +32,8 @@ export const lesson1 = {
 };
 
 export const lesson2 = {
-  lesson: "What's that Circle?",
-  prompt: "Select the square in each question to pass!",
+  lesson: "What's that Shape?",
+  prompt: "Select the circle in each question to pass!",
   questions: [
     {
       shapes: [{ shape: "circle", colour: 200 }],
@@ -75,7 +76,8 @@ export const lesson2 = {
 };
 
 export const lesson3 = {
-  lesson: "Click the Triangle",
+  lesson: "What's that Shape?",
+  prompt: "Select the triangle in each question to pass!",
   questions: [
     {
       shapes: [{ shape: "triangle", colour: 300 }],
