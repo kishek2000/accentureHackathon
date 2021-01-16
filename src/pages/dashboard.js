@@ -5,9 +5,7 @@ import { GapHorizontal } from "../components/GapHorizontal";
 import { CourseCard } from "../components/CourseCard";
 import { courses } from "../store/courses";
 
-
-
-export default function Dashboard({courseArr}) {
+export default function Dashboard({ courseArr }) {
   console.log(courseArr);
   return (
     <main
@@ -23,7 +21,7 @@ export default function Dashboard({courseArr}) {
   );
 }
 
-function DashboardWindow({courseList}) {
+function DashboardWindow({ courseList }) {
   console.log(courseList);
   return (
     <div>
@@ -56,9 +54,14 @@ function DashboardWindow({courseList}) {
         {courseList.map((i) => {
           return (
             <div>
-              <CourseCard title={i.title} thumbnail={i.thumbnail} />
+              <CourseCard
+                title={i.title}
+                thumbnail={i.thumbnail}
+                lesson={i.id}
+              />
               <GapHorizontal times={6} />
-            </div>);
+            </div>
+          );
         })}
       </div>
       <GapVertical times={24} />
@@ -77,6 +80,5 @@ function DashboardWindow({courseList}) {
 }
 
 Dashboard.getInitialProps = async (ctx) => {
-  
-  return { courseArr: courses }
-}
+  return { courseArr: courses };
+};
