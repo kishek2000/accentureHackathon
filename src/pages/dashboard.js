@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 import { GapVertical } from "../components/GapVertical";
+import { GapHorizontal } from "../components/GapHorizontal";
+import { CourseCard } from "../components/CourseCard";
 
 export default function Dashboard() {
   return (
@@ -9,7 +11,7 @@ export default function Dashboard() {
         display: "flex",
         flexDirection: "column",
         height: "100vh",
-        margin: "0px 196px",
+        margin: "0px 160px",
       }}
     >
       <DashboardWindow />
@@ -20,7 +22,7 @@ export default function Dashboard() {
 function DashboardWindow() {
   return (
     <div>
-      <GapVertical times={50} />
+      <GapVertical times={35} />
       <div
         css={{
           fontFamily: "Poppins",
@@ -42,16 +44,15 @@ function DashboardWindow() {
       >
         Courses
       </div>
+      <GapVertical times={8} />
       <div
-        css={{
-          width: 240,
-          height: 216,
-          background: "white",
-          boxShadow: "0px 4px 32px 7px rgba(213, 213, 213, 0.37)",
-          borderRadius: 16,
-        }}
-      ></div>
-      <GapVertical times={12} />
+        css={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+      >
+        <CourseCard title="Shapes" thumbnail="shapesThumbnail.png" />
+        <GapHorizontal times={6} />
+        <CourseCard title="Colours" thumbnail="coloursThumbnail.png" />
+      </div>
+      <GapVertical times={24} />
       <div
         css={{
           fontFamily: "Poppins",
