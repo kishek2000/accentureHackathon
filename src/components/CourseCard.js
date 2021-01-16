@@ -7,13 +7,11 @@ import { GapVertical } from "../components/GapVertical";
 export function CourseCard({ title, thumbnail, handleCourseCallback }) {
   return (
     <div
-      // href={"/" + lesson}
       css={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: 270,
-        height: 180,
+        width: 360,
         background: "white",
         boxShadow: "0px 4px 42px 7px rgba(213, 213, 213, 0.37)",
         borderRadius: 16,
@@ -22,7 +20,7 @@ export function CourseCard({ title, thumbnail, handleCourseCallback }) {
       }}
       onClick={() => handleCourseCallback(title)}
     >
-      <img src={thumbnail} css={{ width: "100%", height: "100%" }} />
+      <img src={thumbnail} css={{ width: "100%" }} />
       <GapVertical times={10} />
       <div css={{ fontFamily: "Poppins", fontSize: 30 }}>{title}</div>
       <GapVertical times={10} />
