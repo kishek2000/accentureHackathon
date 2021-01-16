@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import LineChart from "./LineChart";
 import BarChart from "./BarChart";
 import PerformanceSummary from "./PerformanceSummary";
+import { useRouter } from "next/router";
 import { Container, Row, Col } from "react-grid-system";
+import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
 
 export function Stats() {
@@ -11,17 +13,8 @@ export function Stats() {
 
   return (
     <div>
-      <GapVertical times={4} />
-      <Container style={{ margin: 0, maxWidth: "none", paddingLeft: 0 }}>
-        <Row style={{ margin: 0 }}>
-          <Col sm={6} style={{ margin: 0, paddingLeft: 0 }}>
-            <LineChart category={"numbers"} timeResolution={timespan} />
-          </Col>
-          <Col sm={6} style={{ margin: 0, paddingLeft: 0 }}>
-            <BarChart />
-          </Col>
-        </Row>
-      </Container>
+      <LineChart category={"numbers"} timeResolution={timespan} />
+      <BarChart />
 
       <PerformanceSummary childName={childName} />
 
@@ -46,3 +39,5 @@ export function Stats() {
     </div>
   );
 }
+
+// export default Stats;

@@ -11,14 +11,14 @@ export const courses = {
       id: "colours01",
     },
     {
-      title: "Verbs",
-      thumbnail: "booksThumbnail.png",
-      id: "verbs01",
+      title: "Actions",
+      thumbnail: "shapesThumbnail.png",
+      id: "actions01",
     },
     {
-      title: "Nouns",
-      thumbnail: "booksThumbnail.png",
-      id: "nouns01",
+      title: "Objects",
+      thumbnail: "coloursThumbnail.png",
+      id: "objects01",
     },
   ],
 };

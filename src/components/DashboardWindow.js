@@ -12,7 +12,6 @@ export function DashboardWindow({ courseList }) {
   const childName = "Jeremy";
 
   const [course, setCourse] = useState();
-  const [stats, setStats] = useState(false);
   const handleCourseCallback = useCallback(
     (courseTitle) => {
       setCourse(courseTitle[0].toLowerCase() + courseTitle.slice(1));
@@ -20,14 +19,7 @@ export function DashboardWindow({ courseList }) {
     [course]
   );
 
-  const handleStatsCallback = useCallback(() => {
-    setStats(true);
-  });
   const router = useRouter();
-
-  if (stats) {
-    router.push(`/stats`);
-  }
 
   if (course) {
     console.log(course);
@@ -101,37 +93,91 @@ export function DashboardWindow({ courseList }) {
           </>
         ))}
       </div>
-      <GapVertical times={24} />
       <div
         css={{
           display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          flexDirection: "row",
+          marginTop: 96,
         }}
       >
         <div
           css={{
-            fontFamily: "Poppins",
-            fontWeight: 600,
-            fontSize: 36,
-            alignSelf: "center",
+            display: "flex",
+            flexDirection: "column",
+            paddingRight: 64,
+            borderRight: "1px solid rgba(0,0,0,0.05)",
           }}
         >
-          Jeremy's Progress
+          <div
+            css={{
+              fontFamily: "Poppins",
+              fontWeight: 600,
+              fontSize: 36,
+            }}
+          >
+            Progress
+          </div>
+          <Stats />
         </div>
         <div
-          css={{
-            fontFamily: "Poppins",
-            fontSize: 20,
-            alignSelf: "center",
-            cursor: "pointer",
-          }}
-          onClick={() => handleStatsCallback()}
+          css={{ display: "flex", flexDirection: "column", paddingLeft: 64 }}
         >
-          SEE ALL >
+          <div
+            css={{
+              fontFamily: "Poppins",
+              fontWeight: 600,
+              fontSize: 36,
+            }}
+          >
+            Traits
+          </div>
+          <GapVertical times={5} />
+          <div css={{ fontFamily: "Poppins", fontWeight: 400, fontSize: 24 }}>
+            Jeremy is...
+          </div>
+          <GapVertical times={4} />
+          <Trait
+            color="green"
+            title="Focused"
+            description="Attention span 17% above the median"
+          />
+          <GapVertical times={6} />
+          <Trait
+            color="orange"
+            title="Communicative"
+            description="Scores in commmunication tasks 29% above the median"
+          />
+          <GapVertical times={6} />
+          <Trait
+            color="blue"
+            title="Auditory"
+            description="Jeremy responds 30% better to tasks involving auditory stimuli than visual tasks"
+          />
+          <GapVertical times={6} />
+          <Trait
+            color="red"
+            title="Slow Learner"
+            description="Masters tasks 7% slower than the median"
+          />
         </div>
       </div>
-      <Stats />
+    </div>
+  );
+}
+
+function Trait({ color, title, description }) {
+  return (
+    <div css={{ display: "flex", flexDirection: "row" }}>
+      <div css={{ height: 48, width: 48, background: color }} />
+      <GapHorizontal times={4} />
+      <div css={{ display: "flex", flexDirection: "column" }}>
+        <div css={{ fontSize: 20, fontFamily: "Poppins", fontWeight: 600 }}>
+          {title}
+        </div>
+        <div css={{ fontSize: 16, fontFamily: "Poppins", fontWeight: 400 }}>
+          {description}
+        </div>
+      </div>
     </div>
   );
 }

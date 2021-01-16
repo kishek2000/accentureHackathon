@@ -88,8 +88,14 @@ const BarChart = ({ timeResolution }) => {
   }
 
   return (
-    <div css={{ display: "flex", flexDirection: "column" }}>
-      <GapVertical times={4} />
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        width: "50%",
+      }}
+    >
+      <GapVertical times={8} />
       <div css={{ fontFamily: "Poppins", fontSize: 24, fontWeight: 400 }}>
         Time Spent
       </div>
