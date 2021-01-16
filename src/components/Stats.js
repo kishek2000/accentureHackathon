@@ -11,6 +11,7 @@ export function Stats() {
 
   return (
     <div>
+    <PerformanceSummary childName={childName} />
       <GapVertical times={4} />
       <Container style={{ margin: 0, maxWidth: "none", paddingLeft: 0 }}>
         <Row style={{ margin: 0 }}>
@@ -22,8 +23,6 @@ export function Stats() {
           </Col>
         </Row>
       </Container>
-
-      <PerformanceSummary childName={childName} />
 
       <div
         onClick={() => {

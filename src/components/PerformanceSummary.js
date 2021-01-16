@@ -1,50 +1,78 @@
-import React from 'react';
 import { topicAnalytics } from '../store/data';
+import React, { useState} from 'react';
+import {
+    Carousel,
+    CarouselItem,
+    CarouselControl,
+    CarouselIndicators,
+    CarouselCaption
+} from 'reactstrap';
+  
 
-{
-    courses: [
-        {
-            name: "Shapes",
-            lessonStats: [
-                {
-                    attempts: [
-                        {
-                            time: 5.55,
-                            accuracy: 0.78
-                        },
-                        {
-                            time: 6.55,
-                            accuracy: 0.88
-                        },
-                        {
-                            time: 5.25,
-                            accuracy: 0.68
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-}
 
 const PerformanceSummary = ({ childName }) => {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [animating, setAnimating] = useState(false);
+
+    const items = topicAnalytics.map((eachTopic, i) => {
+        return {
+            src: 'https://www.robin-noorda.com/uploads/1/6/8/3/16830688/3347022_orig.jpg',
+            altText: eachTopic.label,
+            header: eachTopic.label,
+            caption: `
+                ${childName} has improved their proficiency in 
+                ${" " + eachTopic.label} by ${eachTopic.lastWeekChange} since last week and
+                ${" " + eachTopic.lastMonthChange} since last month. 
+                ${" "}Click here for ${childName}'s next challenge in '___COURSE NAME HERE___'`
+        }
+    });
+
+    const next = () => {
+      if (animating) return;
+      const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
+      setActiveIndex(nextIndex);
+    }
+  
+    const previous = () => {
+      if (animating) return;
+      const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
+      setActiveIndex(nextIndex);
+    }
+  
+    const goToIndex = (newIndex) => {
+      if (animating) return;
+      setActiveIndex(newIndex);
+    }
+  
+    const slides = items.map((item) => {
+      return (
+        <CarouselItem
+          onExiting={() => setAnimating(true)}
+          onExited={() => setAnimating(false)}
+          key={item.src}
+        >
+          <img src={item.src} alt={item.altText} />
+          <a href="https://www.google.com">
+            <CarouselCaption captionText={item.caption} captionHeader={item.header} />
+          </a>
+        </CarouselItem>
+      );
+    });
+  
     return (
         <>
-            <ul>
-                {topicAnalytics.map((eachTopic, i) => {
-                    return (
-                        <li key={i}>
-                            {childName} has improved their proficiency in {eachTopic.label} by {eachTopic.lastWeekChange} since last week and {eachTopic.lastMonthChange} since last month
-                        </li>
-                    );
-                })}
-            </ul>
-            <h2>Performance Breakdown</h2>
-            <p>
-                [Auto-generated sentences based on last month's statistics]
-            </p>
+            <Carousel
+                activeIndex={activeIndex}
+                next={next}
+                previous={previous}
+            >
+                <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={goToIndex} />
+                {slides}
+                <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
+                <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
+            </Carousel>
         </>
     );
-}
-
-export default PerformanceSummary;
+  }
+  
+  export default PerformanceSummary;
