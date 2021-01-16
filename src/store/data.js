@@ -3,7 +3,7 @@ export const lesson1 = {
     questions: [
         {
             shapes: [
-                {"shape": "square", "colour": "red"}
+                {"shape": "square", "colour": 0}
             ],
             correctShape: "square",
             difficulty: 1,
@@ -11,8 +11,8 @@ export const lesson1 = {
         },
         {
             shapes: [
-                {"shape": "square", "colour": "red"},
-                {"shape": "circle", "colour": "blue"},
+                {"shape": "square", "colour": 0},
+                {"shape": "circle", "colour": 200},
             ],
             correctShape: "square",
             difficulty: 1,
@@ -20,9 +20,9 @@ export const lesson1 = {
         },
         {
             shapes: [
-                {"shape": "square", "colour": "red"},
-                {"shape": "rectangle", "colour": "orange"},
-                {"shape": "rectangle", "colour": "pink"}
+                {"shape": "square", "colour": 0},
+                {"shape": "rectangle", "colour": 45},
+                {"shape": "rectangle", "colour": 300}
             ],
             correctShape: "square",
             difficulty: 2,
@@ -36,7 +36,7 @@ export const lesson2 = {
     questions: [
         {
             shapes: [
-                {"shape": "circle", "colour": "blue"}
+                {"shape": "circle", "colour": 200}
             ],
             correctShape: "circle",
             difficulty: 1,
@@ -44,8 +44,8 @@ export const lesson2 = {
         },
         {
             shapes: [
-                {"shape": "triangle", "colour": "green"},
-                {"shape": "circle", "colour": "blue"},
+                {"shape": "triangle", "colour": 90},
+                {"shape": "circle", "colour": 200},
             ],
             correctShape: "circle",
             difficulty: 1,
@@ -53,10 +53,10 @@ export const lesson2 = {
         },
         {
             shapes: [
-                {"shape": "circle", "colour": "blue"},
-                {"shape": "square", "colour": "pink"},
-                {"shape": "triangle", "colour": "green"},
-                {"shape": "explosion", "colour": "orange"}
+                {"shape": "circle", "colour": 200},
+                {"shape": "square", "colour": 300},
+                {"shape": "triangle", "colour": 90},
+                {"shape": "explosion", "colour": 45}
             ],
             correctShape: "circle",
             difficulty: 2,
@@ -64,10 +64,10 @@ export const lesson2 = {
         },
         {
             shapes: [
-                {"shape": "circle", "colour": "blue"},
-                {"shape": "oval", "colour": "pink"},
-                {"shape": "square", "colour": "green"},
-                {"shape": "oval", "colour": "orange"}
+                {"shape": "circle", "colour": 200},
+                {"shape": "oval", "colour": 300},
+                {"shape": "square", "colour": 90},
+                {"shape": "oval", "colour": 45}
             ],
             correctShape: "circle",
             difficulty: 3,
