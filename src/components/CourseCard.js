@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-
 import { GapVertical } from "../components/GapVertical";
 
 export function CourseCard({ title, thumbnail }) {
@@ -15,10 +14,6 @@ export function CourseCard({ title, thumbnail }) {
         boxShadow: "0px 4px 42px 7px rgba(213, 213, 213, 0.37)",
         borderRadius: 16,
         cursor: "pointer",
-        // "&:hover": {
-        //   width: 370,
-        //   height: 390,
-        // },
         transition: "0.1s",
       }}
     >
