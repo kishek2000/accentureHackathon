@@ -65,7 +65,7 @@ export function DashboardWindow({ courseList }) {
             cursor: "pointer",
           }}
         >
-          SEE ALL >
+          {"SEE ALL >"}
         </div>
       </div>
       <GapVertical times={6} />
@@ -106,6 +106,7 @@ export function DashboardWindow({ courseList }) {
             flexDirection: "column",
             paddingRight: 64,
             borderRight: "1px solid rgba(0,0,0,0.05)",
+            width: "50%",
           }}
         >
           <div

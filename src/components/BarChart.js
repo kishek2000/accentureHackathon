@@ -92,7 +92,7 @@ const BarChart = ({ timeResolution }) => {
       css={{
         display: "flex",
         flexDirection: "column",
-        width: "50%",
+        // width: "50%",
       }}
     >
       <GapVertical times={8} />
