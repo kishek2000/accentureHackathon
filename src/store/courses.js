@@ -12,12 +12,12 @@ export const courses = {
     },
     {
       title: "Verbs",
-      thumbnail: "verbsThumbnail.png",
+      thumbnail: "booksThumbnail.png",
       id: "verbs01",
     },
     {
       title: "Nouns",
-      thumbnail: "nounsThumbnail.png",
+      thumbnail: "booksThumbnail.png",
       id: "nouns01",
     },
   ],
