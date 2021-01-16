@@ -72,6 +72,47 @@ export const lesson2 = {
   ],
 };
 
+export const lesson3 = {
+    lesson: "Click the Triangle",
+    questions: [
+    {
+      shapes: [{ shape: "triangle", colour: 300 }],
+      correctShape: "triangle",
+      difficulty: 1,
+      averageTime: 2,
+    },
+    {
+    shapes: [
+      { shape: "circle", colour: 300 },
+      { shape: "triangle", colour: 300 },
+    ],
+    correctShape: "triangle",
+    difficulty: 2,
+    averageTime: 5,
+    },
+    {
+      shapes: [
+        { shape: "circle", colour: 300 },
+        { shape: "square", colour: 300 },
+        { shape: "triangle", colour: 300 },
+      ],
+      correctShape: "triangle",
+      difficulty: 2,
+      averageTime: 7,
+    },
+    {
+      shapes: [
+        { shape: "circle", colour: 300 },
+        { shape: "square", colour: 300 },
+        { shape: "triangle", colour: 300 },
+        { shape: "explosion", colour: 300 },
+      ],
+      correctShape: "triangle",
+      difficulty: 3,
+      averageTime: 10,
+    }
+};
+
 export const topicAnalytics = [
     {
         label: "Numbers",
