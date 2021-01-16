@@ -46,14 +46,16 @@ export function ShapeQuestion({
             onClick={() => {
               attempts++;
               if (shape.shape == shapeData.correctShape) {
-                let getData = localStorage.getItem('stats');
-                if (getData !== '' && getData !== null) {
-                    stats = JSON.parse(getData);
-                } else {
-                    stats = {}
-                }
-                
-                localStorage.setItem("stats", JSON.stringify(stats));
+                // let getData = localStorage.getItem("stats");
+                // if (getData !== "" && getData !== null) {
+                //   stats = JSON.parse(getData);
+                // } else {
+                //   stats = {};
+                // }
+
+                // localStorage.setItem("stats", JSON.stringify(stats));
+                // const date = new Date();
+                // const currTime = date.getTime();
                 console.log("Hurrah!");
                 setCurrQuestion(currQuestion + 1);
               }
@@ -75,6 +77,6 @@ export function ShapeQuestion({
   } else {
     const router = useRouter();
     router.push(returnToCourse);
-    return <div css={{ fontSize: 200 }}>Lesson Complete</div>;
   }
+  return null;
 }

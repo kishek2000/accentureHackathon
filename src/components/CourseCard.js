@@ -11,7 +11,7 @@ export function CourseCard({ title, thumbnail, handleCourseCallback }) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: 360,
+        width: 280,
         background: "white",
         boxShadow: "0px 4px 42px 7px rgba(213, 213, 213, 0.37)",
         borderRadius: 16,
@@ -22,7 +22,7 @@ export function CourseCard({ title, thumbnail, handleCourseCallback }) {
     >
       <img src={thumbnail} css={{ width: "100%" }} />
       <GapVertical times={10} />
-      <div css={{ fontFamily: "Poppins", fontSize: 30 }}>{title}</div>
+      <div css={{ fontFamily: "Poppins", fontSize: 24 }}>{title}</div>
       <GapVertical times={10} />
     </div>
   );
