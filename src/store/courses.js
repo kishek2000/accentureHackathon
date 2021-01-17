@@ -43,7 +43,7 @@ export const allCourseData = [
           "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
         points: 12,
         difficulty: 2,
-        recommendedValue: 0.87,
+        recommendedValue: 0.8,
       },
       {
         title: "The Triangle",
@@ -51,7 +51,7 @@ export const allCourseData = [
           "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
         points: 12,
         difficulty: 2,
-        recommendedValue: 0.87,
+        recommendedValue: 0.76,
       },
       {
         title: "The Star",
@@ -89,18 +89,24 @@ export const allCourseData = [
         background:
           "linear-gradient(198.46deg, #D2FFE2 12.51%, #99FFBC 79.66%)",
         difficulty: 2,
+        recommendedValue: 0.87,
+        points: 12,
       },
       {
         title: "Orange",
         background:
           "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
-        difficulty: 2,
+        difficulty: 3,
+        recommendedValue: 0.77,
+        points: 20,
       },
       {
         title: "Blue",
         background:
           "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
-        difficulty: 2,
+        difficulty: 4,
+        recommendedValue: 0.67,
+        points: 30,
       },
     ],
   },
@@ -114,18 +120,24 @@ export const allCourseData = [
         background:
           "linear-gradient(198.46deg, #D2FFE2 12.51%, #99FFBC 79.66%)",
         difficulty: 2,
+        recommendedValue: 0.87,
+        points: 12,
       },
       {
         title: "Running",
         background:
           "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
-        difficulty: 2,
+        difficulty: 3,
+        recommendedValue: 0.77,
+        points: 20,
       },
       {
         title: "Walking",
         background:
           "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
-        difficulty: 2,
+        difficulty: 4,
+        recommendedValue: 0.67,
+        points: 30,
       },
     ],
   },
@@ -139,18 +151,24 @@ export const allCourseData = [
         background:
           "linear-gradient(198.46deg, #D2FFE2 12.51%, #99FFBC 79.66%)",
         difficulty: 2,
+        recommendedValue: 0.87,
+        points: 12,
       },
       {
         title: "Cups",
         background:
           "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
-        difficulty: 2,
+        difficulty: 3,
+        recommendedValue: 0.77,
+        points: 20,
       },
       {
         title: "Tables",
         background:
           "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
-        difficulty: 2,
+        difficulty: 5,
+        recommendedValue: 0.27,
+        points: 30,
       },
     ],
   },

@@ -10,6 +10,7 @@ export function LessonCard({
   points,
   difficulty,
   recommendation,
+  timeToSpend,
 }) {
   return (
     <div
@@ -43,13 +44,19 @@ export function LessonCard({
           <strong>{points}</strong> Points
         </div>
       </div>
-      <div css={{ fontFamily: "Poppins", fontWeight: 700, fontSize: 36 }}>
+      <GapVertical times={2} />
+      <div css={{ fontFamily: "Poppins", fontWeight: 700, fontSize: 32 }}>
         {title}
       </div>
       <div>
         Difficulty: <strong>{difficulty}</strong>
       </div>
-      {/* <div><em><strong style={{"fontSize": "150%"}}>{recommendation}</strong></em></div> */}
+      <GapVertical times={4} />
+      <div css={{ fontFamily: "Poppins", fontSize: 20 }}>
+        <strong>{recommendation}</strong>
+      </div>
+      <div>Spend: {timeToSpend}</div>
+
       <GapVertical times={4} />
       <div
         css={{
