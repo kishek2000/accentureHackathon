@@ -77,8 +77,8 @@ export function Overlay({
                 width: "80%",
               }}
             >
-              Well done on completing the lesson. Click below to go back to{" "}
-              {courseName}
+              Well done on completing the lesson. Why don't you take a break!
+              Click below to go back.
             </div>
           </>
         ) : null}
