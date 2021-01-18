@@ -6,3 +6,5 @@ To view a live version of our prototype (still slightly buggy), click <a href="h
 ### Problem Statement
 
 ![Problem statement](https://raw.githubusercontent.com/kishek2000/accentureHackathon/master/problem-statement.png)
+
+Note: HarukaMa is Tim Zhang
