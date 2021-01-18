@@ -21,7 +21,7 @@ topicAnalytics.forEach((eachTopic) => {
 
 const BarChart = ({ timeResolution }) => {
   const data = {
-    labels: ["Numbers", "Colours", "Shapes", "Actions", "Emotions"],
+    labels: ["Shapes", "Colours", "Actions", "Objects"],
     datasets: [
       {
         label: "This Month",
