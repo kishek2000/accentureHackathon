@@ -25,12 +25,4 @@
     "react-use-audio-player": "^1.2.4",
     "reactstrap": "^8.8.1"
   },
-  "plugins": [
-    "@babel/plugin-transform-react-jsx",
-    {
-      "throwIfNamespace": false,
-      "runtime": "automatic",
-      "importSource": "theme-ui"
-    }
-  ]
 }
