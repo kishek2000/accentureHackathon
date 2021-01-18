@@ -49,6 +49,8 @@ export function RegisterChildWindow() {
       <GapVertical times={3} />
       <InputBox placeholder="Date of Birth" callback={handleDobCallback} />
       <GapVertical times={3} />
+      <InputBox placeholder="Theme" callback={() => null} />
+      <GapVertical times={3} />
       <InputBox
         placeholder="Attention Span (in minutes)"
         callback={handleAttSpanCallback}
