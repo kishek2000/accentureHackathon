@@ -1,7 +1,9 @@
 # accentureHackathon
 This is the repo for the Accenture Hackathon about the Autism Awareness platform. GalacticEd, our prototype, was awarded 1st place out of 37 teams!
 
-To view a live version of our prototype (still slightly buggy), click <a href="https://galactic-ed.xyz">here</a>.
+We plan to deploy a live version of our prototype very soon (still slightly buggy), click <a href="https://galactic-ed.xyz">here</a>.
+
+To see it in action in our presentation, you can watch this video: https://www.youtube.com/watch?v=uWQ4hUP4L0k
 
 ### Problem Statement
 
