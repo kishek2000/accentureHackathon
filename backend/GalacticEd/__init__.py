@@ -2,6 +2,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from pathlib import Path 
 from GalacticEd.utils.colourisation import printColoured
+from flask_mongoengine import MongoEngine
 import os
 
 # Setting the environment variables:
@@ -12,5 +13,23 @@ load_dotenv(dotenv_path=env_path)
 printColoured(" * Initialising Flask application")
 app = Flask(__name__)
 
-# The view module must be imported after the Flask application object is created. See https://flask.palletsprojects.com/en/1.1.x/patterns/packages/
-import GalacticEd.views
+# Creating the database handler:
+db = MongoEngine()
+
+# ===== App Configuration =====
+
+# Database connection parameters:
+app.config["MONGODB_SETTINGS"] = {
+    "db": "GalacticEd",
+    "host": "127.0.0.1",
+    "port": 27017,
+    # "username": "teamgalactic",
+    # "password": "1984"
+}
+
+# Database connection:
+#     By default, Flask-MongoEngine assumes that the mongod instance is running on localhost on port 27017
+db.init_app(app)
+
+# The routes must be imported after the Flask application object is created. See https://flask.palletsprojects.com/en/1.1.x/patterns/packages/
+import GalacticEd.routes

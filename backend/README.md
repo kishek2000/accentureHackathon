@@ -37,6 +37,9 @@ python3 start.py
 ```
 
 -   Put `export FLASK_APP=galactic-ed` and `export GALACTIC_ED_DEV_MODE=true` in `~/.bashrc` to avoid having to set these environment variables each time
+-   Follow <a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">instructions here</a> to set up MongoDB locally
+    -   Create a new role with username `teamgalactic` and password `1984`
+    -   Create a database instance called `GalacticEd` under the `teamgalactic` role
 
 ### Structuring a Large Flask Application:
 
