@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from pathlib import Path 
 from GalacticEd.utils.colourisation import printColoured
 from flask_pymongo import PyMongo
+from GalacticEd.exceptions import error_handler
 import pymongo
 import os
 
@@ -15,6 +16,12 @@ printColoured(" * Initialising Flask application")
 app = Flask(__name__)
 
 # ===== App Configuration =====
+
+# TODO: move the secret string to .env.* files
+app.secret_key = "senpai"
+
+# Registering the default error handler
+app.register_error_handler(Exception, error_handler)
 
 # Database connection parameters:
 client = pymongo.MongoClient("mongodb+srv://teamgalactic:1984@galacticed-database.5gfph.mongodb.net/galacticed?retryWrites=true&w=majority")

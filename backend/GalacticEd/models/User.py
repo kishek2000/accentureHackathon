@@ -1,19 +1,28 @@
 # Defining document schema
+from GalacticEd.database_ops import (
+    save_user
+)
 
-# import mongoengine as me
-# import datetime
+class User:
+    def __init__(self, name, email, password):
+        self.name = name
+        self.email = email
+        self.password = password
+        self._id = None
 
-# class User(me.Document):
-#     name = me.StringField(required=True)
-#     email = me.EmailField(required=True, unique=True)
-#     password = me.StringField(required=True)                                     # TODO: make sure the password is being hashed prior to being stored
-#     registration_date = me.DateTimeField(default=datetime.datetime.utcnow)
+    def commit_user(self):
+        self._id = save_user(self)
+    
+    @property
+    def id(self):
+        return self._id
 
-def User(name, email, password):
-    return {
-        "name": name, 
-        "email": email, 
-        "password": password
-    }
+    def __repr__(self):
+        return "<user_id: {}, name: {}, email: {}, password: {}>".format(
+            self.id if self.id else "NOT SAVED TO DATABASE", 
+            self.name, 
+            self.email, 
+            self.password
+        )
 
         
