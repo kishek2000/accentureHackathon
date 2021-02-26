@@ -17,10 +17,14 @@ test_router = Blueprint("test", __name__)
 @test_router.route("/")
 def index():
     """ Landing page """
-    return """
-        Hello World. Your session details are
-        {}
-    """.format(g.user)
+    return render_template(
+        "landing.html", 
+        # user={
+        #     "name": "Tim", 
+        #     "email": "timzhang3@gmail.com", 
+        #     "image": "https://post.healthline.com/wp-content/uploads/2020/08/10889-The_Watermelon_Diet_Fact_or_Fiction-_732x549-thumbnail-732x549.jpg"
+        # }
+    )
 
 @test_router.route("/db")
 def db_users():

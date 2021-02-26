@@ -4,12 +4,15 @@ from pathlib import Path
 from GalacticEd.utils.colourisation import printColoured
 from flask_pymongo import PyMongo
 from GalacticEd.exceptions import error_handler
+from oauthlib.oauth2 import WebApplicationClient
 import pymongo
 import os
 
 # Setting the environment variables:
-env_path = Path('.') / '.env.{}'.format(os.getenv("GALACTIC_ED_DEV_MODE"))
+# env_path = Path('.') / '.env.{}'.format(os.getenv("GALACTIC_ED_DEV_MODE"))
+env_path = Path('.') / '.env.{}'.format("development")
 load_dotenv(dotenv_path=env_path)
+printColoured("Loaded the context of {} into the environment:".format(env_path))
 
 # Creating the Flask app instance
 printColoured(" * Initialising Flask application")
@@ -17,8 +20,15 @@ app = Flask(__name__)
 
 # ===== App Configuration =====
 
-# TODO: move the secret string to .env.* files
-app.secret_key = "senpai"
+app.secret_key = os.getenv("SECRET_KEY") or os.urandom(24)
+
+# OAuth 2 client initialisation
+GOOGLE_API_CLIENT_ID = os.getenv("GOOGLE_API_CLIENT_ID")
+GOOGLE_API_CLIENT_SECRET = os.getenv("GOOGLE_API_CLIENT_SECRET")
+GOOGLE_DISCOVERY_URL = (
+    "https://accounts.google.com/.well-known/openid-configuration"
+)
+google_client = WebApplicationClient(GOOGLE_API_CLIENT_ID)
 
 # Registering the default error handler
 app.register_error_handler(Exception, error_handler)
