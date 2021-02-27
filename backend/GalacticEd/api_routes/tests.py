@@ -1,4 +1,7 @@
-# Some basic routes for testing the connection to the back end and other simple experiments
+"""
+Some basic routes for testing the connection to the back end and other simple 
+experiments.
+"""
 from flask import (
     Blueprint,
     render_template,
@@ -19,11 +22,6 @@ def index():
     """ Landing page """
     return render_template(
         "landing.html", 
-        # user={
-        #     "name": "Tim", 
-        #     "email": "timzhang3@gmail.com", 
-        #     "image": "https://post.healthline.com/wp-content/uploads/2020/08/10889-The_Watermelon_Diet_Fact_or_Fiction-_732x549-thumbnail-732x549.jpg"
-        # }
     )
 
 @test_router.route("/db")

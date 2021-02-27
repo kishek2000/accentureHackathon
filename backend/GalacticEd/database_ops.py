@@ -1,3 +1,7 @@
+"""
+A suite of database operations that abstract over the specific DBMS used and the driver
+library or ODM used to interface with that DBMS.
+"""
 from GalacticEd import db
 from GalacticEd.utils.colourisation import printColoured
 

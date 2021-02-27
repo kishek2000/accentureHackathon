@@ -1,3 +1,10 @@
+"""
+This is the root package where:
+- Flask app instance is created and configured
+- The database connection is established and the handler is instantiated
+- The environment variables are loaded from either .env.development or .env.production
+  in the same directory
+"""
 from flask import Flask
 from dotenv import load_dotenv
 from pathlib import Path 

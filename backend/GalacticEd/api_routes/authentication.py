@@ -30,7 +30,11 @@ auth_router = Blueprint("auth", __name__)
 @auth_router.route("/login", methods=["GET", "POST"])
 def login():
     """
-        TODO: Login documentation 
+        Given form data containing fields: email and password, fetches the corresponding 
+        user from the database and verifies the password. 
+
+        Returns:
+            user_data: json containing fields: { user_id } 
     """
     if request.method == "POST":
         user_email = request.form["email"]
@@ -51,7 +55,11 @@ def login():
 @auth_router.route("/register", methods=["GET", "POST"])
 def register():
     """
-        TODO: Register documentation 
+        Given form data containing fields: username, email and password, instantiates
+        and saves a new user to the database
+
+        Returns:
+            user_data: json containing fields: { user_id } 
     """
     if request.method == "POST":
         user_name = request.form["username"]
@@ -75,9 +83,12 @@ def register():
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
-
 @auth_router.route("/google/login")
 def google_login():
+    """
+        When this route is hit, the user is directed to Google's authentication
+        page where they will choose a Google account to log in with.
+    """
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
@@ -95,6 +106,10 @@ def google_login():
 
 @auth_router.route("/google/login/callback")
 def google_login_callback():
+    """
+        This is the route hit by Google's API. The exact URL is specified in the
+        develop console: https://console.developers.google.com/
+    """
     printColoured("CLIENT_ID : {}, CLIENT_SECRET: {}".format(GOOGLE_API_CLIENT_ID, GOOGLE_API_CLIENT_SECRET), colour="yellow")
     # Get authorization code Google sent back to you
     code = request.args.get("code")
@@ -155,4 +170,8 @@ def google_login_callback():
     printColoured("COMMITTED THE USER")
 
     # Send user back to homepage
-    return "You've logged in successfully! {}, {}, {}".format(user_name, user_email, user_image)
+    return """
+        <h3>You've logged in successfully!</h3> 
+        <div>Name: {}, Email: {}</div>
+        <img src='{}'></img>
+    """.format(user_name, user_email, user_image)
