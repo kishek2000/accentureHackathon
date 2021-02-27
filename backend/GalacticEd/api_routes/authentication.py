@@ -2,18 +2,17 @@ from flask import (
     Blueprint,
     render_template,
     request,
-    redirect
+    redirect,
+    jsonify
 )
 import os
 from GalacticEd.models import User
-from GalacticEd.database_ops import (
-    get_all_users,
-    save_user,
-    get_user,
-    password_verified
-)
 from GalacticEd.exceptions import InvalidUserInput
 from GalacticEd.utils.colourisation import printColoured
+from GalacticEd.authentication import (
+    login,
+    register
+)
 
 # Google auth dependencies:
 import requests
@@ -28,32 +27,23 @@ from GalacticEd import (
 auth_router = Blueprint("auth", __name__)
 
 @auth_router.route("/login", methods=["GET", "POST"])
-def login():
+def login_handler():
     """
         Given form data containing fields: email and password, fetches the corresponding 
         user from the database and verifies the password. 
 
         Returns:
-            user_data: json containing fields: { user_id } 
+            user_data: json containing fields: { user_id, token } 
     """
     if request.method == "POST":
         user_email = request.form["email"]
         user_password = request.form["password"]
-
-        if password_verified(user_email, user_password):
-            printColoured(" ➤ Logged in successfully")
-            user = get_user(email=user_email)
-
-            return {
-                "user_id": user.id
-            }
-        else:
-            raise InvalidUserInput(description="The password doesn't match the provided email")
+        return jsonify(login(user_email, user_password))
     else:
         return render_template("login.html")
 
 @auth_router.route("/register", methods=["GET", "POST"])
-def register():
+def register_handler():
     """
         Given form data containing fields: username, email and password, instantiates
         and saves a new user to the database
@@ -65,15 +55,7 @@ def register():
         user_name = request.form["username"]
         user_email = request.form["email"]
         user_password = request.form["password"]
-
-        printColoured(" ➤ Registered a user with details: name: {}, email: {}, password: {}".format(user_name, user_email, user_password))
-
-        new_user = User(name=user_name, email=user_email, password=user_password)
-        new_user.commit_user()
-
-        return {
-            "user_id": new_user.id
-        }
+        return jsonify(register(user_name, user_email, user_password))
     else:
         return render_template("register.html")
 
@@ -84,7 +66,7 @@ def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 @auth_router.route("/google/login")
-def google_login():
+def google_login_handler():
     """
         When this route is hit, the user is directed to Google's authentication
         page where they will choose a Google account to log in with.
@@ -105,7 +87,7 @@ def google_login():
     return redirect(request_uri)
 
 @auth_router.route("/google/login/callback")
-def google_login_callback():
+def google_login_callback_handler():
     """
         This is the route hit by Google's API. The exact URL is specified in the
         develop console: https://console.developers.google.com/

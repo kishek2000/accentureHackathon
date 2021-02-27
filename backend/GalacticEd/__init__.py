@@ -27,11 +27,11 @@ app = Flask(__name__)
 
 # ===== App Configuration =====
 
-app.secret_key = os.getenv("SECRET_KEY") or os.urandom(24)
+SECRET_KEY = os.getenv("SECRET_KEY")
+app.secret_key = SECRET_KEY
 
-# OAuth 2 client initialisation
-GOOGLE_API_CLIENT_ID = os.getenv("GOOGLE_API_CLIENT_ID")
 GOOGLE_API_CLIENT_SECRET = os.getenv("GOOGLE_API_CLIENT_SECRET")
+GOOGLE_API_CLIENT_ID = os.getenv("GOOGLE_API_CLIENT_ID")
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )

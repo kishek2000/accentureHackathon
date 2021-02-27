@@ -4,18 +4,42 @@ library or ODM used to interface with that DBMS.
 """
 from GalacticEd import db
 from GalacticEd.utils.colourisation import printColoured
+from typing import (
+    Dict, 
+    List
+)
 
-def insert(collection_name, document):
-    """ Inserts and returns the ID of the newly inserted document """
+def insert(collection_name: str, document: Dict) -> str:
+    """ 
+        Inserts and returns the ID of the newly inserted document in the target collection 
+
+        Args:
+            collection_name (str) 
+            document (dict)
+
+        Returns:
+            str: ID of the newly inserted item
+    """
     print(" ➤ Inserting: {}, in {}".format(document, collection_name))
     insertion_result = db[collection_name].insert_one(document)
     return str(insertion_result.inserted_id)
 
-def get_all_users():
+def get_all_users() -> List[Dict]:
+    """
+        Fetches all users from the database
+
+        Returns:
+            list: all users in the 'users' collection of the database instance
+    """
     return [ user for user in db.users.find() ]
 
-def save_user(user):
-    """ Saves and returns the ID of the new user """
+def save_user(user) -> str:
+    """ 
+        Saves and returns the ID of the new user 
+
+        Returns:
+            str: ID of the new user
+    """
     printColoured(" ➤ Saving new user: {}".format(user), colour="blue")
     # Builtin function vars() takes an object and constructs a dict. The _id key is then
     # removed to prevent colliding with MongoDB's generated ID
@@ -26,12 +50,17 @@ def save_user(user):
 def wipe_all_users():
     """ Wipes all documents from the GalacticEd 'users' collection """
     db.users.drop()
-    printColoured("DROPPED USERS", colour="red")
+    printColoured(" ➤ DROPPED USERS", colour="red")
 
-def get_user(user_id):
+def get_user(user_id: str) -> Dict: 
     """ 
-        Fetches the user with the given ID and returns a dictionary of keys:
-        { user_id, name, email }
+        Fetches the user with the given ID
+
+        Args:
+            user_id (str)
+        
+        Returns:
+            dict: of shape: { user_id, name, email }
     """
     target_user = db.users.find_one({"_id": user_id})
     details = {
