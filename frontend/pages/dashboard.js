@@ -4,7 +4,7 @@ import { jsx, css } from "@emotion/react";
 import { GapHorizontal } from "../components/GapHorizontal";
 import { useState } from "react";
 import { Screen } from "../components/Screen";
-import { MenuPanel } from "./MenuPanel";
+import { MenuPanel } from "../components/MenuPanel";
 
 export default function Dashboard() {
   const [selectedScreen, setSelectedScreen] = useState("dashboard");
