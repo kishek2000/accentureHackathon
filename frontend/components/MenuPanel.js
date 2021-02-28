@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import { GapVertical } from "../components/GapVertical";
-import { DashboardGalacticEdLogoRow } from "../components/DashboardGalacticEdLogoRow";
-import { MenuItem } from "../components/MenuItem";
+import { GapVertical } from "./GapVertical";
+import { DashboardGalacticEdLogoRow } from "./DashboardGalacticEdLogoRow";
+import { MenuItem } from "./MenuItem";
 import { menuNavigation } from "../store/nav";
-import { GapHorizontal } from "../components/GapHorizontal";
+import { GapHorizontal } from "./GapHorizontal";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
