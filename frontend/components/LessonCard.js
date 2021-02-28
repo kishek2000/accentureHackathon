@@ -30,7 +30,15 @@ export function LessonCard({
         Level {level}
       </div>
       <GapVertical times={3} />
-      <div css={{ fontFamily: "Poppins", fontWeight: 600, fontSize: 18 }}>
+      <div
+        css={{
+          fontFamily: "Poppins",
+          fontWeight: 600,
+          fontSize: 18,
+          textAlign: "center",
+          width: "90%",
+        }}
+      >
         {title}
       </div>
       <div
