@@ -2,6 +2,7 @@
 import { jsx, css } from "@emotion/react";
 
 import { useCallback, useState } from "react";
+import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
 import { LoginButton } from "./LoginButton";
 import { InputBox } from "./InputBox";
@@ -36,45 +37,109 @@ export function LoginWindow() {
   }
 
   return (
-    <div css={{ display: "flex", flexDirection: "column", maxWidth: 1024 }}>
-      <div
-        css={{
-          fontFamily: "Poppins",
-          fontWeight: 900,
-          fontSize: 64,
-          alignSelf: "center",
-        }}
-      >
-        GalaticEd
-      </div>
-      <GapVertical times={4} />
-      <InputBox placeholder="Username" callback={handleUsernameCallback} />
-      <GapVertical times={3} />
-      <InputBox placeholder="Password" callback={handlePasswordCallback} />
-      <GapVertical times={6} />
+    <div css={{ display: "flex", flexDirection: "row" }}>
       <div
         css={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           alignItems: "center",
-          alignSelf: "flex-start",
-          justifyContent: "space-between",
-          width: "100%",
+          justifyContent: "center",
+        }}
+      >
+        <img
+          src={"/logo.png"}
+          style={{ width: 96, height: 96, objectFit: "contain" }}
+        />
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 800,
+            fontSize: 72,
+          }}
+        >
+          GalaticEd
+        </div>
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 200,
+            fontSize: 24,
+            marginTop: -12,
+          }}
+        >
+          Learning tailored to you.
+        </div>
+      </div>
+      <GapHorizontal times={60} />
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "72px 48px",
+          background: "white",
+          borderRadius: 16,
         }}
       >
         <div
           css={{
-            textDecorationLine: "underline",
             fontFamily: "Poppins",
-            fontSize: 16,
+            fontWeight: 800,
+            fontSize: 30,
+            alignSelf: "center",
           }}
         >
-          Forgot Password
+          Login
         </div>
-        <LoginButton />
+        <GapVertical times={6} />
+        <GoogleSignInButton />
+        <GapVertical times={4} />
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 300,
+            fontSize: 24,
+            alignSelf: "center",
+          }}
+        >
+          OR
+        </div>
+        <GapVertical times={4} />
+        <InputBox placeholder="Username" callback={handleUsernameCallback} />
+        <GapVertical times={4} />
+        <InputBox placeholder="Password" callback={handlePasswordCallback} />
+        <GapVertical times={6} />
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            alignSelf: "flex-start",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <div
+            css={{
+              textDecorationLine: "underline",
+              fontFamily: "Poppins",
+              fontSize: 16,
+              fontWeight: 600,
+            }}
+          >
+            Forgot Password
+          </div>
+          <LoginButton />
+        </div>
       </div>
-      <GapVertical times={24} />
-      <div css={{ fontFamily: "Poppins", fontSize: 21, alignSelf: "center" }}>
+      <div
+        css={{
+          fontFamily: "Poppins",
+          fontSize: 16,
+          position: "absolute",
+          top: 56,
+          right: 56,
+        }}
+      >
         New around here?{" "}
         <strong
           css={{ textDecorationLine: "underline", cursor: "pointer" }}
@@ -82,6 +147,30 @@ export function LoginWindow() {
         >
           Register
         </strong>
+      </div>
+    </div>
+  );
+}
+
+export function GoogleSignInButton() {
+  return (
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        background: "white",
+        width: "100%",
+        padding: "12px 120px",
+        boxShadow: "0px 0px 27px rgba(0, 0, 0, 0.06)",
+        borderRadius: 16,
+        cursor: "pointer",
+      }}
+    >
+      <img src={"/google.png"} css={{ width: 24, height: 24 }} />
+      <GapHorizontal times={3} />
+      <div css={{ fontSize: 18, fontFamily: "Poppins", color: "#555555" }}>
+        Sign in with Google
       </div>
     </div>
   );

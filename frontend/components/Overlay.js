@@ -92,7 +92,7 @@ export function Overlay({
             cursor: "pointer",
             padding: "12px 24px",
             background: "white",
-            borderRadius: 24,
+            borderRadius: 16,
           }}
           onClick={() => {
             if (returnToCourse) {

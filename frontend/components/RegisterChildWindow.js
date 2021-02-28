@@ -33,30 +33,113 @@ export function RegisterChildWindow() {
   );
 
   return (
-    <div css={{ display: "flex", flexDirection: "column", maxWidth: 1024 }}>
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        justifyContent: "center",
+      }}
+    >
       <div
         css={{
-          fontFamily: "Poppins",
-          fontWeight: 900,
-          fontSize: 64,
-          alignSelf: "center",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "absolute",
+          top: 48,
+          left: "50%",
+          transform: "translate(-50%, 0%)",
         }}
       >
-        Register
+        <img
+          src={"/logo.png"}
+          style={{ width: 48, height: 48, objectFit: "contain" }}
+        />
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 800,
+            fontSize: 48,
+          }}
+        >
+          GalaticEd
+        </div>
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 200,
+            fontSize: 16,
+            marginTop: -12,
+          }}
+        >
+          Learning tailored to you.
+        </div>
       </div>
-      <GapVertical times={4} />
-      <InputBox placeholder="First Name" callback={handleFirstNameCallback} />
-      <GapVertical times={3} />
-      <InputBox placeholder="Date of Birth" callback={handleDobCallback} />
-      <GapVertical times={3} />
-      <InputBox placeholder="Theme" callback={() => null} />
-      <GapVertical times={3} />
-      <InputBox
-        placeholder="Attention Span (in minutes)"
-        callback={handleAttSpanCallback}
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          background: "white",
+          padding: "72px 48px",
+          borderRadius: 16,
+        }}
+      >
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 800,
+            fontSize: 30,
+            alignSelf: "center",
+          }}
+        >
+          Register Child 1
+        </div>
+        <GapVertical times={4} />
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
+          <InputBox placeholder="First Name" percentage={"49%"} />
+          <InputBox placeholder="Last Name" percentage={"49%"} />
+        </div>
+        <GapVertical times={3} />
+        <InputBox placeholder="Age" />
+        <GapVertical times={3} />
+        <RegisterChildInputWithHelp placeholder={"Attention Span"} />
+        <GapVertical times={3} />
+        <RegisterChildInputWithHelp placeholder={"Learning Style"} />
+        <GapVertical times={3} />
+        <RegisterChildInputWithHelp placeholder={"Favourite Object"} />
+        <GapVertical times={6} />
+        <RegisterButton route={"/dashboard"} />
+      </div>
+    </div>
+  );
+}
+
+export function RegisterChildInputWithHelp({ placeholder }) {
+  return (
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        position: "relative",
+      }}
+    >
+      <InputBox placeholder={placeholder} />
+      <img
+        src={"/help.png"}
+        css={{ width: 16, height: 16, position: "absolute", right: -24 }}
       />
-      <GapVertical times={6} />
-      <RegisterButton route={"/dashboard"} />
     </div>
   );
 }

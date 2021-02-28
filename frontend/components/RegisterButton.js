@@ -24,7 +24,7 @@ export function RegisterButton({ route }) {
         backgroundColor: "#0500FF",
         width: 126,
         height: 34,
-        borderRadius: 36,
+        borderRadius: 16,
         fontFamily: "Poppins",
         color: "white",
         fontWeight: 600,
@@ -32,7 +32,7 @@ export function RegisterButton({ route }) {
       }}
       onClick={handleRegister}
     >
-      CONTINUE
+      {route === "/dashboard" ? "REGISTER" : "NEXT"}
     </div>
   );
 }

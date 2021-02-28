@@ -41,33 +41,111 @@ export function RegisterWindow() {
   );
 
   return (
-    <div css={{ display: "flex", flexDirection: "column", maxWidth: 1024 }}>
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        justifyContent: "center",
+      }}
+    >
       <div
         css={{
-          fontFamily: "Poppins",
-          fontWeight: 900,
-          fontSize: 64,
-          alignSelf: "center",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "absolute",
+          top: 48,
+          left: "50%",
+          transform: "translate(-50%, 0%)",
         }}
       >
-        Register
+        <img
+          src={"/logo.png"}
+          style={{ width: 48, height: 48, objectFit: "contain" }}
+        />
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 800,
+            fontSize: 48,
+          }}
+        >
+          GalaticEd
+        </div>
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 200,
+            fontSize: 16,
+            marginTop: -12,
+          }}
+        >
+          Learning tailored to you.
+        </div>
       </div>
-      <GapVertical times={4} />
-      <InputBox placeholder="Username" callback={handleUsernameCallback} />
-      <GapVertical times={3} />
-      <InputBox placeholder="Email" callback={handleEmailCallback} />
-      <GapVertical times={3} />
-      <InputBox
-        placeholder="Create Password"
-        callback={handleCreatePasswordCallback}
-      />
-      <GapVertical times={3} />
-      <InputBox
-        placeholder="Confirm Password"
-        callback={handleConfirmPasswordCallback}
-      />
-      <GapVertical times={6} />
-      <RegisterButton route={"/register-child"} />
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          background: "white",
+          padding: "72px 48px",
+          borderRadius: 16,
+        }}
+      >
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontWeight: 800,
+            fontSize: 30,
+            alignSelf: "center",
+          }}
+        >
+          Register
+        </div>
+        <GapVertical times={4} />
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
+          <InputBox
+            placeholder="First Name"
+            callback={handleUsernameCallback}
+            percentage={"49%"}
+          />
+          <InputBox
+            placeholder="Last Name"
+            callback={handleUsernameCallback}
+            percentage={"49%"}
+          />
+        </div>
+        <GapVertical times={3} />
+        <InputBox placeholder="Email" callback={handleEmailCallback} />
+        <GapVertical times={3} />
+        <InputBox
+          placeholder="Password"
+          callback={handleCreatePasswordCallback}
+        />
+        <GapVertical times={3} />
+        <InputBox
+          placeholder="Confirm Password"
+          callback={handleConfirmPasswordCallback}
+        />
+        <GapVertical times={3} />
+        <InputBox
+          placeholder="No. of Children"
+          callback={handleConfirmPasswordCallback}
+        />
+        <GapVertical times={6} />
+        <RegisterButton route={"/register-child"} />
+      </div>
     </div>
   );
 }
