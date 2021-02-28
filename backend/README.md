@@ -43,6 +43,9 @@ pip install -e .
 flask run
 # Or run:
 python3 start.py
+
+# Alternatively, run
+sh run.sh
 ```
 
 ### Structuring a Large Flask Application:
