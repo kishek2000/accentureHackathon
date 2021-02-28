@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 
-export function InputBox({ placeholder, callback, percentage }) {
+export function InputBox({ placeholder, callback, percentage, hide }) {
   return (
     <input
       css={{
@@ -19,6 +19,7 @@ export function InputBox({ placeholder, callback, percentage }) {
         fontSize: 18,
         fontWeight: 300,
       }}
+      type={hide ? "password" : null}
       placeholder={placeholder}
       onChange={(e) => callback(e.target.value)}
     />

@@ -92,15 +92,17 @@ const BarChart = ({ timeResolution }) => {
       css={{
         display: "flex",
         flexDirection: "column",
-        // width: "50%",
       }}
     >
-      <GapVertical times={8} />
-      <div css={{ fontFamily: "Poppins", fontSize: 24, fontWeight: 400 }}>
-        Time Spent
+      <div
+        css={{
+          background: "white",
+          borderRadius: 16,
+          padding: 24,
+        }}
+      >
+        <HorizontalBar data={data} options={options} />
       </div>
-      <GapVertical times={4} />
-      <HorizontalBar data={data} options={options} />
     </div>
   );
 };

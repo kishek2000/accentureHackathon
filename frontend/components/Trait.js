@@ -6,14 +6,28 @@ export function Trait({ color, title, description }) {
   return (
     <div css={{ display: "flex", flexDirection: "row" }}>
       <div
-        css={{ height: 48, width: 48, background: color, borderRadius: 16 }}
+        css={{
+          minHeight: 64,
+          minWidth: 64,
+          background: color,
+          borderRadius: 16,
+        }}
       />
       <GapHorizontal times={4} />
-      <div css={{ display: "flex", flexDirection: "column" }}>
-        <div css={{ fontSize: 20, fontFamily: "Poppins", fontWeight: 600 }}>
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          borderRadius: 16,
+          justifyContent: "center",
+          paddingLeft: 4,
+        }}
+      >
+        <div css={{ fontSize: 16, fontFamily: "Poppins", fontWeight: 600 }}>
           {title}
         </div>
-        <div css={{ fontSize: 16, fontFamily: "Poppins", fontWeight: 400 }}>
+        <div css={{ fontSize: 14, fontFamily: "Poppins", fontWeight: 400 }}>
           {description}
         </div>
       </div>

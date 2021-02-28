@@ -106,7 +106,11 @@ export function LoginWindow() {
         <GapVertical times={4} />
         <InputBox placeholder="Username" callback={handleUsernameCallback} />
         <GapVertical times={4} />
-        <InputBox placeholder="Password" callback={handlePasswordCallback} />
+        <InputBox
+          placeholder="Password"
+          callback={handlePasswordCallback}
+          hide={true}
+        />
         <GapVertical times={6} />
         <div
           css={{
