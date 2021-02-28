@@ -29,13 +29,13 @@ def login(email: str, password: str) -> Dict[str, str]:
     printColoured(" ➤ Logged in successfully: {}".format(email))
     user = get_user(email=email)
     token = generate_token({
-        "user_id": user.id,
+        "user_id": user._id,
         "email": email
     })
 
     return {
         "token": token,
-        "user_id": user.id
+        "user_id": user._id
     }
 
 def register(username: str, email: str, password: str) -> Dict[str, str]:
@@ -55,12 +55,12 @@ def register(username: str, email: str, password: str) -> Dict[str, str]:
 
     printColoured(" ➤ Registered a user with details: name: {}, email: {}".format(username, email))
     token = generate_token({
-        "user_id": new_user.id,
+        "user_id": new_user._id,
         "email": email
     })
 
     return {
-        "user_id": new_user.id,
+        "user_id": new_user._id,
         "token": token
     }
 
