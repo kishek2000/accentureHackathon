@@ -12,8 +12,10 @@ export function DashboardScreen() {
         flexDirection: "column",
         paddingLeft: 240,
         minHeight: "100vh",
+        overflow: "hidden",
       }}
     >
+      <GapVertical times={20} />
       <DashboardCoursesRow />
       <GapVertical times={12} />
       <DashboardStatsRow />

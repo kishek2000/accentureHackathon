@@ -12,11 +12,12 @@ export function CoursesScreen() {
         flexDirection: "column",
         paddingLeft: 240,
         minHeight: "100vh",
+        overflow: "hidden",
       }}
     >
-      <GapVertical times={30} />
+      <GapVertical times={20} />
       <RecommendedCoursesRow />
-      <GapVertical times={10} />
+      <GapVertical times={8} />
       <AllCoursesRow />
     </div>
   );

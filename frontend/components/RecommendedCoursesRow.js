@@ -21,7 +21,13 @@ export function RecommendedCoursesRow() {
     router.push(`/course/${course}`);
   }
   return (
-    <div css={{ display: "flex", flexDirection: "column" }}>
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+      }}
+    >
       <div css={{ fontFamily: "Poppins", fontWeight: 600, fontSize: 20 }}>
         Recommended Courses
       </div>
@@ -34,7 +40,9 @@ export function RecommendedCoursesRow() {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          background: "none",
+          width: "75%",
+          overflowX: "scroll",
+          paddingBottom: 24,
         }}
       >
         {courses.courses.map((course, index) => (
@@ -44,10 +52,12 @@ export function RecommendedCoursesRow() {
               thumbnail={course.thumbnail}
               key={course.id}
               handleCourseCallback={handleCourseCallback}
+              shadow={false}
             />
-            {index !== courses.length - 1 && <GapHorizontal times={6} />}
+            <GapHorizontal times={6} />
           </>
         ))}
+        <div css={{ width: 1, opacity: 0 }}>.</div>
       </div>
     </div>
   );

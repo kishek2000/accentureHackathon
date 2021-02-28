@@ -9,9 +9,20 @@ import { useRouter } from "next/router";
 
 export function DashboardCoursesRow() {
   return (
-    <div css={{ display: "flex", flexDirection: "column" }}>
-      <GapVertical times={30} />
-      <div css={{ display: "flex", flexDirection: "row", alignItems: "top" }}>
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        width: "80%",
+      }}
+    >
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "top",
+        }}
+      >
         <ContinueCourseRow />
         <GapHorizontal times={24} />
         <RecommendedCoursesRow />

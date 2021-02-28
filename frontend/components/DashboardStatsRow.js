@@ -6,7 +6,7 @@ import { AllTraits } from "../components/AllTraits";
 
 export function DashboardStatsRow() {
   return (
-    <div css={{ display: "flex", flexDirection: "row" }}>
+    <div css={{ display: "flex", flexDirection: "row", overflow: "hidden" }}>
       <ProficiencyGraph />
       <GapHorizontal times={24} />
       <div
@@ -18,7 +18,14 @@ export function DashboardStatsRow() {
         <div css={{ fontFamily: "Poppins", fontSize: 20, fontWeight: 600 }}>
           Traits
         </div>
-        <div css={{ fontFamily: "Poppins", fontSize: 16, fontWeight: 400 }}>
+        <div
+          css={{
+            fontFamily: "Poppins",
+            fontSize: 16,
+            fontWeight: 400,
+            width: "90%",
+          }}
+        >
           We’ve discovered that Jeremy has these traits. Click see more for more
           info.
         </div>
@@ -30,7 +37,7 @@ export function DashboardStatsRow() {
 
 export function ProficiencyGraph() {
   return (
-    <div css={{ display: "flex", flexDirection: "column", width: "50%" }}>
+    <div css={{ display: "flex", flexDirection: "column", width: "45%" }}>
       <div css={{ fontFamily: "Poppins", fontSize: 20, fontWeight: 600 }}>
         Proficiency
       </div>

@@ -5,7 +5,7 @@ import BarChart from "./BarChart";
 
 export function TimeSpentGraph() {
   return (
-    <div css={{ display: "flex", flexDirection: "column", width: "50%" }}>
+    <div css={{ display: "flex", flexDirection: "column", width: "45%" }}>
       <div css={{ fontFamily: "Poppins", fontSize: 20, fontWeight: 600 }}>
         Time Spent
       </div>

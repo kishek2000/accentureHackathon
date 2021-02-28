@@ -15,7 +15,7 @@ export function SettingsScreen() {
         width: "85%",
       }}
     >
-      <GapVertical times={30} />
+      <GapVertical times={20} />
       <AccountSettings />
       <GapVertical times={15} />
       <ChildSettings />

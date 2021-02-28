@@ -14,9 +14,10 @@ export function AboutScreen() {
         paddingLeft: 240,
         width: "100%",
         minHeight: "100vh",
+        overflow: "hidden",
       }}
     >
-      <GapVertical times={30} />
+      <GapVertical times={20} />
       <div
         css={{
           display: "flex",

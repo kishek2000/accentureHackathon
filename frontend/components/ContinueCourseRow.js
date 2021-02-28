@@ -28,7 +28,9 @@ export function ContinueCourseRow() {
       <div css={{ fontFamily: "Poppins", fontWeight: 600, fontSize: 20 }}>
         Continue Course
       </div>
-      <div css={{ fontFamily: "Poppins", fontWeight: 400 }}>
+      <div
+        css={{ fontFamily: "Poppins", fontWeight: 400, whiteSpace: "nowrap" }}
+      >
         Pick up from right where you left off!
       </div>
       <GapVertical times={6} />

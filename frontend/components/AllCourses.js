@@ -20,7 +20,9 @@ export function AllCoursesRow() {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          background: "none",
+          width: "75%",
+          overflowX: "scroll",
+          paddingBottom: 24,
         }}
       >
         {courses.courses.map((course, index) => (

@@ -48,7 +48,7 @@ export function RegisterChildWindow() {
           alignItems: "center",
           justifyContent: "center",
           position: "absolute",
-          top: 48,
+          top: 36,
           left: "50%",
           transform: "translate(-50%, 0%)",
         }}

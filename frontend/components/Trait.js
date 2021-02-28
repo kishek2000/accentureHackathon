@@ -4,11 +4,18 @@ import { GapHorizontal } from "../components/GapHorizontal";
 
 export function Trait({ color, title, description }) {
   return (
-    <div css={{ display: "flex", flexDirection: "row" }}>
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "row",
+        height: "100%",
+        alignItems: "center",
+      }}
+    >
       <div
         css={{
-          minHeight: 64,
-          minWidth: 64,
+          width: "10%",
+          height: "70%",
           background: color,
           borderRadius: 16,
         }}
@@ -27,7 +34,14 @@ export function Trait({ color, title, description }) {
         <div css={{ fontSize: 16, fontFamily: "Poppins", fontWeight: 600 }}>
           {title}
         </div>
-        <div css={{ fontSize: 14, fontFamily: "Poppins", fontWeight: 400 }}>
+        <div
+          css={{
+            fontSize: 14,
+            fontFamily: "Poppins",
+            fontWeight: 400,
+            maxWidth: 1024,
+          }}
+        >
           {description}
         </div>
       </div>
