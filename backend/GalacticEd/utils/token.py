@@ -19,5 +19,5 @@ def generate_token(user_data: Dict[str, str]) -> str:
         "user_id": user_data["user_id"],
         "email": user_data["email"],
     }
-    web_token = jwt.encode(payload, SECRET_KEY, algorithm="HS256").decode("utf-8")
+    web_token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
     return web_token
