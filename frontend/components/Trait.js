@@ -6,7 +6,7 @@ export function Trait({ color, title, description }) {
   return (
     <div css={{ display: "flex", flexDirection: "row" }}>
       <div
-        css={{ height: 48, width: 48, background: color, borderRadius: 12 }}
+        css={{ height: 48, width: 48, background: color, borderRadius: 16 }}
       />
       <GapHorizontal times={4} />
       <div css={{ display: "flex", flexDirection: "column" }}>
