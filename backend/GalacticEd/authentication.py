@@ -29,7 +29,7 @@ def login(email: str, password: str) -> Dict[str, str]:
     printColoured(" ➤ Logged in successfully: {}".format(email))
     user = get_user(email=email)
     token = generate_token({
-        "user_id": user.id,
+        "user_id": user["_id"],
         "email": email
     })
 
