@@ -118,6 +118,7 @@ export default function Course() {
               <>
                 <LessonCard
                   title={lesson.title}
+                  id={lesson.id}
                   description={lesson?.description}
                   level={lesson?.level}
                   background={lessonBackgroundMap[lesson?.level]}

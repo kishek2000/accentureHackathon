@@ -3,7 +3,7 @@ import { jsx, css } from "@emotion/react";
 
 import React from "react";
 import { Line } from "@reactchartjs/react-chart.js";
-import { topicAnalytics } from "../store/data";
+import { topicAnalytics } from "../store/topicAnalytics";
 import { GapVertical } from "./GapVertical";
 
 const uppercaseAll = (text) => {

@@ -1,10 +1,11 @@
-import { useRouter } from "next/router";
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import { lesson1, lesson2, lesson3 } from "../../../../store/data";
+
+import { useRouter } from "next/router";
 import { GapVertical } from "../../../../components/GapVertical";
 import { useState } from "react";
 import Link from "next/link";
+import { getCourseLessonData } from "../../../../components/getCourseLessonData";
 
 export default function Lesson() {
   const router = useRouter();
@@ -12,17 +13,8 @@ export default function Lesson() {
   const { courseName, lesson } = router.query;
   if (lesson && courseName) {
     console.log(lesson);
-    let lessonData;
-    if (lesson.includes("Square")) {
-      lessonData = lesson1;
-    } else if (lesson.includes("Circle")) {
-      lessonData = lesson2;
-    } else {
-      lessonData = lesson3;
-    }
-
+    const lessonData = getCourseLessonData(courseName, lesson);
     if (question) {
-      console.log(question);
       router.push(`/course/${courseName}/${lesson}/${question}`);
     }
     return (
@@ -52,18 +44,30 @@ export default function Lesson() {
             {"< Back"}
           </p>
         </Link>
+        <p
+          css={{
+            position: "absolute",
+            top: 36,
+            fontFamily: "Poppins",
+            color: "white",
+            fontWeight: 600,
+          }}
+        >
+          {lessonData.courseId.toUpperCase() +
+            " - " +
+            lessonData.lessonId.toUpperCase().replace("-", " ")}
+        </p>
         <div
           css={{
             fontFamily: "Poppins",
-            fontWeight: 900,
+            fontWeight: 700,
             fontSize: 64,
             alignSelf: "center",
             color: "white",
           }}
         >
-          {lessonData.lesson}
+          {lessonData.lessonTitle}
         </div>
-        <GapVertical times={4} />
         <div
           css={{
             fontFamily: "Poppins",
@@ -78,9 +82,9 @@ export default function Lesson() {
         <div
           css={{
             fontFamily: "Poppins",
-            fontSize: 24,
+            fontSize: 20,
             weight: 400,
-            padding: "12px 48px",
+            padding: "8px 28px",
             background: "white",
             borderRadius: 16,
             cursor: "pointer",

@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import { GapVertical } from "./GapVertical";
-import { ProficiencyGraph } from "./DashboardStatsRow";
-import { GapHorizontal } from "./GapHorizontal";
-import { TimeSpentGraph } from "./TimeSpentGraph";
+
+import { GapVertical } from "../components/GapVertical";
+import { ProficiencyGraph } from "../components/DashboardStatsRow";
+import { GapHorizontal } from "../components/GapHorizontal";
+import { TimeSpentGraph } from "../components/TimeSpentGraph";
 
 export function AboutScreen() {
   return (

@@ -9,6 +9,7 @@ export function LessonCard({
   description,
   background,
   handleLessonCallback,
+  id,
 }) {
   return (
     <div
@@ -24,6 +25,7 @@ export function LessonCard({
         borderRadius: 16,
         position: "relative",
       }}
+      key={id}
     >
       <GapVertical times={2} />
       <div css={{ fontFamily: "Poppins", fontWeight: 700, fontSize: 24 }}>
@@ -47,7 +49,8 @@ export function LessonCard({
           fontWeight: 300,
           fontSize: 14,
           textAlign: "center",
-          width: "90%",
+          width: "85%",
+          height: "20%",
         }}
       >
         {description}
@@ -63,7 +66,7 @@ export function LessonCard({
           borderRadius: 16,
           cursor: "pointer",
         }}
-        onClick={() => handleLessonCallback(title)}
+        onClick={() => handleLessonCallback(id)}
       >
         Start Lesson
       </div>

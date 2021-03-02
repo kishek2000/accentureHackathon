@@ -3,7 +3,7 @@ import { jsx, css } from "@emotion/react";
 
 import { GapHorizontal } from "../components/GapHorizontal";
 import { useState } from "react";
-import { Screen } from "../components/Screen";
+import { Screen } from "../screens/Screen";
 import { MenuPanel } from "../components/MenuPanel";
 
 export default function Dashboard() {

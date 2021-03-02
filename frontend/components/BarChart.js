@@ -2,7 +2,7 @@
 import { jsx, css } from "@emotion/react";
 import React from "react";
 import { HorizontalBar } from "react-chartjs-2";
-import { topicAnalytics } from "../store/data";
+import { topicAnalytics } from "../store/topicAnalytics";
 import { GapVertical } from "./GapVertical";
 
 let thisWeekTimes = [];

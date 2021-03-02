@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import { GapVertical } from "./GapVertical";
-import { DashboardCoursesRow } from "./DashboardCoursesRow";
-import { DashboardStatsRow } from "./DashboardStatsRow";
+import { GapVertical } from "../components/GapVertical";
+import { RecommendedCoursesRow } from "../components/RecommendedCoursesRow";
+import { AllCoursesRow } from "../components/AllCourses";
 
-export function DashboardScreen() {
+export function CoursesScreen() {
   return (
     <div
       css={{
@@ -16,9 +16,9 @@ export function DashboardScreen() {
       }}
     >
       <GapVertical times={20} />
-      <DashboardCoursesRow />
-      <GapVertical times={12} />
-      <DashboardStatsRow />
+      <RecommendedCoursesRow />
+      <GapVertical times={8} />
+      <AllCoursesRow />
     </div>
   );
 }

@@ -43,7 +43,7 @@ export function ShapeQuestion({
               <img
                 src={`/shapes/${shape.shape}.png`}
                 css={{
-                  filter: `hue-rotate(${shape.colour}deg)`,
+                  filter: `hue-rotate(${shape.hue}deg)`,
                   width: 400,
                   height: 400,
                 }}
@@ -64,7 +64,6 @@ export function ShapeQuestion({
   } else {
     return <Overlay returnToCourse={returnToCourse} courseName={courseName} />;
   }
-  return null;
 }
 
 function Back({ courseName, lesson }) {

@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import { GapVertical } from "./GapVertical";
-import { ChildSettings } from "./ChildSettings";
-import { AccountSettings } from "./AccountSettings";
+import { GapVertical } from "../components/GapVertical";
+import { ChildSettings } from "../components/ChildSettings";
+import { AccountSettings } from "../components/AccountSettings";
 
 export function SettingsScreen() {
   return (
