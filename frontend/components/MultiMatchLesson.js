@@ -18,9 +18,7 @@ export function MultiMatchLesson({
       prompt = questionData.actions[0];
       correctMap = questionData.correct.action[0];
       mediaPrefix =
-        questionData.contentType === "video"
-          ? "/action-videos/"
-          : "/action-images/";
+        prompt.contentType === "video" ? "/action-videos/" : "/action-images/";
     } else if (questionData.emotions) {
       prompt = questionData.emotions[0];
       correctMap = questionData.correct.emotion[0];
