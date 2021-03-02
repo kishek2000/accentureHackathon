@@ -14,7 +14,7 @@ export function MatchLessonCorrect({
     setIsCorrect(false);
   });
   var correctData = {};
-  var sourcePrefix = "/shapes";
+  var sourcePrefix = "/shapes/";
   if (correct.shape) {
     correctData = correct.shape;
   } else if (correct.colour) {
