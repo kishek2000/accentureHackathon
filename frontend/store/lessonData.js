@@ -1,4 +1,11 @@
 import {
+  actionsLessonFive,
+  actionsLessonFour,
+  actionsLessonOne,
+  actionsLessonThree,
+  actionsLessonTwo,
+} from "./lessons/actions";
+import {
   coloursLessonFive,
   coloursLessonFour,
   coloursLessonOne,
@@ -30,6 +37,16 @@ export const coursesLessonData = [
       { ...coloursLessonThree },
       { ...coloursLessonFour },
       { ...coloursLessonFive },
+    ],
+  },
+  {
+    courseId: "actions",
+    lessons: [
+      { ...actionsLessonOne },
+      { ...actionsLessonTwo },
+      { ...actionsLessonThree },
+      { ...actionsLessonFour },
+      { ...actionsLessonFive },
     ],
   },
 ];

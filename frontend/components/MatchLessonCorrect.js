@@ -14,10 +14,17 @@ export function MatchLessonCorrect({
     setIsCorrect(false);
   });
   var correctData = {};
+  var sourcePrefix = "/shapes";
   if (correct.shape) {
     correctData = correct.shape;
   } else if (correct.colour) {
     correctData = correct.colour;
+  } else if (correct.action) {
+    correctData = correct.action[0];
+    sourcePrefix =
+      correctData.contentType === "video"
+        ? "/action-videos/"
+        : "/action-images/";
   }
   return (
     <div
@@ -32,15 +39,24 @@ export function MatchLessonCorrect({
       <div
         css={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
-        <img
-          src={`/shapes/${correctData.src}.png`}
-          css={{
-            filter: `hue-rotate(${correctData.hue}deg)`,
-            width: 250,
-            cursor: "pointer",
-          }}
-          draggable={false}
-        />
+        {correctData.contentType === "video" ? (
+          <video
+            src={`${sourcePrefix}${correctData.src}`}
+            css={{ width: 480 }}
+            controls={true}
+          />
+        ) : (
+          <img
+            src={`${sourcePrefix}${correctData.src}.png`}
+            css={{
+              filter: correctData.hue
+                ? `hue-rotate(${correctData.hue}deg)`
+                : null,
+              width: 250,
+            }}
+            draggable={false}
+          />
+        )}
         <GapHorizontal times={12} />
         <div css={{ display: "flex", flexDirection: "column" }}>
           <div css={{ fontFamily: "Poppins", fontSize: 48, fontWeight: 600 }}>
