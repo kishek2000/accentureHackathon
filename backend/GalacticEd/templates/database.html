@@ -7,12 +7,13 @@
         <form action="/api/test/db" method="POST">
             <button type="submit">Wipe users</button>
         </form>
+        <h2>USERS IN THE DATABASE:</h2>
         <ul>
             {% for user in users %}
                 <li>
-                    <div>
+                    <!-- <div>
                         <strong>ID:</strong> {{ user._id }}
-                    </div>
+                    </div> -->
                     <div>
                         <strong>Name:</strong> {{ user.name }}
                     </div>
@@ -21,6 +22,31 @@
                     </div>
                     <div>
                         <strong>Password:</strong> {{ user.password }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <hr />
+        <h2>COURSES IN THE DATABASE:</h2>
+        <ul>
+            {% for course in courses %}
+                <li>
+                    <div>
+                        <strong>Course ID/name:</strong> {{ course.courseId }}
+                    </div>
+                    <div>
+                        <strong>Lessons:</strong> {{ course.lessons }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <hr />
+        <h2>LESSONS IN THE DATABASE:</h2>
+        <ul>
+            {% for lesson in lessons %}
+                <li>
+                    <div>
+                        <strong>Lesson ID/name:</strong> {{ lesson.lessonId }}
                     </div>
                 </li>
             {% endfor %}

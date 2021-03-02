@@ -24,6 +24,42 @@ def insert(collection_name: str, document: Dict) -> str:
     insertion_result = db[collection_name].insert_one(document)
     return str(insertion_result.inserted_id)
 
+# ===== Courses Operations =====
+
+def get_all_courses() -> List:
+    """
+        Retrieves all courses from the current database instance.
+
+        Returns:
+            list: all courses and their associated lesson details
+    """
+    return [ course for course in db.courses.find() ]
+
+# ===== Lessons Operations =====
+
+def get_lesson(lesson_id: str) -> List:
+    """
+        Retrieves the lesson with the target lesson_id
+
+        Args:
+            lesson_id (str)
+        
+        Returns:
+            dict: mapped from the 'lesson' json document
+    """
+    lesson = db.lessons.find_one({ "lessonId": lesson_id })
+    # lesson_details = {
+    #     "_id": str(lesson[""]),
+    #     "course": ,
+    #     "lesson": ,
+    #     "prompt": ,
+    #     "questions": 
+    # }
+
+    return lesson
+
+# ===== User Operations =====
+
 def get_all_users() -> List[Dict]:
     """
         Fetches all users from the database
@@ -54,13 +90,14 @@ def wipe_all_users():
 
 def get_user(user_id: str) -> Dict: 
     """ 
-        Fetches the user with the given ID
+        Fetches the user with the given ID (the one that's assigned by MongoDB
+        under the hood)
 
         Args:
             user_id (str)
         
         Returns:
-            dict: of shape: { user_id, name, email }
+            dict: of shape: { _id, name, email, password }
     """
     target_user = db.users.find_one({"_id": user_id})
     details = {
@@ -74,6 +111,12 @@ def get_user(user_id: str) -> Dict:
 def get_user(email):
     """
         Fetches the user by email rather than user_id
+
+        Args:
+            email (str)
+
+        Returns:
+            dict: of shape: { _id, name, email, password }
     """
     target_user = db.users.find_one({"email": email})
     details = {
