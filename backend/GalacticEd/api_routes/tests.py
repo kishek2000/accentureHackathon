@@ -12,7 +12,8 @@ from flask import (
 from GalacticEd.database_ops import (
     get_all_users,
     wipe_all_users,
-    get_all_courses
+    get_courses_lessons,
+    get_courses_all
 )
 from GalacticEd.utils.colourisation import printColoured
 
@@ -29,11 +30,13 @@ def index():
 def db_users():
     """ Querying the database and displaying results """
     users = [ user for user in get_all_users() ]
-    courses = [ course for course in get_all_courses() ]
+    courses_lessons = [ course for course in get_courses_lessons() ]
+    courses_all = [ course for course in get_courses_all() ]
     return render_template(
         "database.html", 
         users=users,
-        courses=courses
+        courses_lessons=courses_lessons,
+        courses_all=courses_all
     )
 
 @test_router.route("/db", methods=["POST"])

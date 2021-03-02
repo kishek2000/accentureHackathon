@@ -26,14 +26,23 @@ def insert(collection_name: str, document: Dict) -> str:
 
 # ===== Courses Operations =====
 
-def get_all_courses() -> List:
+def get_courses_lessons() -> List:
+    """
+        Retrieves all courses from the current database instance.   # TODO clarify the different between this and the function below
+
+        Returns:
+            list: all courses and their associated lesson details
+    """
+    return [ course for course in db.courses_lessons.find() ]
+
+def get_courses_all() -> List:
     """
         Retrieves all courses from the current database instance.
 
         Returns:
             list: all courses and their associated lesson details
     """
-    return [ course for course in db.courses.find() ]
+    return [ course for course in db.courses_all.find() ]
 
 # ===== Lessons Operations =====
 

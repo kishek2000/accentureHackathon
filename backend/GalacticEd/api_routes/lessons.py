@@ -25,7 +25,6 @@ def get_lesson():
 
         Query parameters:
             lesson_id
-            lesson_level
 
         Returns:
             all_courses: 
@@ -34,11 +33,11 @@ def get_lesson():
                 where 'questions' is a json array with shape (for the 'shapes' course):
                     [ { shapes, correct } ]      
 
-        # TODO: IMPORTANT. I changed some of the fields. Review with Adi
+        # TODO: IMPORTANT. I changed some of the fields. Review with Adi. Should this route even being used?
         Sample return value:
             {
                 "lessonId": "shapes-level-1",
-                "level"
+                "level": "1",
                 "course": "shapes",
                 "lesson": "What's that Shape?",
                 "prompt": "Select the square in each question to pass!",
@@ -51,8 +50,8 @@ def get_lesson():
                 ]
             }
     """
-    return jsonify(get_lesson())
-
+    lesson_id = request.args.get("lesson_id")
+    return jsonify(get_lesson(lesson_id))
 
 """
     TODO

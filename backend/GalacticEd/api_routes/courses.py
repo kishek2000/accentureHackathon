@@ -8,15 +8,15 @@ from flask import (
     redirect,
     jsonify
 )
-import os
 from GalacticEd.models import User
 from GalacticEd.exceptions import InvalidUserInput
 from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.database_ops import (
-    get_all_courses
+    get_courses_lessons,
+    get_courses_all
 )
 
-courses_router = Blueprint("courses", __name__)
+courses_router = Blueprint("courses/lessons", __name__)
 
 @course_router.route("/courses", methods=["GET", "POST"])
 def courses_handler():
@@ -74,10 +74,62 @@ def courses_handler():
                         },
                         ...
                     ]
-                }
+                },
+                ...
             ];
     """
-    return jsonify(get_all_courses())
+    return jsonify(get_courses_lessons())
+
+@courses_router.route("/courses/all", methods=["GET"])
+def courses_all_handler():
+    """
+        Fetches all the available courses and details on what lesson levels
+        they contain.
+
+        Returns:
+            all_courses: 
+                json array with the shape: 
+                    [ { title, image, description, lessons }, ... ]
+                where 'lessons' is a json array with shape: 
+                    [ { _id, level, title, description } ]
+
+        Sample return value:
+            [
+                {
+                    "title": "shapes",
+                    "image": "/shapesHeader.png",
+                    "description": "Let's learn about the world of shapes!",
+                    "lessons": [
+                        {
+                            "id": "level-1",
+                            "level": "1",
+                            "title": "Identifying Shapes",
+                            "description": "Learn what shapes are called!"
+                        },
+                        {
+                            "id": "level-2",
+                            "level": "2",
+                            "title": "Matching Shapes",
+                            "description": "Choose the right shape, between two!"
+                        },
+                        {
+                            "id": "level-3",
+                            "level": "3",
+                            "title": "Matching Shapes",
+                            "description": "Choose the right shape, but this time with multiple other shapes!"
+                        },
+                        {
+                            "id": "level-4",
+                            "level": "4",
+                            "title": "Match Harder Shapes",
+                            "description": "Choose the right shape, among a few other shapes!"
+                        }
+                    ]
+                },
+                ...
+            ]
+    """
+    return jsonify(get_courses_all())
 
 
 """

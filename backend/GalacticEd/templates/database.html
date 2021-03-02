@@ -27,9 +27,9 @@
             {% endfor %}
         </ul>
         <hr />
-        <h2>COURSES IN THE DATABASE:</h2>
+        <h2>COURSES IN THE DATABASE (LESSONS VERSION):</h2>
         <ul>
-            {% for course in courses %}
+            {% for course in courses_lessons %}
                 <li>
                     <div>
                         <strong>Course ID/name:</strong> {{ course.courseId }}
@@ -41,12 +41,15 @@
             {% endfor %}
         </ul>
         <hr />
-        <h2>LESSONS IN THE DATABASE:</h2>
+        <h2>COURSES IN THE DATABASE (ALL VERSION):</h2>
         <ul>
-            {% for lesson in lessons %}
+            {% for course in courses_all %}
                 <li>
                     <div>
-                        <strong>Lesson ID/name:</strong> {{ lesson.lessonId }}
+                        <strong>Course ID/name:</strong> {{ course.title }}
+                    </div>
+                    <div>
+                        <strong>The whole document: </strong>{{ course }}
                     </div>
                 </li>
             {% endfor %}
