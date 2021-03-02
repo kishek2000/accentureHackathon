@@ -13,6 +13,20 @@ import {
   coloursLessonTwo,
 } from "./lessons/colours";
 import {
+  emotionsLessonFive,
+  emotionsLessonFour,
+  emotionsLessonOne,
+  emotionsLessonThree,
+  emotionsLessonTwo,
+} from "./lessons/emotions";
+import {
+  objectsLessonFive,
+  objectsLessonFour,
+  objectsLessonOne,
+  objectsLessonThree,
+  objectsLessonTwo,
+} from "./lessons/objects";
+import {
   shapesLessonOne,
   shapesLessonTwo,
   shapesLessonThree,
@@ -47,6 +61,26 @@ export const coursesLessonData = [
       { ...actionsLessonThree },
       { ...actionsLessonFour },
       { ...actionsLessonFive },
+    ],
+  },
+  {
+    courseId: "objects",
+    lessons: [
+      { ...objectsLessonOne },
+      { ...objectsLessonTwo },
+      { ...objectsLessonThree },
+      { ...objectsLessonFour },
+      { ...objectsLessonFive },
+    ],
+  },
+  {
+    courseId: "emotions",
+    lessons: [
+      { ...emotionsLessonOne },
+      { ...emotionsLessonTwo },
+      { ...emotionsLessonThree },
+      { ...emotionsLessonFour },
+      { ...emotionsLessonFive },
     ],
   },
 ];

@@ -1,37 +1,41 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 import { useCallback } from "react";
-import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
+import { GapHorizontal } from "./GapHorizontal";
+import { MultiMatchQuestionChoiceGrid } from "./MultiMatchQuestionChoiceGrid";
 
-export function MatchLesson({ questionData, setIsCorrect, questionTitle }) {
+export function MultiMatchLesson({
+  setIsCorrect,
+  questionData,
+  questionTitle,
+}) {
   if (questionData) {
-    var dataMap = [];
+    var prompt = null;
     var correctMap = [];
-    var mediaPrefix = "/shapes/";
-    if (questionData.shapes) {
-      dataMap = questionData.shapes;
-      correctMap = questionData.correct.shape;
-    } else if (questionData.colours) {
-      dataMap = questionData.colours;
-      correctMap = questionData.correct.colour;
-    } else if (questionData.objects) {
-      mediaPrefix = "/object-images/";
-      dataMap = questionData.objects;
-      correctMap = questionData.correct.object;
+    var mediaPrefix;
+    if (questionData.actions) {
+      prompt = questionData.actions[0];
+      correctMap = questionData.correct.action[0];
+      mediaPrefix =
+        questionData.contentType === "video"
+          ? "/action-videos/"
+          : "/action-images/";
     } else if (questionData.emotions) {
-      mediaPrefix = "/emotion-images/";
-      dataMap = questionData.emotions[0];
+      prompt = questionData.emotions[0];
       correctMap = questionData.correct.emotion[0];
+      mediaPrefix = "/emotion-images/";
     } else {
       return null;
     }
+
     const handleMatchSelection = useCallback((selection, correctSelection) => {
+      console.log(selection, correctSelection);
       if (selection === correctSelection) {
         setIsCorrect(true);
       }
     });
-    const places = ["20%", "35%", "50%", "65%", "80%"];
+
     return (
       <div
         css={{
@@ -39,6 +43,7 @@ export function MatchLesson({ questionData, setIsCorrect, questionTitle }) {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          height: "85vh",
         }}
       >
         <GapVertical times={24} />
@@ -61,11 +66,6 @@ export function MatchLesson({ questionData, setIsCorrect, questionTitle }) {
           <GapHorizontal times={3} />
           <div css={{ fontFamily: "Poppins", fontSize: 28, fontWeight: 400 }}>
             {questionTitle}
-            <strong
-              css={{ fontFamily: "Poppins", fontSize: 28, fontWeight: 700 }}
-            >
-              {correctMap.title + "."}
-            </strong>
           </div>
         </div>
         <GapVertical times={15} />
@@ -73,35 +73,35 @@ export function MatchLesson({ questionData, setIsCorrect, questionTitle }) {
           css={{
             display: "flex",
             flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
             position: "relative",
             width: "100%",
-            height: "60vh",
           }}
         >
-          {dataMap.map((media) => (
-            <div
-              css={{
-                position: "absolute",
-                top: `${
-                  places.splice(Math.floor(Math.random() * places.length), 1)[0]
-                }`,
-                left: `${
-                  places.splice(Math.floor(Math.random() * places.length), 1)[0]
-                }`,
-              }}
-            >
+          <div>
+            {prompt.contentType === "video" ? (
+              <video
+                src={`${mediaPrefix}${prompt.src}`}
+                css={{ width: 500 }}
+                controls={true}
+              />
+            ) : (
               <img
-                src={`${mediaPrefix}${media.src}.png`}
+                src={`${mediaPrefix}${prompt.src}.png`}
                 css={{
-                  filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
-                  cursor: "pointer",
-                  width: 300,
+                  width: 400,
                 }}
                 draggable={false}
-                onClick={() => handleMatchSelection(media.src, correctMap.src)}
               />
-            </div>
-          ))}
+            )}
+          </div>
+          <GapVertical times={12} />
+          <MultiMatchQuestionChoiceGrid
+            questionData={questionData}
+            handleMatchSelection={handleMatchSelection}
+            correctMap={correctMap}
+          />
         </div>
       </div>
     );

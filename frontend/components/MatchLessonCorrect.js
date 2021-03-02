@@ -25,6 +25,14 @@ export function MatchLessonCorrect({
       correctData.contentType === "video"
         ? "/action-videos/"
         : "/action-images/";
+  } else if (correct.object) {
+    sourcePrefix = "/object-images/";
+    correctData = correct.object;
+  } else if (correct.emotion) {
+    sourcePrefix = "/emotion-images/";
+    correctData = correct.emotion[0];
+  } else {
+    return null;
   }
   return (
     <div
@@ -52,7 +60,9 @@ export function MatchLessonCorrect({
               filter: correctData.hue
                 ? `hue-rotate(${correctData.hue}deg)`
                 : null,
-              width: 250,
+              minHeight: 250,
+              minWidth: 250,
+              maxWidth: 400,
             }}
             draggable={false}
           />
@@ -86,7 +96,8 @@ export function MatchLessonCorrect({
               <strong
                 css={{ fontFamily: "Poppins", fontSize: 20, fontWeight: 700 }}
               >
-                {correctData.title + "!"}
+                {correctData.title +
+                  correct.commentTitle[correct.commentTitle.length - 1]}
               </strong>
             </div>
           </div>

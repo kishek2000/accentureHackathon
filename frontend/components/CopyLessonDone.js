@@ -64,7 +64,8 @@ export function CopyLessonDone({ correct, handleNextQuestion, setIsDone }) {
               <strong
                 css={{ fontFamily: "Poppins", fontSize: 20, fontWeight: 700 }}
               >
-                {correctData.title + "!"}
+                {correctData.title +
+                  correct.commentTitle[correct.commentTitle.length - 1]}
               </strong>
             </div>
           </div>

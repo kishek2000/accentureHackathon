@@ -162,15 +162,15 @@ export const allCourseData = [
       {
         id: "level-4",
         level: "4",
-        title: "Describing Objects",
-        description:
-          "Given a simple description of an object, select the correct image!",
+        title: "Harder Objects",
+        description: "Identify a larger range of everyday objects!",
       },
       {
         id: "level-5",
         level: "5",
-        title: "Complex Objects",
-        description: "Identify a larger range of everyday objects!",
+        title: "Describing Objects",
+        description:
+          "Given a simple description of an object, select the correct image!",
       },
     ],
   },
