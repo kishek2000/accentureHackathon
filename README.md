@@ -46,9 +46,6 @@ https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0
 <!-- #### Lessons:
 The JSON formats here specify the schema for MongoDB documents.
 
-#### Lessons:
-These lessons are stored under the `lessons` collection on the MongoDB instance
-
 Sample:
 ```
 {
