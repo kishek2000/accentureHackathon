@@ -8,12 +8,21 @@ export function MatchLesson({ questionData, setIsCorrect, questionTitle }) {
   if (questionData) {
     var dataMap = [];
     var correctMap = [];
+    var mediaPrefix = "/shapes/";
     if (questionData.shapes) {
       dataMap = questionData.shapes;
       correctMap = questionData.correct.shape;
     } else if (questionData.colours) {
       dataMap = questionData.colours;
       correctMap = questionData.correct.colour;
+    } else if (questionData.objects) {
+      mediaPrefix = "/object-images/";
+      dataMap = questionData.objects;
+      correctMap = questionData.correct.object;
+    } else if (questionData.emotions) {
+      mediaPrefix = "/emotion-images/";
+      dataMap = questionData.emotions[0];
+      correctMap = questionData.correct.emotion[0];
     } else {
       return null;
     }
@@ -69,7 +78,7 @@ export function MatchLesson({ questionData, setIsCorrect, questionTitle }) {
             height: "60vh",
           }}
         >
-          {dataMap.map((shape) => (
+          {dataMap.map((media) => (
             <div
               css={{
                 position: "absolute",
@@ -82,14 +91,14 @@ export function MatchLesson({ questionData, setIsCorrect, questionTitle }) {
               }}
             >
               <img
-                src={`/shapes/${shape.src}.png`}
+                src={`${mediaPrefix}${media.src}.png`}
                 css={{
-                  filter: `hue-rotate(${shape.hue}deg)`,
+                  filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
                   cursor: "pointer",
                   width: 300,
                 }}
                 draggable={false}
-                onClick={() => handleMatchSelection(shape.src, correctMap.src)}
+                onClick={() => handleMatchSelection(media.src, correctMap.src)}
               />
             </div>
           ))}

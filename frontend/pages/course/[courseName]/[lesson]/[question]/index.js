@@ -2,20 +2,22 @@
 import { jsx, css } from "@emotion/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { coursesLessonData } from "../../../../../store/lessonData";
+
 import { getCourseLessonData } from "../../../../../components/getCourseLessonData";
 import { IdentifyLessonCorrect } from "../../../../../components/IdentifyLessonCorrect";
 import { IdentifyLesson } from "../../../../../components/IdentifyLesson";
 import { MatchLesson } from "../../../../../components/MatchLesson";
 import { MatchLessonCorrect } from "../../../../../components/MatchLessonCorrect";
+import { CopyLesson } from "../../../../../components/CopyLesson";
+import { CopyLessonDone } from "../../../../../components/CopyLessonDone";
+import { MultiMatchLesson } from "../../../../../components/MultiMatchLesson";
 
 export default function Question() {
   const router = useRouter();
   const { courseName, lesson, question } = router.query;
 
   if (courseName && lesson && question) {
-    const [currQuestion, setCurrQuestion] = useState(question);
-    console.log(courseName, coursesLessonData);
+    const [currQuestion, setCurrQuestion] = useState(Number(question));
 
     const lessonData = getCourseLessonData(courseName, lesson);
     const totalQuestions = lessonData.questions.length;
@@ -31,15 +33,18 @@ export default function Question() {
 
     useEffect(() => {
       if (currQuestion === -1) {
+        console.log("returning to course");
         router.push(`/course/${courseName}`);
       } else {
         router.push(`/course/${courseName}/${lesson}/${currQuestion}`);
       }
     }, [currQuestion]);
+    const [revealItem, setRevealItem] = useState(false);
+    const [isCorrect, setIsCorrect] = useState(false);
+    const [isDone, setIsDone] = useState(false);
 
     switch (lessonData.lessonType) {
       case "identify":
-        const [revealItem, setRevealItem] = useState(false);
         return revealItem ? (
           <IdentifyLessonCorrect
             setRevealItem={setRevealItem}
@@ -53,7 +58,6 @@ export default function Question() {
           />
         );
       case "match":
-        const [isCorrect, setIsCorrect] = useState(false);
         return isCorrect ? (
           <MatchLessonCorrect
             setIsCorrect={setIsCorrect}
@@ -62,6 +66,34 @@ export default function Question() {
           />
         ) : (
           <MatchLesson
+            setIsCorrect={setIsCorrect}
+            questionData={questionData}
+            questionTitle={lessonData.questionTitle}
+          />
+        );
+      case "copy":
+        return isDone ? (
+          <CopyLessonDone
+            setIsDone={setIsDone}
+            correct={questionData.correct}
+            handleNextQuestion={handleNextQuestion}
+          />
+        ) : (
+          <CopyLesson
+            setIsDone={setIsDone}
+            questionData={questionData}
+            questionTitle={lessonData.questionTitle}
+          />
+        );
+      case "multi-match":
+        return isCorrect ? (
+          <MatchLessonCorrect
+            setIsCorrect={setIsCorrect}
+            correct={questionData.correct}
+            handleNextQuestion={handleNextQuestion}
+          />
+        ) : (
+          <MultiMatchLesson
             setIsCorrect={setIsCorrect}
             questionData={questionData}
             questionTitle={lessonData.questionTitle}

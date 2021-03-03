@@ -4,7 +4,6 @@ export const coloursLessonOne = {
   lessonTitle: "What's that colour?",
   lessonType: "identify",
   prompt: "Tap on the colour to discover what it is!",
-  questionTitle: "Select ",
   questions: [
     {
       colours: [{ src: "square", title: "Red", hue: 0 }],

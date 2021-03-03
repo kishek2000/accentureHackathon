@@ -15,10 +15,19 @@ export function IdentifyLessonCorrect({
   });
 
   var correctData = {};
+  var mediaPrefix = "/shapes/";
   if (correct.shape) {
     correctData = correct.shape;
   } else if (correct.colour) {
     correctData = correct.colour;
+  } else if (correct.object) {
+    correctData = correct.object;
+    mediaPrefix = "/object-images/";
+  } else if (correct.emotion) {
+    correctData = correct.emotion;
+    mediaPrefix = "/emotion-images/";
+  } else {
+    return null;
   }
   return (
     <div
@@ -34,10 +43,14 @@ export function IdentifyLessonCorrect({
         css={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
         <img
-          src={`/shapes/${correctData.src}.png`}
+          src={`${mediaPrefix}${correctData.src}.png`}
           css={{
-            filter: `hue-rotate(${correctData.hue}deg)`,
-            width: 250,
+            filter: correctData.hue
+              ? `hue-rotate(${correctData.hue}deg)`
+              : null,
+            minHeight: 200,
+            minWidth: 250,
+            maxWidth: 400,
             cursor: "pointer",
           }}
           draggable={false}
@@ -71,7 +84,8 @@ export function IdentifyLessonCorrect({
               <strong
                 css={{ fontFamily: "Poppins", fontSize: 20, fontWeight: 700 }}
               >
-                {correctData.title + "!"}
+                {correctData.title +
+                  correct.commentTitle[correct.commentTitle.length - 1]}
               </strong>
             </div>
           </div>
