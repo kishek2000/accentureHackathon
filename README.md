@@ -37,7 +37,10 @@ To see it in action in our presentation, you can watch this <a href="https://www
 
 
 ### JSON Formats/Document Schema:
-The JSON formats here specify the schema for MongoDB documents.
+The JSON formats here specify the schema for the MongoDB documents AND what the data structures exchanged between frontend and backend look like.
+
+https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0
+
 
 #### Lessons:
 These lessons are stored under the `lessons` collection on the MongoDB instance
