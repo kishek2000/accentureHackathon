@@ -1,20 +1,30 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import { courses } from "../store/courses";
-import { DashboardWindow } from "../components/DashboardWindow";
+
+import { GapHorizontal } from "../components/GapHorizontal";
+import { useState } from "react";
+import { Screen } from "../screens/Screen";
+import { MenuPanel } from "../components/MenuPanel";
 
 export default function Dashboard() {
+  const [selectedScreen, setSelectedScreen] = useState("dashboard");
+  const [course, setCourse] = useState();
+
   return (
     <main
       css={{
         display: "flex",
-        flexDirection: "column",
-        // height: "100vh",
+        flexDirection: "row",
         background:
-          "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(237,237,237,1) 50%, rgba(255,255,255,1) 100%)",
+          "radial-gradient(100.31% 100.31% at 100% 100.82%, rgba(255, 255, 255, 0.91) 0%, #F7F7F7 100%)",
       }}
     >
-      <DashboardWindow courseList={courses.courses} />
+      <MenuPanel
+        selectedScreen={selectedScreen}
+        setSelectedScreen={setSelectedScreen}
+      />
+      <GapHorizontal times={15} />
+      <Screen selectedScreen={selectedScreen} />
     </main>
   );
 }

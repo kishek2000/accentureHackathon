@@ -23,11 +23,15 @@ def login(email: str, password: str) -> Dict[str, str]:
     """
     if not is_email_valid(email):
         raise InvalidUserInput(description="{} is not a valid email".format(email))
-    if not password_verified(email, password):
-        raise InvalidUserInput(description="The password doesn't match the provided email")
     
     printColoured(" ➤ Logged in successfully: {}".format(email))
     user = get_user(email=email)
+    if user == None:
+        raise InvalidUserInput("That email does not belong to any user!")
+
+    if not password_verified(email, password):
+        raise InvalidUserInput(description="The password doesn't match the provided email")
+
     token = generate_token({
         "user_id": user["_id"],
         "email": email
@@ -35,7 +39,7 @@ def login(email: str, password: str) -> Dict[str, str]:
 
     return {
         "token": token,
-        "user_id": user.id
+        "user_id": user["_id"]
     }
 
 def register(username: str, email: str, password: str) -> Dict[str, str]:
@@ -55,12 +59,12 @@ def register(username: str, email: str, password: str) -> Dict[str, str]:
 
     printColoured(" ➤ Registered a user with details: name: {}, email: {}".format(username, email))
     token = generate_token({
-        "user_id": new_user.id,
+        "user_id": new_user._id,
         "email": email
     })
 
     return {
-        "user_id": new_user.id,
+        "user_id": new_user._id,
         "token": token
     }
 

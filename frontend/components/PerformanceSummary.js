@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import { topicAnalytics } from "../store/data";
+import { topicAnalytics } from "../store/topicAnalytics";
 import React, { useState } from "react";
 import "./PerformanceSummary.module.css";
 import {

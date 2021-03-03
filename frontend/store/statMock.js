@@ -1,25 +1,12 @@
-export const stats = {
-  global: {},
-  courses: [
-    {
-      courseName: "shapes",
-      lessons: [
-        {
-          "The Square": [
-            {
-              questions: [
-                [
-                  {
-                    misses: 0,
-                    startTime: 23453245,
-                    endTime: 23452345,
-                  },
-                ],
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+const stats = {
+  lessonId: "shapes-lvl-1",
+  lessonName: "What's that Shape?",
+  questions: [
+      {
+          questionId: "square",
+          incorrectClicks: 12,
+          startTime: "sometimestring",
+          endTime: "endtimestring",
+      }.
+  ]
+}

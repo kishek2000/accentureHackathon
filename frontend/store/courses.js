@@ -12,13 +12,18 @@ export const courses = {
     },
     {
       title: "Actions",
-      thumbnail: "shapesThumbnail.png",
+      thumbnail: "actionsThumbnail.png",
       id: "actions01",
     },
     {
       title: "Objects",
-      thumbnail: "coloursThumbnail.png",
+      thumbnail: "objectsThumbnail.png",
       id: "objects01",
+    },
+    {
+      title: "Emotions",
+      thumbnail: "emotionsThumbnail.png",
+      id: "emotions01",
     },
   ],
 };
@@ -26,149 +31,183 @@ export const courses = {
 export const allCourseData = [
   {
     title: "shapes",
-    image: "/shapeHeader.png",
+    image: "/shapesHeader.png",
     description: "Let's learn about the world of shapes!",
     lessons: [
       {
-        title: "The Square",
-        background:
-          "linear-gradient(198.46deg, #D2FFE2 12.51%, #99FFBC 79.66%)",
-        points: 12,
-        difficulty: 2,
-        recommendedValue: 0.87,
+        id: "level-1",
+        level: "1",
+        title: "Identifying Shapes",
+        description: "Learn what shapes are called!",
       },
       {
-        title: "The Circle",
-        background:
-          "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
-        points: 12,
-        difficulty: 2,
-        recommendedValue: 0.8,
+        id: "level-2",
+        level: "2",
+        title: "Matching Shapes",
+        description: "Choose the right shape, between two!",
       },
       {
-        title: "The Triangle",
-        background:
-          "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
-        points: 12,
-        difficulty: 2,
-        recommendedValue: 0.76,
+        id: "level-3",
+        level: "3",
+        title: "Matching Shapes",
+        description:
+          "Choose the right shape, but this time with multiple other shapes!",
       },
       {
-        title: "The Star",
-        background:
-          "linear-gradient(198.46deg, #FFD2D2 12.51%, #FF9999 79.66%)",
-        points: 20,
-        difficulty: 3,
-        recommendedValue: 0.58,
-      },
-      {
-        title: "The Ellipse",
-        background:
-          "linear-gradient(198.46deg, #DDF2D2 12.51%, #AAFF99 79.66%)",
-        points: 30,
-        difficulty: 4,
-        recommendedValue: 0.26,
-      },
-      {
-        title: "The Rhombus",
-        background:
-          "linear-gradient(198.46deg, #DDF2D2 12.51%, #AAFF99 79.66%)",
-        points: 50,
-        difficulty: 5,
-        recommendedValue: 0.11,
+        id: "level-4",
+        level: "4",
+        title: "Match Harder Shapes",
+        description: "Choose the right shape, among a few other shapes!",
       },
     ],
   },
   {
     title: "colours",
-    image: "/colourHeader.png",
+    image: "/coloursHeader.png",
     description: "Let's learn about the world of colours!",
     lessons: [
       {
-        title: "Green",
-        background:
-          "linear-gradient(198.46deg, #D2FFE2 12.51%, #99FFBC 79.66%)",
-        difficulty: 2,
-        recommendedValue: 0.87,
-        points: 12,
+        id: "level-1",
+        level: "1",
+        title: "Identifying Colours",
+        description: "Let's learn what these colours are called!",
       },
       {
-        title: "Orange",
-        background:
-          "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
-        difficulty: 3,
-        recommendedValue: 0.77,
-        points: 20,
+        id: "level-2",
+        level: "2",
+        title: "Matching Colours",
+        description: "Choose the right colour, between two!",
       },
       {
-        title: "Blue",
-        background:
-          "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
-        difficulty: 4,
-        recommendedValue: 0.67,
-        points: 30,
+        id: "level-3",
+        level: "3",
+        title: "Matching Colours",
+        description:
+          "Choose the right colour, but this time with multiple other colours!",
+      },
+      {
+        id: "level-4",
+        level: "4",
+        title: "Match Harder Colours",
+        description: "Choose the right colour, among a few other colours!",
+      },
+      {
+        id: "level-5",
+        level: "5",
+        title: "Multiple Hard Colours",
+        description: "Choose the right colour, among multiple other colours!",
       },
     ],
   },
   {
     title: "actions",
-    image: "/shapeHeader.png",
+    image: "/actionsHeader.png",
     description: "Let's learn about the world of actions!",
     lessons: [
       {
-        title: "Drinking",
-        background:
-          "linear-gradient(198.46deg, #D2FFE2 12.51%, #99FFBC 79.66%)",
-        difficulty: 2,
-        recommendedValue: 0.87,
-        points: 12,
+        id: "level-1",
+        level: "1",
+        title: "Copying Actions",
+        description: "Copy the action on screen!",
       },
       {
-        title: "Running",
-        background:
-          "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
-        difficulty: 3,
-        recommendedValue: 0.77,
-        points: 20,
+        id: "level-2",
+        level: "2",
+        title: "Harder Actions",
+        description: "Copy more complicated actions!",
       },
       {
-        title: "Walking",
-        background:
-          "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
-        difficulty: 4,
-        recommendedValue: 0.67,
-        points: 30,
+        id: "level-3",
+        level: "3",
+        title: "Identifying Actions",
+        description: "Identify actions being performed!",
+      },
+      {
+        id: "level-4",
+        level: "4",
+        title: "Verbal Directions",
+        description: "Perform actions on verbal cues!",
+      },
+      {
+        id: "level-5",
+        level: "5",
+        title: "Harder Verbal Directions",
+        description: "Perform more complicated actions on verbal cues!",
       },
     ],
   },
   {
     title: "objects",
-    image: "/colourHeader.png",
+    image: "/objectsHeader.png",
     description: "Let's learn about the world of colours!",
     lessons: [
       {
-        title: "Boxes",
-        background:
-          "linear-gradient(198.46deg, #D2FFE2 12.51%, #99FFBC 79.66%)",
-        difficulty: 2,
-        recommendedValue: 0.87,
-        points: 12,
+        id: "level-1",
+        level: "1",
+        title: "Everyday Objects",
+        description: "Learn what single everyday objects are called!",
       },
       {
-        title: "Cups",
-        background:
-          "linear-gradient(198.46deg, #FFDDD2 12.51%, #FFD099 79.66%)",
-        difficulty: 3,
-        recommendedValue: 0.77,
-        points: 20,
+        id: "level-2",
+        level: "2",
+        title: "More Objects",
+        description: "Recognise more everyday objects!",
       },
       {
-        title: "Tables",
-        background:
-          "linear-gradient(198.46deg, #D2EFFF 12.51%, #99CEFF 79.66%)",
-        difficulty: 5,
-        recommendedValue: 0.27,
-        points: 30,
+        id: "level-3",
+        level: "3",
+        title: "Object Identification",
+        description: "Given a label, select the correct image of the object!",
+      },
+      {
+        id: "level-4",
+        level: "4",
+        title: "Harder Objects",
+        description: "Identify a larger range of everyday objects!",
+      },
+      {
+        id: "level-5",
+        level: "5",
+        title: "Describing Objects",
+        description:
+          "Given a simple description of an object, select the correct image!",
+      },
+    ],
+  },
+  {
+    title: "emotions",
+    image: "/emotionsHeader.png",
+    description: "Connecting with the intimate world of emotions.",
+    lessons: [
+      {
+        id: "level-1",
+        level: "1",
+        title: "What is this emotion?",
+        description: "Learn how simple emotions look on people!",
+      },
+      {
+        id: "level-2",
+        level: "2",
+        title: "What is this emotion?",
+        description: "Learn how more emotions look on people!",
+      },
+      {
+        id: "level-3",
+        level: "3",
+        title: "Recognise the emotion",
+        description: "Recognise the emotion of each person!",
+      },
+      {
+        id: "level-4",
+        level: "4",
+        title: "Learn harder emotions",
+        description: "Learn how more complicated emotions look on people!",
+      },
+      {
+        id: "level-5",
+        level: "5",
+        title: "Recognise harder emotions",
+        description: "Recognise more complicated emotions from each face!",
       },
     ],
   },

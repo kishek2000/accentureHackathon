@@ -109,6 +109,8 @@ def get_user(user_id: str) -> Dict:
             dict: of shape: { _id, name, email, password }
     """
     target_user = db.users.find_one({"_id": user_id})
+    if target_user == None:
+        return None
     details = {
         "_id": str(target_user["_id"]),
         "name": target_user["name"],
@@ -128,6 +130,8 @@ def get_user(email):
             dict: of shape: { _id, name, email, password }
     """
     target_user = db.users.find_one({"email": email})
+    if target_user == None:
+        return None
     details = {
         "_id": str(target_user["_id"]),
         "name": target_user["name"],
@@ -142,5 +146,7 @@ def password_verified(email, password):
         hashed password stored in the database 
     """
     user = get_user(email)
+    if user == None:
+        return False
     # TODO: need to hash passwords
     return user["password"] == password

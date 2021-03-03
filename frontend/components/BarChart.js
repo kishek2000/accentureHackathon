@@ -2,7 +2,7 @@
 import { jsx, css } from "@emotion/react";
 import React from "react";
 import { HorizontalBar } from "react-chartjs-2";
-import { topicAnalytics } from "../store/data";
+import { topicAnalytics } from "../store/topicAnalytics";
 import { GapVertical } from "./GapVertical";
 
 let thisWeekTimes = [];
@@ -92,15 +92,17 @@ const BarChart = ({ timeResolution }) => {
       css={{
         display: "flex",
         flexDirection: "column",
-        // width: "50%",
       }}
     >
-      <GapVertical times={8} />
-      <div css={{ fontFamily: "Poppins", fontSize: 24, fontWeight: 400 }}>
-        Time Spent
+      <div
+        css={{
+          background: "white",
+          borderRadius: 16,
+          padding: 24,
+        }}
+      >
+        <HorizontalBar data={data} options={options} />
       </div>
-      <GapVertical times={4} />
-      <HorizontalBar data={data} options={options} />
     </div>
   );
 };

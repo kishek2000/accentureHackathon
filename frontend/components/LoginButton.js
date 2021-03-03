@@ -23,7 +23,7 @@ export function LoginButton() {
         backgroundColor: "#0500FF",
         width: 126,
         height: 34,
-        borderRadius: 36,
+        borderRadius: 16,
         fontFamily: "Poppins",
         color: "white",
         fontWeight: 600,
@@ -31,7 +31,7 @@ export function LoginButton() {
       }}
       onClick={handleLogin}
     >
-      LOGIN
+      SIGN IN
     </div>
   );
 }

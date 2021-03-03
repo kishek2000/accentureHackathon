@@ -1,4 +1,3 @@
--   Put `export FLASK_APP=galactic-ed` and `export GALACTIC_ED_DEV_MODE=true` in `~/.bashrc` to avoid having to set these environment variables each time
 -   Follow <a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">instructions here</a> to set up MongoDB locally
     -   Create a database instance called `GalacticEd`
 
@@ -29,20 +28,13 @@ The `Flask` object must be created in `__init__.py`. Doing this ensures each mod
 ### Setup Instructions:
 
 ```
-# Setting environment variables
-export FLASK_APP=galactic-ed
-export GALACTIC_ED_DEV_MODE=true
-
-# Enables Flask's debug features such as live reloading when starting the server with Flask run
-export FLASK_ENV=development
-
 # Installing dependencies
 pip install -e .
 
 # Starting the server:
-flask run
-# Or run:
-python3 start.py
+# Run (Mac, Linux): (will export the environment variables for you)
+sh run.sh
+# If on windows, you will need be in powershell to use run.sh
 ```
 
 ### Structuring a Large Flask Application:

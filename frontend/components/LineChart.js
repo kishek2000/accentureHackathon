@@ -3,7 +3,7 @@ import { jsx, css } from "@emotion/react";
 
 import React from "react";
 import { Line } from "@reactchartjs/react-chart.js";
-import { topicAnalytics } from "../store/data";
+import { topicAnalytics } from "../store/topicAnalytics";
 import { GapVertical } from "./GapVertical";
 
 const uppercaseAll = (text) => {
@@ -86,7 +86,7 @@ const LineChart = ({ category, timeResolution }) => {
           break;
       }
       return {
-        label: `Proficiency in '${eachTopic.label}'`,
+        label: `${eachTopic.label}`,
         data: datapoints,
         fill: false,
         hidden: !(
@@ -131,15 +131,19 @@ const LineChart = ({ category, timeResolution }) => {
       css={{
         display: "flex",
         flexDirection: "column",
-        // width: "50%",
+        width: "100%",
       }}
     >
       <GapVertical times={4} />
-      <div css={{ fontFamily: "Poppins", fontSize: 24, fontWeight: 400 }}>
-        Categorical Proficiency
+      <div
+        css={{
+          background: "white",
+          borderRadius: 16,
+          padding: 24,
+        }}
+      >
+        <Line data={data} options={options} />
       </div>
-      <GapVertical times={4} />
-      <Line data={data} options={options} />
     </div>
   );
 };

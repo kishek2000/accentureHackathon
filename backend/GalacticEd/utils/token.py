@@ -20,5 +20,5 @@ def generate_token(user_data: Dict[str, str]) -> str:
         "user_id": user_data["user_id"],
         "email": user_data["email"],
     }
-    web_token = jwt.encode(payload, "TEMP SECRET", algorithm="HS256")
+    web_token = jwt.encode(payload, "TEMP SECRET", algorithm="HS256")     # TODO: Add env secret
     return web_token
