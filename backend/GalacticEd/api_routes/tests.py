@@ -30,8 +30,9 @@ def index():
 def db_users():
     """ Querying the database and displaying results """
     users = [ user for user in get_all_users() ]
-    courses_lessons = [ course for course in get_courses_lessons() ]
+    courses_lessons = get_courses_lessons()
     courses_all = [ course for course in get_courses_all() ]
+    printColoured(courses_lessons)
     return render_template(
         "database.html", 
         users=users,

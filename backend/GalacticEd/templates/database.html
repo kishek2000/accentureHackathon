@@ -29,16 +29,7 @@
         <hr />
         <h2>COURSES IN THE DATABASE (LESSONS VERSION):</h2>
         <ul>
-            {% for course in courses_lessons %}
-                <li>
-                    <div>
-                        <strong>Course ID/name:</strong> {{ course.courseId }}
-                    </div>
-                    <div>
-                        <strong>Lessons:</strong> {{ course.lessons }}
-                    </div>
-                </li>
-            {% endfor %}
+            {{ courses_lessons }}
         </ul>
         <hr />
         <h2>COURSES IN THE DATABASE (ALL VERSION):</h2>

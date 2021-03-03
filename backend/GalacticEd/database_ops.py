@@ -8,6 +8,22 @@ from typing import (
     Dict, 
     List
 )
+import json
+from bson import ObjectId
+
+class JSONEncoder(json.JSONEncoder):
+    """
+        Given a document retrieved from the database, returns a JSON
+        serialisable version.
+            Eg.
+                results = db.sample.find() 
+                json_compatible_results = JSONEncoder().encode(results)
+    """
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
 
 def insert(collection_name: str, document: Dict) -> str:
     """ 
@@ -33,7 +49,9 @@ def get_courses_lessons() -> List:
         Returns:
             list: all courses and their associated lesson details
     """
-    return [ course for course in db.courses_lessons.find() ]
+    courses = db.courses_lessons.find_one()
+    courses["_id"] = str(courses["_id"])
+    return courses
 
 def get_courses_all() -> List:
     """
@@ -42,7 +60,11 @@ def get_courses_all() -> List:
         Returns:
             list: all courses and their associated lesson details
     """
-    return [ course for course in db.courses_all.find() ]
+    courses = [ course for course in db.courses_all.find() ]
+    for each_course in courses:
+        each_course["_id"] = str(each_course["_id"])
+    return courses
+
 
 # ===== Lessons Operations =====
 
@@ -57,15 +79,18 @@ def get_lesson(lesson_id: str) -> List:
             dict: mapped from the 'lesson' json document
     """
     lesson = db.lessons.find_one({ "lessonId": lesson_id })
-    # lesson_details = {
-    #     "_id": str(lesson[""]),
-    #     "course": ,
-    #     "lesson": ,
-    #     "prompt": ,
-    #     "questions": 
-    # }
-
+    lesson["_id"] = str(lesson["_id"])
     return lesson
+
+# ===== Statistics Operations =====
+
+def get_stats(user_id: str):
+    """
+        TODO
+    """
+    stats = db.stats.find_one({ "user_id": user_id })
+    stats["_id"] = str(stats["_id"])
+    return stats
 
 # ===== User Operations =====
 
