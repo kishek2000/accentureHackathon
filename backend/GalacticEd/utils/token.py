@@ -20,7 +20,5 @@ def generate_token(user_data: Dict[str, str]) -> str:
         "user_id": user_data["user_id"],
         "email": user_data["email"],
     }
-    printColoured("!!!!!!!!!! {} {}".format(payload["user_id"], payload["email"]))
-    printColoured("{} {}".format(type(payload["user_id"]), type(payload["email"])))
-    web_token = jwt.encode(payload, "ASS", algorithm="HS256")
+    web_token = jwt.encode(payload, "TEMP SECRET", algorithm="HS256")
     return web_token
