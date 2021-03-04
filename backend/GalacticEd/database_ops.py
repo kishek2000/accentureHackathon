@@ -65,6 +65,14 @@ def get_courses_all() -> List:
         each_course["_id"] = str(each_course["_id"])
     return courses
 
+def get_courses_full():
+    """
+        Retrieves all courses with MAXIMAL AMOUNT OF DETAIL
+    """
+    courses = [ course for course in db.courses_full.find() ]
+    for each_course in courses:
+        each_course["_id"] = str(each_course["_id"])
+    return courses
 
 # ===== Lessons Operations =====
 
