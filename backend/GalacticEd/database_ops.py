@@ -8,6 +8,22 @@ from typing import (
     Dict, 
     List
 )
+import json
+from bson import ObjectId
+
+class JSONEncoder(json.JSONEncoder):
+    """
+        Given a document retrieved from the database, returns a JSON
+        serialisable version.
+            Eg.
+                results = db.sample.find() 
+                json_compatible_results = JSONEncoder().encode(results)
+    """
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
 
 def insert(collection_name: str, document: Dict) -> str:
     """ 
@@ -23,6 +39,60 @@ def insert(collection_name: str, document: Dict) -> str:
     print(" ➤ Inserting: {}, in {}".format(document, collection_name))
     insertion_result = db[collection_name].insert_one(document)
     return str(insertion_result.inserted_id)
+
+# ===== Courses Operations =====
+
+def get_courses_lessons() -> List:
+    """
+        Retrieves all courses from the current database instance.   # TODO clarify the different between this and the function below
+
+        Returns:
+            list: all courses and their associated lesson details
+    """
+    courses = db.courses_lessons.find_one()
+    courses["_id"] = str(courses["_id"])
+    return courses
+
+def get_courses_all() -> List:
+    """
+        Retrieves all courses from the current database instance.
+
+        Returns:
+            list: all courses and their associated lesson details
+    """
+    courses = [ course for course in db.courses_all.find() ]
+    for each_course in courses:
+        each_course["_id"] = str(each_course["_id"])
+    return courses
+
+
+# ===== Lessons Operations =====
+
+def get_lesson(lesson_id: str) -> List:
+    """
+        Retrieves the lesson with the target lesson_id
+
+        Args:
+            lesson_id (str)
+        
+        Returns:
+            dict: mapped from the 'lesson' json document
+    """
+    lesson = db.lessons.find_one({ "lessonId": lesson_id })
+    lesson["_id"] = str(lesson["_id"])
+    return lesson
+
+# ===== Statistics Operations =====
+
+def get_stats(user_id: str):
+    """
+        TODO
+    """
+    stats = db.stats.find_one({ "user_id": user_id })
+    stats["_id"] = str(stats["_id"])
+    return stats
+
+# ===== User Operations =====
 
 def get_all_users() -> List[Dict]:
     """
@@ -54,13 +124,14 @@ def wipe_all_users():
 
 def get_user(user_id: str) -> Dict: 
     """ 
-        Fetches the user with the given ID
+        Fetches the user with the given ID (the one that's assigned by MongoDB
+        under the hood)
 
         Args:
             user_id (str)
         
         Returns:
-            dict: of shape: { user_id, name, email }
+            dict: of shape: { _id, name, email, password }
     """
     target_user = db.users.find_one({"_id": user_id})
     if target_user == None:
@@ -76,6 +147,12 @@ def get_user(user_id: str) -> Dict:
 def get_user(email):
     """
         Fetches the user by email rather than user_id
+
+        Args:
+            email (str)
+
+        Returns:
+            dict: of shape: { _id, name, email, password }
     """
     target_user = db.users.find_one({"email": email})
     if target_user == None:
