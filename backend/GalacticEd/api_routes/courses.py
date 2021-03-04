@@ -14,6 +14,7 @@ from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.database_ops import (
     get_courses_lessons,
     get_courses_all,
+    get_courses_full,
     JSONEncoder
 )
 
@@ -79,6 +80,15 @@ def courses_all_handler():
     """
     courses = get_courses_all()
     return jsonify(courses)
+
+@courses_router.route("/full", methods=["GET"])
+def courses_full_handler():
+    """
+        TODO: proper documentation here
+    """
+    courses = get_courses_full()
+    return jsonify(courses)
+
 
 
 """

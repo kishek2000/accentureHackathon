@@ -84,5 +84,3 @@ export const coursesLessonData = [
     ],
   },
 ];
-
-console.log(coursesLessonData);
