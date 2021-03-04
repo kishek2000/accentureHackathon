@@ -3,7 +3,7 @@ import { jsx, css } from "@emotion/react";
 import { GapVertical } from "./GapVertical";
 import { GapHorizontal } from "./GapHorizontal";
 import { CourseCard } from "./CourseCard";
-import { courses } from "../store/courses";
+import { allCourseData } from "../store/courses";
 
 export function AllCoursesRow() {
   return (
@@ -20,19 +20,20 @@ export function AllCoursesRow() {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          width: "75%",
+          width: "85%",
           overflowX: "scroll",
           paddingBottom: 24,
         }}
       >
-        {courses.courses.map((course, index) => (
+        {allCourseData.map((course, index) => (
           <>
             <CourseCard
               title={course.title}
               thumbnail={course.thumbnail}
               key={course.id}
+              shadow={false}
             />
-            {index !== courses.length - 1 && <GapHorizontal times={6} />}
+            {index !== allCourseData.length - 1 && <GapHorizontal times={6} />}
           </>
         ))}
       </div>
