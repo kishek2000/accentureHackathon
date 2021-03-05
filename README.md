@@ -27,8 +27,17 @@ To see it in action in our presentation, you can watch this <a href="https://www
 
 ### Courses/Lessons Routes:
 
-- GET `/api/courses`
-  [TODO]!!!
+-   GET `/api/courses/lessons`
+    - Returns data in the <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">JSON format here</a>  
+-   GET `/api/courses/all`
+    - Returns data in the <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">JSON format here</a>  
+
+### Statistics Routes:
+-   GET `/api/profile/stats`
+    - Parameters: `user_id`
+    - Returns data in the <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">JSON format here</a>  
+-   POST `/api/profile/stats`   # NOT DONE
+
 
 ### User Statistics Routes:
 
