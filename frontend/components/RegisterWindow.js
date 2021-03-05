@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 import { GapVertical } from "../components/GapVertical";
 import { InputBox } from "../components/InputBox";
 import { RegisterButton } from "../components/RegisterButton";
-import { registerUser } from "./AuthenticateUser";
+// import { registerUser } from "./AuthenticateUser";
 
 export function RegisterWindow() {
   const [username, setUsername] = useState("t");
@@ -16,8 +16,8 @@ export function RegisterWindow() {
 
   const handleRegister = useCallback(() => {
     setRegister(true);
-    console.log("passing in", { username, email, password });
-    registerUser(username, email, password);
+    // console.log("passing in", { username, email, password });
+    // registerUser(username, email, password);
   }, [username, email, password]);
 
   const handleUsernameCallback = useCallback((text) => {
