@@ -3,7 +3,7 @@ import { jsx, css } from "@emotion/react";
 import { GapVertical } from "./GapVertical";
 import { GapHorizontal } from "./GapHorizontal";
 import { CourseCard } from "./CourseCard";
-import { courses } from "../store/courses";
+import { allCourseData } from "../store/courses";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -40,12 +40,12 @@ export function RecommendedCoursesRow() {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          width: "75%",
+          width: "85%",
           overflowX: "scroll",
           paddingBottom: 24,
         }}
       >
-        {courses.courses.map((course, index) => (
+        {allCourseData.map((course, index) => (
           <>
             <CourseCard
               title={course.title}

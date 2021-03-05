@@ -10,20 +10,20 @@ To see it in action in our presentation, you can watch this <a href="https://www
 
 ### Test Routes:
 
--   GET `/api/test`
--   GET `/api/test/db`
--   POST `/api/test/db`
+- GET `/api/test`
+- GET `/api/test/db`
+- POST `/api/test/db`
 
 ### Authentication Routes:
 
--   POST `/api/auth/login`
-    -   Parameters: `email`, `password`
-    -   Returns: JSON containing `user_id`, `token`
--   POST `/api/auth/register`
-    -   Parameters: `username`, `email`, `password`
-    -   Returns: JSON containing `user_id`, `token`
--   GET `/api/auth/google/login`
--   GET `/api/auth/google/login/callback`
+- POST `/api/auth/login`
+  - Parameters: `email`, `password`
+  - Returns: JSON containing `user_id`, `token`
+- POST `/api/auth/register`
+  - Parameters: `username`, `email`, `password`
+  - Returns: JSON containing `user_id`, `token`
+- GET `/api/auth/google/login`
+- GET `/api/auth/google/login/callback`
 
 ### Courses/Lessons Routes:
 
@@ -43,12 +43,14 @@ To see it in action in our presentation, you can watch this <a href="https://www
 
 [TODO]!!!
 
-
 ### JSON Formats/Document Schema:
-The JSON formats here specify the schema for MongoDB documents.
 
-#### Lessons:
-These lessons are stored under the `lessons` collection on the MongoDB instance
+The JSON formats here specify the schema for the MongoDB documents AND what the data structures exchanged between frontend and backend look like.
+
+https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0
+
+<!-- #### Lessons:
+The JSON formats here specify the schema for MongoDB documents.
 
 Sample:
 ```
@@ -156,7 +158,7 @@ Sample:
     "times": [                   // How long the user spent on this category
       {
         "label": "This Month",
-        "data": 22.7,              
+        "data": 22.7,
       },
       {
         "label": "This Week",
@@ -168,14 +170,8 @@ Sample:
 ];
 ```
 
-
-
-
-
-
-
 ### Problem Statement
 
 ![Problem statement](https://raw.githubusercontent.com/kishek2000/accentureHackathon/master/images/problem-statement.png)
 
-Note: HarukaMa is Tim Zhang
+Note: HarukaMa is Tim Zhang -->

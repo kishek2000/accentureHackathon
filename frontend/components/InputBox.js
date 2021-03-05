@@ -21,7 +21,10 @@ export function InputBox({ placeholder, callback, percentage, hide }) {
       }}
       type={hide ? "password" : null}
       placeholder={placeholder}
-      onChange={(e) => callback(e.target.value)}
+      onChange={(e) => {
+        console.log(e.target.value);
+        callback(e.target.value);
+      }}
     />
   );
 }

@@ -7,11 +7,21 @@ import { GapVertical } from "./GapVertical";
 import { LoginButton } from "./LoginButton";
 import { InputBox } from "./InputBox";
 import { useRouter } from "next/router";
+// import { loginUser } from "./AuthenticateUser";
 
 export function LoginWindow() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [register, setRegister] = useState(false);
+  const [newUser, setNewUser] = useState(false);
+  const [login, setLogin] = useState(false);
+  const handleLogin = useCallback(async () => {
+    // const loginAttempt = await loginUser(username, password);
+    // if (loginAttempt.token) {
+    setLogin(true);
+    // } else {
+    //   alert("Invalid username or password.");
+    // }
+  }, [username, password]);
 
   const handleUsernameCallback = useCallback(
     (text) => {
@@ -27,11 +37,11 @@ export function LoginWindow() {
     [password]
   );
 
-  const handleRegister = useCallback(() => {
-    setRegister(true);
-  }, [register]);
+  const handleNewUser = useCallback(() => {
+    setNewUser(true);
+  }, [newUser]);
 
-  if (register) {
+  if (newUser) {
     const router = useRouter();
     router.push("/register");
   }
@@ -132,7 +142,7 @@ export function LoginWindow() {
           >
             Forgot Password
           </div>
-          <LoginButton />
+          <LoginButton handleLogin={handleLogin} login={login} />
         </div>
       </div>
       <div
@@ -147,9 +157,9 @@ export function LoginWindow() {
         New around here?{" "}
         <strong
           css={{ textDecorationLine: "underline", cursor: "pointer" }}
-          onClick={handleRegister}
+          onClick={handleNewUser}
         >
-          Register
+          Register.
         </strong>
       </div>
     </div>

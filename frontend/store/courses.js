@@ -1,38 +1,10 @@
-export const courses = {
-  courses: [
-    {
-      title: "Shapes",
-      thumbnail: "shapesThumbnail.png",
-      id: "shapes01",
-    },
-    {
-      title: "Colours",
-      thumbnail: "coloursThumbnail.png",
-      id: "colours01",
-    },
-    {
-      title: "Actions",
-      thumbnail: "actionsThumbnail.png",
-      id: "actions01",
-    },
-    {
-      title: "Objects",
-      thumbnail: "objectsThumbnail.png",
-      id: "objects01",
-    },
-    {
-      title: "Emotions",
-      thumbnail: "emotionsThumbnail.png",
-      id: "emotions01",
-    },
-  ],
-};
-
 export const allCourseData = [
   {
     title: "shapes",
     image: "/shapesHeader.png",
+    id: "shapes01",
     description: "Let's learn about the world of shapes!",
+    thumbnail: "shapesThumbnail.png",
     lessons: [
       {
         id: "level-1",
@@ -64,7 +36,9 @@ export const allCourseData = [
   {
     title: "colours",
     image: "/coloursHeader.png",
+    id: "colours01",
     description: "Let's learn about the world of colours!",
+    thumbnail: "coloursThumbnail.png",
     lessons: [
       {
         id: "level-1",
@@ -102,7 +76,9 @@ export const allCourseData = [
   {
     title: "actions",
     image: "/actionsHeader.png",
+    id: "actions01",
     description: "Let's learn about the world of actions!",
+    thumbnail: "actionsThumbnail.png",
     lessons: [
       {
         id: "level-1",
@@ -139,7 +115,9 @@ export const allCourseData = [
   {
     title: "objects",
     image: "/objectsHeader.png",
-    description: "Let's learn about the world of colours!",
+    id: "objects01",
+    description: "Let's learn about the world of objects!",
+    thumbnail: "objectsThumbnail.png",
     lessons: [
       {
         id: "level-1",
@@ -178,6 +156,8 @@ export const allCourseData = [
     title: "emotions",
     image: "/emotionsHeader.png",
     description: "Connecting with the intimate world of emotions.",
+    thumbnail: "emotionsThumbnail.png",
+    id: "emotions01",
     lessons: [
       {
         id: "level-1",

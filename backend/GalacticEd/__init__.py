@@ -6,6 +6,7 @@ This is the root package where:
   in the same directory
 """
 from flask import Flask
+from flask_cors import CORS
 from dotenv import load_dotenv
 from pathlib import Path 
 from GalacticEd.utils.colourisation import printColoured
@@ -24,6 +25,7 @@ printColoured("Loaded the context of {} into the environment:".format(env_path))
 # Creating the Flask app instance
 printColoured(" * Initialising Flask application")
 app = Flask(__name__)
+CORS(app)
 
 # ===== App Configuration =====
 

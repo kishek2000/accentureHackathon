@@ -1,14 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
 
-export function LoginButton() {
-  const [login, setLogin] = useState(false);
-  const handleLogin = useCallback(() => {
-    setLogin(true);
-  }, [login]);
-
+export function LoginButton({ login, handleLogin }) {
   if (login) {
     const router = useRouter();
     router.push("/dashboard");
