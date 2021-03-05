@@ -1,3 +1,6 @@
+const baseURL =
+  "http://ec2-3-138-143-55.us-east-2.compute.amazonaws.com:8888/api";
+
 export async function registerUser(username, email, password) {
   const registerData = new FormData();
   registerData.append("username", username);
@@ -9,7 +12,7 @@ export async function registerUser(username, email, password) {
     password,
   });
 
-  const response = await fetch("http://127.0.0.1:5000/api/auth/register", {
+  const response = await fetch(`${baseURL}/auth/register`, {
     method: "POST",
     body: registerData,
   });
@@ -25,7 +28,7 @@ export async function loginUser(email, password) {
     password,
   });
 
-  const response = await fetch("http://127.0.0.1:5000/api/auth/login", {
+  const response = await fetch(`${baseURL}/auth/login`, {
     method: "POST",
     body: loginData,
   });

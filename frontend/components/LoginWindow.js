@@ -7,7 +7,7 @@ import { GapVertical } from "./GapVertical";
 import { LoginButton } from "./LoginButton";
 import { InputBox } from "./InputBox";
 import { useRouter } from "next/router";
-// import { loginUser } from "./AuthenticateUser";
+import { loginUser } from "./AuthenticateUser";
 
 export function LoginWindow() {
   const [username, setUsername] = useState("");
@@ -15,12 +15,12 @@ export function LoginWindow() {
   const [newUser, setNewUser] = useState(false);
   const [login, setLogin] = useState(false);
   const handleLogin = useCallback(async () => {
-    // const loginAttempt = await loginUser(username, password);
-    // if (loginAttempt.token) {
-    setLogin(true);
-    // } else {
-    //   alert("Invalid username or password.");
-    // }
+    const loginAttempt = await loginUser(username, password);
+    if (loginAttempt.token) {
+      setLogin(true);
+    } else {
+      alert("Invalid username or password.");
+    }
   }, [username, password]);
 
   const handleUsernameCallback = useCallback(
