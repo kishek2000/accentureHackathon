@@ -19,7 +19,7 @@ from GalacticEd.database_ops import (
 lessons_router = Blueprint("lessons", __name__)
 
 @lessons_router.route("/lessons", methods=["GET"])
-def get_lesson():
+def get_lessons():
     """
         Fetches a course with a specific name/ID
 

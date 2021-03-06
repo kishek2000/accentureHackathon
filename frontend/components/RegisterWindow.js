@@ -5,33 +5,32 @@ import { useCallback, useState } from "react";
 import { GapVertical } from "../components/GapVertical";
 import { InputBox } from "../components/InputBox";
 import { RegisterButton } from "../components/RegisterButton";
+import { registerUser } from "./AuthenticateUser";
 
 export function RegisterWindow() {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("t");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [register, setRegister] = useState(false);
 
-  const handleUsernameCallback = useCallback(
-    (text) => {
-      setUsername(text);
-    },
-    [username]
-  );
+  const handleRegister = useCallback(() => {
+    setRegister(true);
+    console.log("passing in", { username, email, password });
+    registerUser(username, email, password);
+  }, [username, email, password]);
 
-  const handleEmailCallback = useCallback(
-    (text) => {
-      setEmail(text);
-    },
-    [email]
-  );
+  const handleUsernameCallback = useCallback((text) => {
+    setUsername(text);
+  }, []);
 
-  const handleCreatePasswordCallback = useCallback(
-    (text) => {
-      setPassword(text);
-    },
-    [password]
-  );
+  const handleEmailCallback = useCallback((text) => {
+    setEmail(text);
+  }, []);
+
+  const handleCreatePasswordCallback = useCallback((text) => {
+    setPassword(text);
+  }, []);
 
   const handleConfirmPasswordCallback = useCallback(
     (text) => {
@@ -118,13 +117,13 @@ export function RegisterWindow() {
           <InputBox
             placeholder="First Name"
             callback={handleUsernameCallback}
-            percentage={"49%"}
+            // percentage={"49%"}
           />
-          <InputBox
+          {/* <InputBox
             placeholder="Last Name"
             callback={handleUsernameCallback}
             percentage={"49%"}
-          />
+          /> */}
         </div>
         <GapVertical times={3} />
         <InputBox placeholder="Email" callback={handleEmailCallback} />
@@ -134,7 +133,7 @@ export function RegisterWindow() {
           callback={handleCreatePasswordCallback}
         />
         <GapVertical times={3} />
-        <InputBox
+        {/*<InputBox
           placeholder="Confirm Password"
           callback={handleConfirmPasswordCallback}
         />
@@ -142,9 +141,13 @@ export function RegisterWindow() {
         <InputBox
           placeholder="No. of Children"
           callback={handleConfirmPasswordCallback}
-        />
+        /> */}
         <GapVertical times={6} />
-        <RegisterButton route={"/register-child"} />
+        <RegisterButton
+          route={"/register-child"}
+          handleRegister={handleRegister}
+          register={register}
+        />
       </div>
     </div>
   );

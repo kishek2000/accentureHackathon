@@ -89,8 +89,6 @@ def courses_full_handler():
     courses = get_courses_full()
     return jsonify(courses)
 
-
-
 """
     TODO
     Define an endpoint: GET /api/courses

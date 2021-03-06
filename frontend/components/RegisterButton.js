@@ -1,14 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
 
-export function RegisterButton({ route }) {
-  const [register, setRegister] = useState(false);
-  const handleRegister = useCallback(() => {
-    setRegister(true);
-  }, [register]);
-
+export function RegisterButton({ route, register, handleRegister }) {
   if (register) {
     const router = useRouter();
     router.push(route);
@@ -30,7 +24,7 @@ export function RegisterButton({ route }) {
         fontWeight: 600,
         cursor: "pointer",
       }}
-      onClick={handleRegister}
+      onClick={async () => await handleRegister()}
     >
       {route === "/dashboard" ? "REGISTER" : "NEXT"}
     </div>

@@ -28,7 +28,9 @@ export function CourseCard({ title, thumbnail, handleCourseCallback, shadow }) {
           alignItems: "center",
         }}
       >
-        <div css={{ fontFamily: "Poppins", fontSize: 18 }}>{title}</div>
+        <div css={{ fontFamily: "Poppins", fontSize: 18 }}>
+          {title[0].toUpperCase() + title.slice(1)}
+        </div>
       </div>
     </div>
   );
