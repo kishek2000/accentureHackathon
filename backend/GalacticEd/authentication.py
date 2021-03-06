@@ -6,7 +6,10 @@ from GalacticEd.exceptions import InvalidUserInput
 from GalacticEd.database_ops import (
     save_user,
     get_user,
-    password_verified
+    get_user_by_email,
+    password_verified,
+    save_child,
+    email_taken
 )
 from GalacticEd.models import User
 
@@ -25,7 +28,7 @@ def login(email: str, password: str) -> Dict[str, str]:
         raise InvalidUserInput(description="{} is not a valid email".format(email))
     
     printColoured(" ➤ Logged in successfully: {}".format(email))
-    user = get_user(email=email)
+    user = get_user_by_email(email=email)
     if user == None:
         raise InvalidUserInput("That email does not belong to any user!")
 
@@ -54,6 +57,10 @@ def register(username: str, email: str, password: str) -> Dict[str, str]:
         Returns:
             dict of shape: { user_id: str, token: str }
     """
+
+    if email_taken(email):
+        raise InvalidUserInput(description="That email has already been registered with")
+
     new_user = User(name=username, email=email, password=password)
     new_user.commit_user()
 
@@ -68,3 +75,24 @@ def register(username: str, email: str, password: str) -> Dict[str, str]:
         "token": token
     }
 
+def register_child(child, parent_user_id):
+    """
+        Commits a new user document with the given details to the database.
+
+        Args:
+            username (str)
+            avatar (str)
+            birthday (str)
+            learning_style (str)
+            attention_span (str)
+            favourite_object (str)
+    """
+
+    parent = save_child(child, parent_user_id)
+    printColoured(" ➤ Registered a child")
+    # return {
+    #     "parent_user_id": parent["_id"]
+    # }
+    return {
+        "updated_parent": parent 
+    }

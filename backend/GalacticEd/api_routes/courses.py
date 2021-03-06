@@ -85,6 +85,7 @@ def courses_all_handler():
 def courses_full_handler():
     """
         TODO: proper documentation here
+        Fetches all the available courses and FULL details on what lesson levels 
     """
     courses = get_courses_full()
     return jsonify(courses)

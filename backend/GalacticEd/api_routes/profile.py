@@ -16,39 +16,32 @@ from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.database_ops import (
     get_courses_lessons,
     get_courses_all,
-    get_stats
+    get_stats,
+    get_user
 )
 
 profile_router = Blueprint("profile", __name__)
 
-"""
-    TODO
-    Define an endpoint: GET /api/user
+@profile_router.route("/", methods=["GET"])
+def profile_data_fetch_handler():
+    """
+        Given a user_id and token, gets the target user's profile data
+    """
+    user_id = request.args.get("user_id")
+    profile_data = get_user(user_id=user_id)
+    printColoured(" > Fetched user profile: {}".format(profile_data))
+    return jsonify(profile_data)
 
-    Parameters of the request:
-        <USER_ID>
-
-    Returns details about a particular user. 
-    Eg. what their username is, etc.
-
-    TODO: This may not be necessary
-"""
 @profile_router.route("/stats", methods=["GET"])
 def profile_stats_fetch_handler():
     """
-        Given a user_id, get their associated stats
+        Given a user_id and token, get their children's associated stats
     """
     user_id = request.args.get("user_id")
     printColoured(" > user_id: {}".format(user_id))
     stats = get_stats(user_id)
     return jsonify(stats)
 
-"""
-    Parameters of the request:
-        <USER_ID>
-        <COURSE TO GRAB STATISTICS FROM>
-        <TIME SPAN OF STATS>
-"""
 @profile_router.route("/stats", methods=["POST"])
 def profile_stats_push_handler():
     """
