@@ -23,7 +23,7 @@ To see it in action in our presentation, you can watch this <a href="https://www
     -   Parameters: `username`, `email`, `password`
     -   Returns: JSON containing `user_id`, `token`
 -   POST `/api/auth/register/child`
-	- Parameters: `first_name`, `last_name`, `birthday`, `age`, `learning_style`, `favourite_object`
+	  -   Parameters: `name`, `avatar`, `birthday`, `attention_span`, `learning_style`, `favourite_object`
 
 #### UNTESTED
 -   GET `/api/auth/google/login`
@@ -47,8 +47,8 @@ See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">h
 - GET `/api/profile/stats`
     - Parameters: `user_id`, `token`
 	- Returns: JSON 
-- POST `/api/profile/stats`    [TODO]	
-	- Parameters: TODO
+- POST `/api/profile/stats`	
+	- Parameters: `user_id`, `token`
 
 ### JSON Formats/Document Schema:
 
