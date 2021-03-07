@@ -1,53 +1,57 @@
 # Galactic Ed
 
-This is the repo for the Accenture Hackathon about the Autism Awareness platform. GalacticEd, our prototype, was awarded 1st place out of 37 teams!
-
-We plan to deploy a live version of our prototype very soon (still slightly buggy), click <a href="https://galactic-ed.xyz">here</a>.
-
-To see it in action in our presentation, you can watch this <a href="https://www.youtube.com/watch?v=uWQ4hUP4L0k">video</a>.
+This is the repo for the Accenture Hackathon about the Autism Awareness platform. GalacticEd, our prototype, was awarded 1st place out of 37 teams. A presentation for the prototype we built in a day is viewable <a href="https://www.youtube.com/watch?v=uWQ4hUP4L0k">here</a>.
 
 ## API Quick Documentation:
+A basic view of the currently supported endpoints. 
 
 ### Test Routes:
 
-- GET `/api/test`
-- GET `/api/test/db`
-- POST `/api/test/db`
+-   GET `/api/test`
+-   GET `/api/test/db`
+-   POST `/api/test/db`
 
 ### Authentication Routes:
 
-- POST `/api/auth/login`
-  - Parameters: `email`, `password`
-  - Returns: JSON containing `user_id`, `token`
-- POST `/api/auth/register`
-  - Parameters: `username`, `email`, `password`
-  - Returns: JSON containing `user_id`, `token`
-- GET `/api/auth/google/login`
-- GET `/api/auth/google/login/callback`
+-   POST `/api/auth/login`
+    -   Parameters: `email`, `password`
+    -   Returns: JSON containing `user_id`, `token`
+-   POST `/api/auth/register`
+    -   Parameters: `username`, `email`, `password`
+    -   Returns: JSON containing `user_id`, `token`
+-   POST `/api/auth/register/child`
+	- Parameters: `first_name`, `last_name`, `birthday`, `age`, `learning_style`, `favourite_object`
+-   GET `/api/auth/google/login`
+-   GET `/api/auth/google/login/callback`
 
 ### Courses/Lessons Routes:
 
+See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">here</a> for example JSON responses returned by the following 3 endpoints
 -   GET `/api/courses/lessons`
-    - Returns data in the <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">JSON format here</a>  
 -   GET `/api/courses/all`
-    - Returns data in the <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">JSON format here</a>  
+-   GET `/api/courses/full`
 
-### Statistics Routes:
--   GET `/api/profile/stats`
-    - Parameters: `user_id`
-    - Returns data in the <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">JSON format here</a>  
--   POST `/api/profile/stats`   # NOT DONE
+### User Profile Statistics and Routes:
 
+#### Profile
+- GET `/api/profile/`
+	- Parameters: `user_id`, `token`
+	- Returns JSON containing the user's profile data
 
-### User Statistics Routes:
+#### Statistics:
+- GET `/api/profile/stats`
+    - Parameters: `user_id`, `token`
+	- Returns: JSON 
+- POST `/api/profile/stats`    [TODO]	
+	- Parameters: TODO
 
-[TODO]!!!
 
 ### JSON Formats/Document Schema:
-
 The JSON formats here specify the schema for the MongoDB documents AND what the data structures exchanged between frontend and backend look like.
 
 https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0
+
+
 
 <!-- #### Lessons:
 The JSON formats here specify the schema for MongoDB documents.
@@ -158,7 +162,7 @@ Sample:
     "times": [                   // How long the user spent on this category
       {
         "label": "This Month",
-        "data": 22.7,
+        "data": 22.7,              
       },
       {
         "label": "This Week",
@@ -170,8 +174,4 @@ Sample:
 ];
 ```
 
-### Problem Statement
 
-![Problem statement](https://raw.githubusercontent.com/kishek2000/accentureHackathon/master/images/problem-statement.png)
-
-Note: HarukaMa is Tim Zhang -->
