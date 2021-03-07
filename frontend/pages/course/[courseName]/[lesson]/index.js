@@ -12,7 +12,6 @@ export default function Lesson() {
   const [question, setQuestion] = useState();
   const { courseName, lesson } = router.query;
   if (lesson && courseName) {
-    console.log(lesson);
     const lessonData = getCourseLessonData(courseName, lesson);
     if (question) {
       router.push(`/course/${courseName}/${lesson}/${question}`);

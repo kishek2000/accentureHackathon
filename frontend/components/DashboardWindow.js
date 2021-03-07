@@ -23,7 +23,6 @@ export function DashboardWindow({ courseList }) {
   const router = useRouter();
 
   if (course) {
-    console.log(course);
     router.push(`/course/${course}`);
   }
 

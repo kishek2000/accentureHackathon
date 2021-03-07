@@ -11,7 +11,8 @@ from GalacticEd.exceptions import InvalidUserInput
 from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.authentication import (
     login,
-    register
+    register,
+    register_child
 )
 
 # Google auth dependencies:
@@ -59,6 +60,37 @@ def register_handler():
         return jsonify(register(user_name, user_email, user_password, user_confirm_password))
     else:
         return render_template("register.html")
+
+# @auth_router.route("/register_child", methods=["GET"])
+# def test_handler():
+#     """
+#         Given form data containing fields: username, email and password, instantiates
+#         and saves a new user to the database
+
+#         Returns:
+#             user_data: json containing fields: { user_id } 
+#     """
+#     return "test"
+
+
+@auth_router.route("/registerchild", methods=["POST"])
+def child_register_handler():
+    """
+        TODO: documentation
+        Params:
+            user_id
+            token
+    """
+    user_id = request.form["user_id"]
+    return jsonify(register_child({
+        "name": request.form["name"],
+        "avatar": request.form["avatar"],
+        "birthday": request.form["birthday"],
+        "learning_style": request.form["learning_style"],
+        "attention_span": request.form["attention_span"],
+        "favourite_object": request.form["favourite_object"]
+    }, user_id))
+
 
 # ===== Google Authentication =====
 

@@ -6,10 +6,17 @@ export function IdentifyLesson({ questionData, setRevealItem }) {
 
   if (questionData) {
     var dataMap = [];
+    var mediaPrefix = "/shapes/";
     if (questionData.shapes) {
       dataMap = questionData.shapes;
     } else if (questionData.colours) {
       dataMap = questionData.colours;
+    } else if (questionData.objects) {
+      dataMap = questionData.objects;
+      mediaPrefix = "/object-images/";
+    } else if (questionData.emotions) {
+      dataMap = questionData.emotions;
+      mediaPrefix = "/emotion-images/";
     } else {
       return null;
     }
@@ -23,7 +30,7 @@ export function IdentifyLesson({ questionData, setRevealItem }) {
           position: "relative",
         }}
       >
-        {dataMap.map((shape) => (
+        {dataMap.map((media) => (
           <div
             css={{
               position: "fixed",
@@ -37,9 +44,9 @@ export function IdentifyLesson({ questionData, setRevealItem }) {
             }}
           >
             <img
-              src={`/shapes/${shape.src}.png`}
+              src={`${mediaPrefix}${media.src}.png`}
               css={{
-                filter: `hue-rotate(${shape.hue}deg)`,
+                filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
                 cursor: "pointer",
                 width: 300,
               }}

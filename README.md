@@ -22,18 +22,33 @@ To see it in action in our presentation, you can watch this <a href="https://www
 -   POST `/api/auth/register`
     -   Parameters: `username`, `email`, `password`
     -   Returns: JSON containing `user_id`, `token`
+-   POST `/api/auth/register/child`
+	- Parameters: `first_name`, `last_name`, `birthday`, `age`, `learning_style`, `favourite_object`
+
+#### UNTESTED
 -   GET `/api/auth/google/login`
 -   GET `/api/auth/google/login/callback`
 
 ### Courses/Lessons Routes:
 
--   GET `/api/courses`
-[TODO]!!!
+See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">here</a> for example JSON responses returned by the following 3 endpoints
+-   GET `/api/courses/lessons`
+-   GET `/api/courses/all`
+-   GET `/api/courses/full`
 
+### User Profile Statistics and Routes:
 
-### User Statistics Routes:
+#### Profile
+- GET `/api/profile/`
+	- Parameters: `user_id`, `token`
+	- Returns JSON containing the user's profile data
 
-[TODO]!!!
+#### Statistics:
+- GET `/api/profile/stats`
+    - Parameters: `user_id`, `token`
+	- Returns: JSON 
+- POST `/api/profile/stats`    [TODO]	
+	- Parameters: TODO
 
 
 ### JSON Formats/Document Schema:
@@ -42,8 +57,9 @@ The JSON formats here specify the schema for the MongoDB documents AND what the 
 https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0
 
 
-#### Lessons:
-These lessons are stored under the `lessons` collection on the MongoDB instance
+
+<!-- #### Lessons:
+The JSON formats here specify the schema for MongoDB documents.
 
 Sample:
 ```
@@ -173,4 +189,4 @@ Sample:
 
 ![Problem statement](https://raw.githubusercontent.com/kishek2000/accentureHackathon/master/images/problem-statement.png)
 
-Note: HarukaMa is Tim Zhang
+Note: HarukaMa is Tim Zhang -->
