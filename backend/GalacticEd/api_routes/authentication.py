@@ -55,7 +55,8 @@ def register_handler():
         user_name = request.form["username"]
         user_email = request.form["email"]
         user_password = request.form["password"]
-        return jsonify(register(user_name, user_email, user_password))
+        user_confirm_password = request.form["confirm_password"]
+        return jsonify(register(user_name, user_email, user_password, user_confirm_password))
     else:
         return render_template("register.html")
 

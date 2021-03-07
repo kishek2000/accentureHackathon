@@ -30,6 +30,7 @@ The `Flask` object must be created in `__init__.py`. Doing this ensures each mod
 ```
 # Installing dependencies
 pip install -e .
+pip install -r requirements.txt
 
 # Starting the server:
 # Run (Mac, Linux): (will export the environment variables for you)
