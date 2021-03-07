@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
+import { useReducer } from "react";
 import { LoginWindow } from "../components/LoginWindow";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import { userAuthenticationReducer, UserContext } from "../context/UserContext";
 
 export default function Home() {
   return (

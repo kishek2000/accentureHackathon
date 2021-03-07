@@ -2,14 +2,16 @@
 import { jsx, css } from "@emotion/react";
 
 import { GapHorizontal } from "../components/GapHorizontal";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Screen } from "../screens/Screen";
 import { MenuPanel } from "../components/MenuPanel";
+import { UserContext } from "../context/UserContext";
 
 export default function Dashboard() {
   const [selectedScreen, setSelectedScreen] = useState("dashboard");
   const [course, setCourse] = useState();
-
+  const { user } = useContext(UserContext);
+  console.log(JSON.stringify(user.user.children));
   return (
     <main
       css={{

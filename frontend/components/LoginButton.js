@@ -2,11 +2,7 @@
 import { jsx, css } from "@emotion/react";
 import { useRouter } from "next/router";
 
-export function LoginButton({ login, handleLogin }) {
-  if (login) {
-    const router = useRouter();
-    router.push("/dashboard");
-  }
+export function LoginButton({ handleLogin }) {
   return (
     <div
       css={{

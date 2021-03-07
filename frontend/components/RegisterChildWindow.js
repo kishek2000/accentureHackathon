@@ -1,21 +1,55 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
+import { useRouter } from "next/router";
 
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { UserContext } from "../context/UserContext";
+import { registerUserChild } from "./AuthenticateUser";
 import { GapVertical } from "./GapVertical";
 import { InputBox } from "./InputBox";
 import { RegisterButton } from "./RegisterButton";
 
 export function RegisterChildWindow() {
-  const [firstName, setFirstName] = useState("");
+  const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [dob, setDob] = useState("");
   const [attSpan, setAttSpan] = useState("");
+  const [LS, setLS] = useState("");
+  const [FO, setFO] = useState("");
 
-  const handleFirstNameCallback = useCallback(
+  const [registerChild, setRegisterChild] = useState(false);
+
+  const { user, dispatch } = useContext(UserContext);
+
+  const handleRegisterChild = useCallback(async () => {
+    const registerChildResponse = await registerUserChild(
+      user.user.userId,
+      name,
+      avatar,
+      dob,
+      attSpan,
+      LS,
+      FO
+    );
+    console.log(registerChildResponse["updated_parent"].children[0]);
+    dispatch({
+      type: "authenticated-child",
+      payload: registerChildResponse["updated_parent"].children[0],
+    });
+  }, [name, dob, attSpan, LS, FO]);
+
+  const handleNameCallback = useCallback(
     (text) => {
-      setFirstName(text);
+      setName(text);
     },
-    [firstName]
+    [name]
+  );
+
+  const handleAvatarCallback = useCallback(
+    (text) => {
+      setAvatar(text);
+    },
+    [avatar]
   );
 
   const handleDobCallback = useCallback(
@@ -31,6 +65,27 @@ export function RegisterChildWindow() {
     },
     [attSpan]
   );
+
+  const handleLSCallback = useCallback(
+    (text) => {
+      setLS(text);
+    },
+    [LS]
+  );
+
+  const handleFOCallback = useCallback(
+    (text) => {
+      setFO(text);
+    },
+    [FO]
+  );
+
+  useEffect(() => {
+    // console.log(user);
+    if (user.user?.children?.length > 0) {
+      setRegisterChild(true);
+    }
+  }, [user]);
 
   return (
     <div
@@ -95,37 +150,46 @@ export function RegisterChildWindow() {
             alignSelf: "center",
           }}
         >
-          Register Child 1
+          Register Child
         </div>
         <GapVertical times={4} />
-        <div
-          css={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            width: "100%",
-            justifyContent: "space-between",
-          }}
-        >
-          <InputBox placeholder="First Name" percentage={"49%"} />
-          <InputBox placeholder="Last Name" percentage={"49%"} />
-        </div>
+
+        <InputBox placeholder="First Name" callback={handleNameCallback} />
         <GapVertical times={3} />
-        <InputBox placeholder="Age" />
+        <InputBox placeholder="Avatar" callback={handleAvatarCallback} />
         <GapVertical times={3} />
-        <RegisterChildInputWithHelp placeholder={"Attention Span"} />
+        <InputBox
+          placeholder="Birthdate"
+          type={"date"}
+          callback={handleDobCallback}
+        />
         <GapVertical times={3} />
-        <RegisterChildInputWithHelp placeholder={"Learning Style"} />
+        <RegisterChildInputWithHelp
+          placeholder={"Attention Span"}
+          callback={handleAttSpanCallback}
+        />
         <GapVertical times={3} />
-        <RegisterChildInputWithHelp placeholder={"Favourite Object"} />
+        <RegisterChildInputWithHelp
+          placeholder={"Learning Style"}
+          callback={handleLSCallback}
+        />
+        <GapVertical times={3} />
+        <RegisterChildInputWithHelp
+          placeholder={"Favourite Object"}
+          callback={handleFOCallback}
+        />
         <GapVertical times={6} />
-        <RegisterButton route={"/dashboard"} />
+        <RegisterButton
+          route={"/dashboard"}
+          handleRegister={handleRegisterChild}
+          register={registerChild}
+        />
       </div>
     </div>
   );
 }
 
-export function RegisterChildInputWithHelp({ placeholder }) {
+export function RegisterChildInputWithHelp({ placeholder, callback, type }) {
   return (
     <div
       css={{
@@ -135,7 +199,7 @@ export function RegisterChildInputWithHelp({ placeholder }) {
         position: "relative",
       }}
     >
-      <InputBox placeholder={placeholder} />
+      <InputBox placeholder={placeholder} callback={callback} type={type} />
       <img
         src={"/help.png"}
         css={{ width: 16, height: 16, position: "absolute", right: -24 }}

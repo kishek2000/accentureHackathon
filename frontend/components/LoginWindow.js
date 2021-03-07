@@ -1,25 +1,33 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
 import { LoginButton } from "./LoginButton";
 import { InputBox } from "./InputBox";
 import { useRouter } from "next/router";
+
+import { UserContext } from "../context/UserContext";
 import { loginUser } from "./AuthenticateUser";
 
 export function LoginWindow() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [newUser, setNewUser] = useState(false);
   const [login, setLogin] = useState(false);
+  const [newUser, setNewUser] = useState(false);
+
+  const { user, dispatch } = useContext(UserContext);
+
   const handleLogin = useCallback(async () => {
-    const loginAttempt = await loginUser(username, password);
-    if (loginAttempt.token) {
-      setLogin(true);
+    const loginResponse = await loginUser(username, password);
+    if (loginResponse.token) {
+      dispatch({
+        type: "authenticated",
+        payload: loginResponse,
+      });
     } else {
-      alert("Invalid username or password.");
+      alert("Invalid username or password");
     }
   }, [username, password]);
 
@@ -45,6 +53,17 @@ export function LoginWindow() {
     const router = useRouter();
     router.push("/register");
   }
+
+  if (login) {
+    const router = useRouter();
+    router.push("/dashboard");
+  }
+
+  useEffect(() => {
+    if (user.user && user.user.token) {
+      setLogin(true);
+    }
+  }, [user]);
 
   return (
     <div css={{ display: "flex", flexDirection: "row" }}>
@@ -119,7 +138,7 @@ export function LoginWindow() {
         <InputBox
           placeholder="Password"
           callback={handlePasswordCallback}
-          hide={true}
+          type={"password"}
         />
         <GapVertical times={6} />
         <div
@@ -142,7 +161,7 @@ export function LoginWindow() {
           >
             Forgot Password
           </div>
-          <LoginButton handleLogin={handleLogin} login={login} />
+          <LoginButton handleLogin={handleLogin} />
         </div>
       </div>
       <div
