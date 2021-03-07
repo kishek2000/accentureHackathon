@@ -22,26 +22,37 @@ To see it in action in our presentation, you can watch this <a href="https://www
 - POST `/api/auth/register`
   - Parameters: `username`, `email`, `password`
   - Returns: JSON containing `user_id`, `token`
+- POST `/api/auth/register/child`
+  - Parameters: `first_name`, `last_name`, `birthday`, `age`, `learning_style`, `favourite_object`
+
+#### UNTESTED
+
 - GET `/api/auth/google/login`
 - GET `/api/auth/google/login/callback`
 
 ### Courses/Lessons Routes:
 
--   GET `/api/courses/lessons`
-    - Returns data in the <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">JSON format here</a>  
--   GET `/api/courses/all`
-    - Returns data in the <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">JSON format here</a>  
+See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">here</a> for example JSON responses returned by the following 3 endpoints
 
-### Statistics Routes:
--   GET `/api/profile/stats`
-    - Parameters: `user_id`
-    - Returns data in the <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">JSON format here</a>  
--   POST `/api/profile/stats`   # NOT DONE
+- GET `/api/courses/lessons`
+- GET `/api/courses/all`
+- GET `/api/courses/full`
 
+### User Profile Statistics and Routes:
 
-### User Statistics Routes:
+#### Profile
 
-[TODO]!!!
+- GET `/api/profile/`
+  - Parameters: `user_id`, `token`
+  - Returns JSON containing the user's profile data
+
+#### Statistics:
+
+- GET `/api/profile/stats`
+  - Parameters: `user_id`, `token`
+  - Returns: JSON
+- POST `/api/profile/stats` [TODO]
+  - Parameters: TODO
 
 ### JSON Formats/Document Schema:
 

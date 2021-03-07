@@ -96,9 +96,22 @@ def get_stats(user_id: str):
     """
         TODO
     """
-    stats = db.stats.find_one({ "user_id": user_id })
-    stats["_id"] = str(stats["_id"])
+    stats = [ stat for stat in db.stats.find({ "user_id": user_id }) ]
+    for each_stat in stats:
+        each_stat["_id"] = str(each_stat["_id"])
     return stats
+
+# ===== Children Management =====
+
+def save_child(child, parent_user_id):
+    """
+        TODO
+    """
+    parent = get_user(user_id=parent_user_id)
+    new_children = parent["children"].copy()
+    new_children.append(child)
+    db.users.update_one({ "_id": ObjectId(parent_user_id) }, { "$set": { "children": new_children } })
+    return get_user(user_id=parent_user_id)
 
 # ===== User Operations =====
 
@@ -141,18 +154,12 @@ def get_user(user_id: str) -> Dict:
         Returns:
             dict: of shape: { _id, name, email, password }
     """
-    target_user = db.users.find_one({"_id": user_id})
-    if target_user == None:
-        return None
-    details = {
-        "_id": str(target_user["_id"]),
-        "name": target_user["name"],
-        "email": target_user["email"],
-        "password": target_user["password"]
-    }
-    return details
+    printColoured("FINDING {}".format(user_id))
+    target_user = db.users.find_one({"_id": ObjectId(user_id)})
+    target_user["_id"] = str(target_user["_id"])
+    return target_user
 
-def get_user(email):
+def get_user_by_email(email):
     """
         Fetches the user by email rather than user_id
 
@@ -178,8 +185,11 @@ def password_verified(email, password):
         Given an email and password, verifies it against the
         hashed password stored in the database 
     """
-    user = get_user(email)
+    user = get_user_by_email(email)
     if user == None:
         return False
     # TODO: need to hash passwords
     return user["password"] == password
+
+def email_taken(email):
+    return db.users.find_one({ "email": email })
