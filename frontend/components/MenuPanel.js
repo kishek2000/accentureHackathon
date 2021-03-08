@@ -11,11 +11,15 @@ import { UserContext } from "../context/UserContext";
 
 export function MenuPanel({ selectedScreen, setSelectedScreen }) {
   const [logout, setLogout] = useState(false);
+  const handleScreenSelection = useCallback((screen) => {
+    localStorage.setItem("dashboardScreen", screen);
+    setSelectedScreen(screen);
+  });
 
-  const { dispatch } = useContext(UserContext);
+  const { userDispatch } = useContext(UserContext);
 
   const handleLogout = useCallback(() => {
-    dispatch({
+    userDispatch({
       type: "logout",
     });
     setLogout(true);
@@ -46,7 +50,7 @@ export function MenuPanel({ selectedScreen, setSelectedScreen }) {
         <>
           <MenuItem
             selectedScreen={selectedScreen}
-            setSelectedScreen={setSelectedScreen}
+            handleScreenSelection={handleScreenSelection}
             menuItem={menuItem}
           />
           {index !== 3 && <GapVertical times={2.5} />}

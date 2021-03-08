@@ -6,7 +6,7 @@ import { GapVertical } from "../components/GapVertical";
 import { InputBox } from "../components/InputBox";
 import { RegisterButton } from "../components/RegisterButton";
 import { UserContext } from "../context/UserContext";
-import { registerUser } from "./AuthenticateUser";
+import { registerUser } from "../api/AuthenticateUser";
 
 export function RegisterWindow() {
   const [username, setUsername] = useState("t");
@@ -16,13 +16,13 @@ export function RegisterWindow() {
 
   const [register, setRegister] = useState(false);
 
-  const { user, dispatch } = useContext(UserContext);
+  const { user, userDispatch } = useContext(UserContext);
 
   const handleRegister = useCallback(async () => {
     if (password === confirmPassword) {
       const registerResponse = await registerUser(username, email, password);
       if (registerResponse.token) {
-        dispatch({
+        userDispatch({
           type: "authenticated",
           payload: registerResponse,
         });

@@ -9,7 +9,9 @@ import { InputBox } from "./InputBox";
 import { useRouter } from "next/router";
 
 import { UserContext } from "../context/UserContext";
-import { loginUser } from "./AuthenticateUser";
+import { loginUser } from "../api/AuthenticateUser";
+import { getCourses } from "../api/Content";
+import { ContentContext } from "../context/ContentContext";
 
 export function LoginWindow() {
   const [username, setUsername] = useState("");
@@ -17,12 +19,18 @@ export function LoginWindow() {
   const [login, setLogin] = useState(false);
   const [newUser, setNewUser] = useState(false);
 
-  const { user, dispatch } = useContext(UserContext);
+  const { user, userDispatch } = useContext(UserContext);
+  const { content, contentDispatch } = useContext(ContentContext);
 
   const handleLogin = useCallback(async () => {
     const loginResponse = await loginUser(username, password);
     if (loginResponse.token) {
-      dispatch({
+      const allCourseData = await getCourses();
+      contentDispatch({
+        type: "populateCourses",
+        payload: allCourseData,
+      });
+      userDispatch({
         type: "authenticated",
         payload: loginResponse,
       });
@@ -49,6 +57,17 @@ export function LoginWindow() {
     setNewUser(true);
   }, [newUser]);
 
+  useEffect(() => {
+    console.log("content changed", content);
+    localStorage.setItem("content", JSON.stringify(content));
+  }, [content]);
+
+  useEffect(() => {
+    if (user.user && user.user.token) {
+      setLogin(true);
+    }
+  }, [user]);
+
   if (newUser) {
     const router = useRouter();
     router.push("/register");
@@ -58,12 +77,6 @@ export function LoginWindow() {
     const router = useRouter();
     router.push("/dashboard");
   }
-
-  useEffect(() => {
-    if (user.user && user.user.token) {
-      setLogin(true);
-    }
-  }, [user]);
 
   return (
     <div css={{ display: "flex", flexDirection: "row" }}>

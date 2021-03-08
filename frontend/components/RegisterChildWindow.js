@@ -4,10 +4,12 @@ import { useRouter } from "next/router";
 
 import { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
-import { registerUserChild } from "./AuthenticateUser";
+import { registerUserChild } from "../api/AuthenticateUser";
 import { GapVertical } from "./GapVertical";
 import { InputBox } from "./InputBox";
 import { RegisterButton } from "./RegisterButton";
+import { ContentContext } from "../context/ContentContext";
+import { getCourses } from "../api/Content";
 
 export function RegisterChildWindow() {
   const [name, setName] = useState("");
@@ -19,7 +21,8 @@ export function RegisterChildWindow() {
 
   const [registerChild, setRegisterChild] = useState(false);
 
-  const { user, dispatch } = useContext(UserContext);
+  const { user, userDispatch } = useContext(UserContext);
+  const { content, contentDispatch } = useContext(ContentContext);
 
   const handleRegisterChild = useCallback(async () => {
     const registerChildResponse = await registerUserChild(
@@ -31,8 +34,12 @@ export function RegisterChildWindow() {
       LS,
       FO
     );
-    console.log(registerChildResponse["updated_parent"].children[0]);
-    dispatch({
+    const allCourseData = await getCourses();
+    contentDispatch({
+      type: "populateCourses",
+      payload: allCourseData,
+    });
+    userDispatch({
       type: "authenticated-child",
       payload: registerChildResponse["updated_parent"].children[0],
     });
@@ -79,6 +86,10 @@ export function RegisterChildWindow() {
     },
     [FO]
   );
+
+  useEffect(() => {
+    localStorage.setItem("content", content);
+  }, [content]);
 
   useEffect(() => {
     // console.log(user);

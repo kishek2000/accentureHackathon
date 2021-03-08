@@ -4,8 +4,12 @@ import { GapVertical } from "./GapVertical";
 import { GapHorizontal } from "./GapHorizontal";
 import { CourseCard } from "./CourseCard";
 import { allCourseData } from "../store/courses";
+import { ContentContext } from "../context/ContentContext";
+import { useContext } from "react";
 
 export function AllCoursesRow() {
+  const { content } = useContext(ContentContext);
+
   return (
     <div css={{ display: "flex", flexDirection: "column" }}>
       <div css={{ fontFamily: "Poppins", fontWeight: 600, fontSize: 20 }}>
@@ -25,7 +29,7 @@ export function AllCoursesRow() {
           paddingBottom: 24,
         }}
       >
-        {allCourseData.map((course, index) => (
+        {content.courseLessonData.map((course, index) => (
           <>
             <CourseCard
               title={course.title}
@@ -33,7 +37,9 @@ export function AllCoursesRow() {
               key={course.id}
               shadow={false}
             />
-            {index !== allCourseData.length - 1 && <GapHorizontal times={6} />}
+            {index !== content.courseLessonData.length - 1 && (
+              <GapHorizontal times={6} />
+            )}
           </>
         ))}
       </div>
