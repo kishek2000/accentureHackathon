@@ -1,26 +1,29 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
+
+import { useCallback, useContext, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+
 import { GapHorizontal } from "../../../components/GapHorizontal";
 import { GapVertical } from "../../../components/GapVertical";
 import { LessonCard } from "../../../components/LessonCard";
-import Link from "next/link";
-import { allCourseData } from "../../../store/courses";
+
+import { ContentContext } from "../../../context/ContentContext";
 
 export default function Course() {
   const router = useRouter();
   const { courseName } = router.query;
   const [lesson, setLesson] = useState();
+  const { content } = useContext(ContentContext);
+  const handleLessonCallback = useCallback((text) => {
+    setLesson(text);
+  });
 
   if (courseName) {
-    const courseData = allCourseData.filter((course) => {
+    const courseData = content.courseLessonData.filter((course) => {
       return course.title === courseName;
     })[0];
-
-    const handleLessonCallback = useCallback((text) => {
-      setLesson(text);
-    });
 
     if (lesson) {
       router.push(`${courseName}/${lesson}`);

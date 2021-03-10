@@ -2,13 +2,24 @@
 import { jsx, css } from "@emotion/react";
 
 import { GapHorizontal } from "../components/GapHorizontal";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Screen } from "../screens/Screen";
 import { MenuPanel } from "../components/MenuPanel";
+import { UserContext } from "../context/UserContext";
+import { ContentContext } from "../context/ContentContext";
 
 export default function Dashboard() {
   const [selectedScreen, setSelectedScreen] = useState("dashboard");
   const [course, setCourse] = useState();
+  const { user } = useContext(UserContext);
+  const { content, contentDispatch } = useContext(ContentContext);
+
+  useEffect(() => {
+    const previousScreen = localStorage.getItem("dashboardScreen");
+    if (previousScreen) {
+      setSelectedScreen(previousScreen);
+    }
+  }, []);
 
   return (
     <main
