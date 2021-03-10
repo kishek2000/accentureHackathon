@@ -9,7 +9,8 @@ from GalacticEd.database_ops import (
     get_user_by_email,
     password_verified,
     save_child,
-    email_taken
+    email_taken,
+    wipe_user
 )
 from GalacticEd.models import User
 
@@ -43,10 +44,11 @@ def login(email: str, password: str) -> Dict[str, str]:
     })
 
     printColoured(" ➤ Logged in successfully: {}".format(email))
-    
+
     return {
         "token": token,
-        "user_id": user["_id"]
+        "user_id": user["_id"],
+        "children": user["children"] 
     }
 
 def register(username: str, email: str, password: str, confirm_password: str) -> Dict[str, str]:
@@ -68,7 +70,7 @@ def register(username: str, email: str, password: str, confirm_password: str) ->
     if not is_email_valid(email):
         raise InvalidUserInput(description="{} is not a valid email".format(email))
 
-    if get_user(email=email) != None:
+    if get_user_by_email(email) != None:
         raise InvalidUserInput(f'The email {email} is already in use')
 
     # Create new user
@@ -84,7 +86,8 @@ def register(username: str, email: str, password: str, confirm_password: str) ->
 
     return {
         "user_id": new_user._id,
-        "token": token
+        "token": token,
+        "children": new_user.children
     }
 
 def register_child(child, parent_user_id):
@@ -92,19 +95,18 @@ def register_child(child, parent_user_id):
         Commits a new user document with the given details to the database.
 
         Args:
-            username (str)
+            name (str)
             avatar (str)
             birthday (str)
             learning_style (str)
             attention_span (str)
             favourite_object (str)
     """
-
     parent = save_child(child, parent_user_id)
     printColoured(" ➤ Registered a child")
-    # return {
-    #     "parent_user_id": parent["_id"]
-    # }
     return {
         "updated_parent": parent 
     }
+
+def remove_user(email):
+    return wipe_user(email)
