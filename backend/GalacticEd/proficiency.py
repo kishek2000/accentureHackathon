@@ -22,4 +22,5 @@ def getNewRating(qRating: float, uRating: float , expTime: float, actTime: float
 
     return newRating
 
-print(getNewRating(1000, 800, 1, 1, 0))
+# sample calculation
+#print(getNewRating(1000, 800, 1, 1, 0))
