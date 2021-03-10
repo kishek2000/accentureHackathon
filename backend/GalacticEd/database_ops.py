@@ -8,7 +8,8 @@ from GalacticEd.utils.debug import pretty
 from GalacticEd.exceptions import InvalidUserInput
 from typing import (
     Dict, 
-    List
+    List,
+    Callable
 )
 import json
 from bson import ObjectId
@@ -203,7 +204,6 @@ def get_stats_in_range(parent_user_id: str, child_id: str, course_id: str, start
         )
     ] 
     return all_stats
-    
 
 # ===== User Operations =====
 
