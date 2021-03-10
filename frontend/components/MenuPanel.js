@@ -6,10 +6,24 @@ import { MenuItem } from "./MenuItem";
 import { menuNavigation } from "../store/nav";
 import { GapHorizontal } from "./GapHorizontal";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useContext, useState } from "react";
+import { UserContext } from "../context/UserContext";
 
 export function MenuPanel({ selectedScreen, setSelectedScreen }) {
   const [logout, setLogout] = useState(false);
+  const handleScreenSelection = useCallback((screen) => {
+    localStorage.setItem("dashboardScreen", screen);
+    setSelectedScreen(screen);
+  });
+
+  const { userDispatch } = useContext(UserContext);
+
+  const handleLogout = useCallback(() => {
+    userDispatch({
+      type: "logout",
+    });
+    setLogout(true);
+  });
 
   if (logout) {
     const router = useRouter();
@@ -36,7 +50,7 @@ export function MenuPanel({ selectedScreen, setSelectedScreen }) {
         <>
           <MenuItem
             selectedScreen={selectedScreen}
-            setSelectedScreen={setSelectedScreen}
+            handleScreenSelection={handleScreenSelection}
             menuItem={menuItem}
           />
           {index !== 3 && <GapVertical times={2.5} />}
@@ -53,7 +67,7 @@ export function MenuPanel({ selectedScreen, setSelectedScreen }) {
           alignItems: "center",
           cursor: "pointer",
         }}
-        onClick={() => setLogout(true)}
+        onClick={handleLogout}
       >
         <img
           src={"/logout.png"}

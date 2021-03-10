@@ -1,25 +1,41 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
 import { LoginButton } from "./LoginButton";
 import { InputBox } from "./InputBox";
 import { useRouter } from "next/router";
-import { loginUser } from "./AuthenticateUser";
+
+import { UserContext } from "../context/UserContext";
+import { loginUser } from "../api/AuthenticateUser";
+import { getCourses } from "../api/Content";
+import { ContentContext } from "../context/ContentContext";
 
 export function LoginWindow() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [newUser, setNewUser] = useState(false);
   const [login, setLogin] = useState(false);
+  const [newUser, setNewUser] = useState(false);
+
+  const { user, userDispatch } = useContext(UserContext);
+  const { content, contentDispatch } = useContext(ContentContext);
+
   const handleLogin = useCallback(async () => {
-    const loginAttempt = await loginUser(username, password);
-    if (loginAttempt.token) {
-      setLogin(true);
+    const loginResponse = await loginUser(username, password);
+    if (loginResponse.token) {
+      const allCourseData = await getCourses();
+      contentDispatch({
+        type: "populateCourses",
+        payload: allCourseData,
+      });
+      userDispatch({
+        type: "authenticated",
+        payload: loginResponse,
+      });
     } else {
-      alert("Invalid username or password.");
+      alert("Invalid username or password");
     }
   }, [username, password]);
 
@@ -41,9 +57,25 @@ export function LoginWindow() {
     setNewUser(true);
   }, [newUser]);
 
+  useEffect(() => {
+    console.log("content changed", content);
+    localStorage.setItem("content", JSON.stringify(content));
+  }, [content]);
+
+  useEffect(() => {
+    if (user.user && user.user.token) {
+      setLogin(true);
+    }
+  }, [user]);
+
   if (newUser) {
     const router = useRouter();
     router.push("/register");
+  }
+
+  if (login) {
+    const router = useRouter();
+    router.push("/dashboard");
   }
 
   return (
@@ -119,7 +151,7 @@ export function LoginWindow() {
         <InputBox
           placeholder="Password"
           callback={handlePasswordCallback}
-          hide={true}
+          type={"password"}
         />
         <GapVertical times={6} />
         <div
@@ -142,7 +174,7 @@ export function LoginWindow() {
           >
             Forgot Password
           </div>
-          <LoginButton handleLogin={handleLogin} login={login} />
+          <LoginButton handleLogin={handleLogin} />
         </div>
       </div>
       <div

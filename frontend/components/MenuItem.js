@@ -2,7 +2,7 @@
 import { jsx, css } from "@emotion/react";
 import { GapHorizontal } from "./GapHorizontal";
 
-export function MenuItem({ selectedScreen, menuItem, setSelectedScreen }) {
+export function MenuItem({ selectedScreen, menuItem, handleScreenSelection }) {
   const isSelected = selectedScreen === menuItem.menuItemName;
   return (
     <div
@@ -19,7 +19,7 @@ export function MenuItem({ selectedScreen, menuItem, setSelectedScreen }) {
           opacity: 1,
         },
       }}
-      onClick={() => setSelectedScreen(menuItem.menuItemName)}
+      onClick={() => handleScreenSelection(menuItem.menuItemName)}
     >
       <div
         css={{

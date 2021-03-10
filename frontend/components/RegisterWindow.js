@@ -1,24 +1,36 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { GapVertical } from "../components/GapVertical";
 import { InputBox } from "../components/InputBox";
 import { RegisterButton } from "../components/RegisterButton";
-import { registerUser } from "./AuthenticateUser";
+import { UserContext } from "../context/UserContext";
+import { registerUser } from "../api/AuthenticateUser";
 
 export function RegisterWindow() {
   const [username, setUsername] = useState("t");
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const [register, setRegister] = useState(false);
 
-  const handleRegister = useCallback(() => {
-    setRegister(true);
-    console.log("passing in", { username, email, password });
-    registerUser(username, email, password);
-  }, [username, email, password]);
+  const { user, userDispatch } = useContext(UserContext);
+
+  const handleRegister = useCallback(async () => {
+    if (password === confirmPassword) {
+      const registerResponse = await registerUser(username, email, password);
+      if (registerResponse.token) {
+        userDispatch({
+          type: "authenticated",
+          payload: registerResponse,
+        });
+      }
+    } else {
+      alert("Passwords entered are not the same");
+    }
+  }, [username, email, password, confirmPassword]);
 
   const handleUsernameCallback = useCallback((text) => {
     setUsername(text);
@@ -38,6 +50,13 @@ export function RegisterWindow() {
     },
     [confirmPassword]
   );
+
+  useEffect(() => {
+    console.log("Changed user: ", user);
+    if (user.user && user.user.token) {
+      setRegister(true);
+    }
+  }, [user]);
 
   return (
     <div
@@ -131,17 +150,14 @@ export function RegisterWindow() {
         <InputBox
           placeholder="Password"
           callback={handleCreatePasswordCallback}
-        />
-        <GapVertical times={3} />
-        {/*<InputBox
-          placeholder="Confirm Password"
-          callback={handleConfirmPasswordCallback}
+          type={"password"}
         />
         <GapVertical times={3} />
         <InputBox
-          placeholder="No. of Children"
+          placeholder="Confirm Password"
           callback={handleConfirmPasswordCallback}
-        /> */}
+          type={"password"}
+        />
         <GapVertical times={6} />
         <RegisterButton
           route={"/register-child"}

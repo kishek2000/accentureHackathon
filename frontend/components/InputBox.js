@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
+import { useState } from "react";
 
-export function InputBox({ placeholder, callback, percentage, hide }) {
+export function InputBox({ placeholder, callback, percentage, type }) {
+  const [inputType, setInputType] = useState("");
   return (
     <input
       css={{
@@ -19,7 +21,13 @@ export function InputBox({ placeholder, callback, percentage, hide }) {
         fontSize: 18,
         fontWeight: 300,
       }}
-      type={hide ? "password" : null}
+      type={type === "password" ? type : inputType ? inputType : null}
+      onFocus={() => {
+        setInputType(type);
+      }}
+      onBlur={() => {
+        setInputType("");
+      }}
       placeholder={placeholder}
       onChange={(e) => {
         console.log(e.target.value);
