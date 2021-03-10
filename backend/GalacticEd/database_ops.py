@@ -4,6 +4,8 @@ library or ODM used to interface with that DBMS.
 """
 from GalacticEd import db
 from GalacticEd.utils.colourisation import printColoured
+from GalacticEd.utils.debug import pretty
+from GalacticEd.exceptions import InvalidUserInput
 from typing import (
     Dict, 
     List
@@ -90,6 +92,20 @@ def get_lesson(lesson_id: str) -> List:
     lesson["_id"] = str(lesson["_id"])
     return lesson
 
+def get_lesson_difficulty(course_id: str, lesson_id: str):
+    all_course = get_courses_full()
+    try: 
+        target_course = [ course for course in all_course if course["courseId"] == course_id ][0] 
+        target_lesson = [ lesson for lesson in target_course["lessons"] ]
+        printColoured(" ➤ Found '{}' lesson '{}'".format(course_id, lesson_id))
+        return target_lesson["difficulty"] if "difficulty" in target_lesson else 0.5
+    except:
+        raise InvalidUserInput(
+            description="Failed to find course '{}', lesson '{}'".format(
+                course_id, lesson_id
+            )
+        )
+
 # ===== Statistics Operations =====
 
 def get_stats(user_id: str):
@@ -106,12 +122,70 @@ def get_stats(user_id: str):
 def save_child(child, parent_user_id):
     """
         TODO
+        multiple children with the same name unsupported
     """
     parent = get_user(user_id=parent_user_id)
     new_children = parent["children"].copy()
+    child["_id"] = "{}-{}".format(parent_user_id, child["name"])
+    child["statistics"] = []
     new_children.append(child)
     db.users.update_one({ "_id": ObjectId(parent_user_id) }, { "$set": { "children": new_children } })
-    return get_user(user_id=parent_user_id)
+    return (get_user(user_id=parent_user_id), child["_id"])
+
+def clear_child_stats(parent_user_id: str, child_id: str):
+    """
+        TODO this is just a convenience function
+    """
+    try:
+        db.users.update_one(
+            {
+                "_id": ObjectId(parent_user_id),
+                "children": {
+                    "$elemMatch": {
+                        "_id": {
+                            "$eq": child_id
+                        }
+                    }
+                }
+            },
+            {
+                "$set": {
+                    "children.$.statistics": []
+                }
+            }
+        )
+    except:
+        raise InvalidUserInput(description="Failed to clear")
+
+def save_stats(stats, parent_user_id, child_id):
+    """
+        TODO
+        pushes an object to db.users.children.statistics array
+    """
+    parent = get_user(user_id=parent_user_id)
+    target_child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+    # new_stats = target_child["statistics"].copy()
+    # new_stats.append(stats)
+
+    db.users.update_one(
+        {
+            "_id": ObjectId(parent_user_id),
+            "children": {
+                "$elemMatch": {
+                    "_id": {
+                        "$eq": child_id
+                    }
+                }
+            }
+        },
+        {
+            "$push": {
+                "children.$.statistics": stats
+            }
+        }
+    )
+    printColoured(" ➤ Successfully saved new performance stats!")
+    return stats
 
 # ===== User Operations =====
 
@@ -154,7 +228,7 @@ def get_user(user_id: str) -> Dict:
         Returns:
             dict: of shape: { _id, name, email, password }
     """
-    printColoured("FINDING {}".format(user_id))
+    printColoured(user_id)
     target_user = db.users.find_one({"_id": ObjectId(user_id)})
     target_user["_id"] = str(target_user["_id"])
     return target_user
@@ -176,7 +250,8 @@ def get_user_by_email(email):
         "_id": str(target_user["_id"]),
         "name": target_user["name"],
         "email": target_user["email"],
-        "password": target_user["password"]
+        "password": target_user["password"],
+        "children": target_user["children"]
     }
     return details
 
@@ -193,3 +268,11 @@ def password_verified(email, password):
 
 def email_taken(email):
     return db.users.find_one({ "email": email })
+
+
+def wipe_user(email):
+    """
+        TODO unprotected! This is just a convenience function
+    """
+    printColoured(" ➤ Removing a user: {}".format(email), colour="yellow")
+    db.users.remove({"email": email})
