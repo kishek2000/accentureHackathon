@@ -1,6 +1,7 @@
 """
     A suite of global functions for debugging
 """
+import json
 from GalacticEd.utils.colourisation import printColoured 
 
 def pretty(d, indent=1):
@@ -11,3 +12,6 @@ def pretty(d, indent=1):
             pretty(value, indent+1)
         else:
             printColoured('\t' * (indent+1) + str(value), colour="blue")
+
+def print_pretty_json(struct, colour="yellow"):
+    printColoured(json.dumps(struct, indent=4, sort_keys=True), colour=colour)

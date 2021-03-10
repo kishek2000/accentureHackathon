@@ -106,17 +106,6 @@ def get_lesson_difficulty(course_id: str, lesson_id: str):
             )
         )
 
-# ===== Statistics Operations =====
-
-def get_stats(user_id: str):
-    """
-        TODO
-    """
-    stats = [ stat for stat in db.stats.find({ "user_id": user_id }) ]
-    for each_stat in stats:
-        each_stat["_id"] = str(each_stat["_id"])
-    return stats
-
 # ===== Children Management =====
 
 def save_child(child, parent_user_id):
@@ -131,6 +120,17 @@ def save_child(child, parent_user_id):
     new_children.append(child)
     db.users.update_one({ "_id": ObjectId(parent_user_id) }, { "$set": { "children": new_children } })
     return (get_user(user_id=parent_user_id), child["_id"])
+
+# ===== Statistics Operations =====
+
+def get_stats(user_id: str):
+    """
+        TODO
+    """
+    stats = [ stat for stat in db.stats.find({ "user_id": user_id }) ]
+    for each_stat in stats:
+        each_stat["_id"] = str(each_stat["_id"])
+    return stats
 
 def clear_child_stats(parent_user_id: str, child_id: str):
     """
@@ -187,6 +187,24 @@ def save_stats(stats, parent_user_id, child_id):
     printColoured(" ➤ Successfully saved new performance stats!")
     return stats
 
+def get_stats_in_range(parent_user_id: str, child_id: str, course_id: str, start_timestamp: int, end_timestamp: int):
+    """
+        Given a parent user_id and child_id, finds that child and extracts their performance
+        statistics 
+    """
+    parent = get_user(user_id=parent_user_id)
+    target_child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+    all_stats = [ 
+        stat for stat in target_child["statistics"] 
+        if (
+            start_timestamp <= int(stat["time_on_completion"]) <= end_timestamp
+        ) and (
+            stat["course_id"] == course_id
+        )
+    ] 
+    return all_stats
+    
+
 # ===== User Operations =====
 
 def get_all_users() -> List[Dict]:
@@ -228,7 +246,6 @@ def get_user(user_id: str) -> Dict:
         Returns:
             dict: of shape: { _id, name, email, password }
     """
-    printColoured(user_id)
     target_user = db.users.find_one({"_id": ObjectId(user_id)})
     target_user["_id"] = str(target_user["_id"])
     return target_user

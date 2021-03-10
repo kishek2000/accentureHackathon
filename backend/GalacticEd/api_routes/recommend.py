@@ -15,26 +15,47 @@ from GalacticEd.database_ops import (
     get_courses_lessons,
     get_courses_all,
     get_stats,
-    get_user
+    get_user,
+    get_stats_in_range
 )
-from GalacticEd.utils.debug import pretty
+from GalacticEd.utils.debug import pretty, print_pretty_json
+
+import time
+from math import floor
+from datetime import datetime
 
 recommend_router = Blueprint("recommend", __name__)
-
 
 @recommend_router.route("/next_lesson", methods=["GET"])
 def profile_stats_push_handler():
     """
+        TODO: documentation
         Params:
+            - user_id (str)
             - child_id (str)
-            - category (str)
+            - course_id (str)
     """
-    child_id = request.args.get("child_id")
-    printColoured(" ➤ Recommending a lesson to child {}".format(child_id))
     
     try:
-        pass
-    except:
+        user_id = request.args.get("user_id")
+        child_id = request.args.get("child_id")
+        category = request.args.get("category")
+        printColoured(" ➤ Recommending a lesson from '{}' for {}".format(category, child_id))
+        
+        curr_timestamp           = floor(time.time())
+        week_prior_timestamp     = curr_timestamp - (1 * 7 * 24 * 60 * 60)   # TODO: this is a little dumb
+        two_week_prior_timestamp = curr_timestamp - (2 * 7 * 24 * 60 * 60)   # TODO: this is a little dumb
+        zero_reference           = 0
+
+        all_stats       = get_stats_in_range(user_id, child_id, "shapes", zero_reference,           curr_timestamp) 
+        last_week_stats = get_stats_in_range(user_id, child_id, "shapes", week_prior_timestamp,     curr_timestamp)
+        this_week_stats = get_stats_in_range(user_id, child_id, "shapes", two_week_prior_timestamp, curr_timestamp)
+
+        print_pretty_json(all_stats)
+        # print_pretty_json(last_week_stats)
+        # print_pretty_json(this_week_stats)
+    except Exception as err:
+        printColoured(err, colour="red")
         raise InvalidUserInput(description="Invalid or missing stats fields")
 
     return jsonify({
