@@ -272,6 +272,21 @@ def get_user_by_email(email):
     }
     return details
 
+def get_child_proficiency(user_id: str, child_id: str, course_id: str):
+    """
+        TODO: 
+        Given the target user and child, gets that child's current
+        proficiency rating for a given category
+    """
+    parent = get_user(user_id)
+    child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+    return int(child["proficiency"][course_id])
+
+def get_user_rating(user_id: str, child_id: str):
+    """
+        TODO
+    """
+
 def password_verified(email, password):
     """
         Given an email and password, verifies it against the
