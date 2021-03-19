@@ -27,15 +27,17 @@ from datetime import datetime
 from typing import (
     List
 )
-from functools import reduce 
+from functools import reduce
 
 recommend_router = Blueprint("recommend", __name__)
 
 # TODO: temporary aggregator stub
+
+
 def stats_summarise(stats: List):
     """
-        Given a list of stats objects, returns a tuple with the items:
-            (avg time_taken, avg num_incorrect, avg difficult) 
+        Given a list of stats objects, returns a dict with the items:
+            (avg time_taken, avg num_incorrect, avg difficulty) 
     """
     averages = [0, 0, 0]
     for each_stat in stats:
@@ -44,7 +46,12 @@ def stats_summarise(stats: List):
         averages[2] += float(each_stat["difficulty"])
     for i, each_field in enumerate(averages, start=0):
         averages[i] = averages[i] / len(stats)
-    return tuple(averages)        
+
+    return {
+        "avg_time_taken": averages[0],
+        "avg_num_incorrect": averages[1],
+        "avg_difficulty": averages[2]
+    }
 
 
 @recommend_router.route("/next_lesson", methods=["GET"])
@@ -56,42 +63,49 @@ def profile_stats_push_handler():
             - child_id (str)
             - course_id (str)
     """
-    
+
     try:
         user_id = request.args.get("user_id")
         child_id = request.args.get("child_id")
         category = request.args.get("category")
-        printColoured(" ➤ Recommending a lesson from '{}' for {}".format(category, child_id))
-        
-        curr_timestamp           = floor(time.time())
-        week_prior_timestamp     = curr_timestamp - (1 * 7 * 24 * 60 * 60)   # TODO: this is a little dumb
-        two_week_prior_timestamp = curr_timestamp - (2 * 7 * 24 * 60 * 60)   # TODO: this is a little dumb
-        zero_reference           = 0
+        printColoured(
+            " ➤ Recommending a lesson from '{}' for {}".format(category, child_id))
 
-        all_stats       = get_stats_in_range(user_id, child_id, "shapes", zero_reference,           curr_timestamp) 
-        last_week_stats = get_stats_in_range(user_id, child_id, "shapes", week_prior_timestamp,     curr_timestamp)
-        this_week_stats = get_stats_in_range(user_id, child_id, "shapes", two_week_prior_timestamp, curr_timestamp)
+        curr_timestamp = floor(time.time())
+        week_prior_timestamp = curr_timestamp - \
+            (1 * 7 * 24 * 60 * 60)   # TODO: this is a little dumb
+        two_week_prior_timestamp = curr_timestamp - \
+            (2 * 7 * 24 * 60 * 60)   # TODO: this is a little dumb
+        zero_reference = 0
+
+        all_stats = get_stats_in_range(
+            user_id, child_id, "shapes", zero_reference,           curr_timestamp)
+        last_week_stats = get_stats_in_range(
+            user_id, child_id, "shapes", two_week_prior_timestamp, week_prior_timestamp)
+        this_week_stats = get_stats_in_range(
+            user_id, child_id, "shapes", week_prior_timestamp,     curr_timestamp)
 
         print_pretty_json(all_stats)
         # print_pretty_json(last_week_stats)
         # print_pretty_json(this_week_stats)
 
         # Getting the average time taken, num_incorrect, difficulty:
-        printColoured("Performances: (avg time taken, avg num_incorrect, avg difficulty)", colour="blue")
-        printColoured("-> Global", colour="blue")
+        printColoured(
+            "Performances: (avg time taken, avg num_incorrect, avg difficulty)", colour="blue")
+        printColoured(" → Global", colour="blue")
         global_performance = stats_summarise(all_stats)
-        print_pretty_json(global_performance)
+        pretty(global_performance)
 
-        printColoured("-> Last Week", colour="blue")
+        printColoured(" → Last Week", colour="blue")
         last_week_performance = stats_summarise(last_week_stats)
-        print_pretty_json(last_week_performance)
-        
-        printColoured("-> This Week", colour="blue")
-        this_week_performance = stats_summarise(this_week_stats)
-        print_pretty_json(this_week_performance)
+        pretty(last_week_performance)
 
+        printColoured(" → This Week", colour="blue")
+        this_week_performance = stats_summarise(this_week_stats)
+        pretty(this_week_performance)
 
     except Exception as err:
+        printColoured(err.stacktrace, color="red")
         printColoured(err, colour="red")
         raise InvalidUserInput(description="Invalid or missing stats fields")
 
