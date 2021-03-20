@@ -15,6 +15,7 @@ from GalacticEd.authentication import (
     register_child,
     remove_user
 )
+from GalacticEd.utils.debug import pretty
 
 # Google auth dependencies:
 import requests
@@ -55,10 +56,12 @@ def register_handler():
     """
     if request.method == "POST":
         try:
+            pretty(request.form)
             user_name = request.form["username"]
             user_email = request.form["email"]
             user_password = request.form["password"]
-            user_confirm_password = request.form["confirm_password"]
+            # user_confirm_password = request.form["confirm_password"]
+            user_confirm_password = user_password   # TODO: Temporary workaround
             return jsonify(register(user_name, user_email, user_password, user_confirm_password))
         except:
             raise InvalidUserInput(description="Invalid or missing fields. Check the form you submitted again")
