@@ -223,7 +223,7 @@ export function LearningStyleDropdown({ handleLSCallback, LS }) {
           { id: "Audio & Visual", hidden: false },
         ].map((style) => (
           <option
-            value={style.id.toLowerCase().replaceAll(" ", "").replace("&", "-")}
+            value={style.id.toLowerCase().replace(/ /g, "").replace("&", "-")}
             hidden={style.hidden}
             key={style.id}
           >
