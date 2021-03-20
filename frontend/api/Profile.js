@@ -1,4 +1,4 @@
-const baseURL = "http://galacticed.xyz/api";
+const baseURL = "https://galacticed.xyz/api";
 // "http://ec2-3-138-143-55.us-east-2.compute.amazonaws.com:8888/api";
 
 export async function getUserProfile(parentUID, token) {
