@@ -35,6 +35,10 @@ export function LoginWindow() {
         payload: loginResponse,
       });
       localStorage.setItem("user", JSON.stringify(loginResponse));
+      localStorage.setItem(
+        "currChild",
+        JSON.stringify(loginResponse["children"][0])
+      );
     } else {
       alert("Invalid username or password");
     }
