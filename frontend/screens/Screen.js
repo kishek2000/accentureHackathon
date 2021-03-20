@@ -17,6 +17,6 @@ export function Screen({ selectedScreen }) {
     case "settings":
       return <SettingsScreen />;
     default:
-      return <div />;
+      return null;
   }
 }

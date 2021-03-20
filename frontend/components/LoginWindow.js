@@ -34,6 +34,7 @@ export function LoginWindow() {
         type: "authenticated",
         payload: loginResponse,
       });
+      localStorage.setItem("user", JSON.stringify(loginResponse));
     } else {
       alert("Invalid username or password");
     }

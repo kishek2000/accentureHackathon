@@ -3,6 +3,8 @@ import { jsx, css } from "@emotion/react";
 import { GapVertical } from "../components/GapVertical";
 import { ChildSettings } from "../components/ChildSettings";
 import { AccountSettings } from "../components/AccountSettings";
+import { useEffect, useState } from "react";
+import { getUserProfile } from "../api/Profile";
 
 export function SettingsScreen() {
   return (
