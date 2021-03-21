@@ -39,6 +39,7 @@ export function ContinueCourseRow() {
           title="Shapes"
           thumbnail="/shapesThumbnail.png"
           handleCourseCallback={handleCourseCallback}
+          keyVal={"shapes01"}
         />
       </div>
     </div>

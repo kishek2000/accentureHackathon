@@ -43,19 +43,23 @@ export function RecommendedCoursesRow() {
           width: "85%",
           overflowX: "scroll",
           paddingBottom: 24,
+          justifyContent: "space-between",
         }}
       >
         {allCourseData.map((course, index) => (
-          <>
+          <div
+            key={index}
+            css={{ paddingRight: index !== allCourseData.length - 1 ? 24 : 0 }}
+          >
             <CourseCard
+              key={course.title}
               title={course.title}
               thumbnail={course.thumbnail}
-              key={course.id}
+              keyVal={course.title}
               handleCourseCallback={handleCourseCallback}
               shadow={false}
             />
-            <GapHorizontal times={6} />
-          </>
+          </div>
         ))}
         <div css={{ width: 1, opacity: 0 }}>.</div>
       </div>

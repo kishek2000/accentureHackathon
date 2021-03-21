@@ -92,16 +92,14 @@ def register(username: str, email: str, password: str, confirm_password: str) ->
 
 def register_child(child, parent_user_id):
     """
-        Commits a new user document with the given details to the database.
-
-        Args:
-            name (str)
-            avatar (str)
-            birthday (str)
-            learning_style (str)
-            attention_span (str)
-            favourite_object (str)
     """
+    child["proficiency"] = {
+        "shapes": 800,
+        "actions": 800,
+        "objects": 800,
+        "emotions": 800,
+        "colours": 800
+    }
     parent = save_child(child, parent_user_id)
     printColoured(" ➤ Registered a child")
     return {

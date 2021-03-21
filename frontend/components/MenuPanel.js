@@ -8,12 +8,23 @@ import { GapHorizontal } from "./GapHorizontal";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
+import { getUserProfile } from "../api/Profile";
 
 export function MenuPanel({ selectedScreen, setSelectedScreen }) {
   const [logout, setLogout] = useState(false);
-  const handleScreenSelection = useCallback((screen) => {
+  const handleScreenSelection = useCallback(async (screen) => {
     localStorage.setItem("dashboardScreen", screen);
     setSelectedScreen(screen);
+
+    switch (screen) {
+      case "settings":
+        const user = JSON.parse(localStorage.getItem("user"));
+        const { user_id, token } = user;
+        const userProfileData = await getUserProfile(user_id, token);
+        console.log(userProfileData);
+      default:
+        break;
+    }
   });
 
   const { userDispatch } = useContext(UserContext);
