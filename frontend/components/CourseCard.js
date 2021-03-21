@@ -4,7 +4,13 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { GapVertical } from "../components/GapVertical";
 
-export function CourseCard({ title, thumbnail, handleCourseCallback, shadow }) {
+export function CourseCard({
+  title,
+  thumbnail,
+  handleCourseCallback,
+  shadow,
+  keyVal,
+}) {
   return (
     <div
       css={{
@@ -17,6 +23,7 @@ export function CourseCard({ title, thumbnail, handleCourseCallback, shadow }) {
         borderRadius: 16,
         cursor: "pointer",
       }}
+      key={keyVal}
       onClick={() => handleCourseCallback(title)}
     >
       <img src={thumbnail} css={{ height: 200 }} />

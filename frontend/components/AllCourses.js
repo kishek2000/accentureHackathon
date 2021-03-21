@@ -34,7 +34,7 @@ export function AllCoursesRow() {
             <CourseCard
               title={course.title}
               thumbnail={course.thumbnail}
-              key={course.id}
+              keyVal={course.id}
               shadow={false}
             />
             {index !== content.courseLessonData.length - 1 && (

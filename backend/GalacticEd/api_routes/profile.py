@@ -71,10 +71,10 @@ def profile_stats_push_handler():
             course_id, 
             lesson_id
         )
-        curr_rating = get_user_rating(request_data["user_id "])
+        curr_rating = get_user_rating(request_data["user_id"], request_data["child_id"])
         new_proficiency = getNewRating(
             1000,
-            curr_rating,
+            curr_rating if curr_rating else 800,  # TODO: placeholder
             50,
             request_data["time_taken"],
             request_data["num_incorrect"]
@@ -90,9 +90,9 @@ def profile_stats_push_handler():
         }, request_data["user_id"], request_data["child_id"]))
     except InvalidUserInput as err:
         raise InvalidUserInput(description=err.get_description())
-    except:
-        raise InvalidUserInput(description="Invalid or missing stats fields")
-
+    except Exception as err:
+        print(err)
+        raise InvalidUserInput(description="Invalid or missing stats fields " + err)
 
 @profile_router.route("/stats", methods=["DELETE"])
 def profile_stats_wipe_handler():
