@@ -88,8 +88,9 @@ def child_register_handler():
             "birthday": request.form["birthday"],
             "learning_style": request.form["learning_style"],
         }, user_id))
-    except:
-        raise InvalidUserInput(description="Invalid or missing fields, most likely.")
+    except Exception as err:
+        print(err)
+        raise InvalidUserInput(description="Invalid or missing fields, most likely: {}.".format(err))
 
 @auth_router.route("/remove", methods=["DELETE"])
 def remove_user_handler():

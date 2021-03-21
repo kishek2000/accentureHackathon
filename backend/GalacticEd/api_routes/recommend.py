@@ -2,7 +2,7 @@
 Route handlers for recommending courses to children based on their 
 performance statistics
 """
-
+import sys
 from flask import (
     Blueprint,
     request,
@@ -14,9 +14,12 @@ from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.database_ops import (
     get_courses_lessons,
     get_courses_all,
+    get_child_proficiency,
     get_stats,
     get_user,
-    get_stats_in_range
+    get_stats_in_range,
+    get_all_lessons,
+    get_lesson_difficulty
 )
 from GalacticEd.proficiency import getNewRating
 from GalacticEd.utils.debug import pretty, print_pretty_json
@@ -64,76 +67,47 @@ def calc_proficiency(time_taken, num_incorrect, difficulty):
         the target difficulty of the next lesson)
     """
 
-def get_target_difficulty():
+def get_lesson_of_difficulty(target_difficult: int, course_id: str):
     """
-
+        Gets the ID of the lesson 
     """
-"""
-  My idea for this simple recommender interface:
-        For each category, the frontend queries `/api/recommend/next_course` 
-        passing in:    child_id, category
-        and gets back: lesson ID of the next recommended lesson in that category
-    
-    Internally, the logic could go like this:
+    # Get all lessons in the category
+    lessons = get_all_lessons(course_id)
 
-        1. Look up the child associated with child_id
-        2. Get their stats object list (which contains historical performance data)
-        3. Look up the stats object for the specified category
-             -> Now we have access to performance data which has the structure:
-                    [
-                        {
-                            lesson_id,
-                            num_incorrect,      ('incorrectness_measure')
-                            time_taken,
-                            difficulty,
-                            time_on_completion (timestamp),
-                            completed (bool),
-                            parental_engagement_rating (int in a range, eg. 1-10?) 
-                        },
-                        ... and more
-                    ]
-        4. The hard part:
-            a)
-                Transform all data into inputs into a rec engine
-                
-                -> Examples of inputs we can obtain/calculate:
-                    1. proficiency (weighted average? Recent progress is more heavily weighted)
-                        -> Function of: num_incorrect, time_taken, difficulty
-    [ON HOLD]       2. attention_span (weighted average? Recent progress is more heavily weighted)
-                        -> Function of: time_taken, completed
-                    3. proficiency_delta
-                        ->  Difference in average proficiency last week and this week (for example)
-                            Why do this: 
-                                1. This serves as a 'rating' score so the rec engine can assess
-                                   the effectiveness of our previous recommendations
-                                2. Collaborative filtering?
-                                    We can recommend lessons to children based on how effectively
-                                    they helped other children increase in proficiency
-            b) 
-                [RECOMMENDATION STEP HERE]
-
-                output: 0.53    (ranges from 0.00-1.00 for instance, or integers 1-10?)
-
-            c) 
-                Get back a difficulty rating (in either float/int)
-                [What else could we return from the rec engine?]
-        5. Based on what recommended difficulty value the rec engine outputted, find the lesson
-           that best matches that difficulty value. 
-
-Next things to do:
-0. Set up steps 1-3 above
-1. Figure out how to calc proficiency value
-2. Mapping profiency to a value within the difficulty range
-3. Fetch lesson with that difficulty
-
-Note: difficulty will be manually assigned
-
-- Generate mockup data for supervised learning model
-
-"""
+    # Find the lesson with the minimal absolute difference with target_difficulty 
+    target_lesson_id = ""
+    minimal_diff = sys.maxsize
+    for each_lesson in lessons:
+        lesson_difficulty = get_lesson_difficulty(course_id, each_lesson["lessonId"])
+        print("Target diff: {}, curr diff: {}".format(target_difficult, lesson_difficulty))
+        if abs(lesson_difficulty - target_difficult) < minimal_diff:
+            minimal_diff = abs(lesson_difficulty - target_difficult) 
+            print("Best diff so far: {}".format(minimal_diff))
+            target_lesson_id = each_lesson["lessonId"]
+    return target_lesson_id
 
 @recommend_router.route("/next_lesson", methods=["GET"])
-def profile_stats_push_handler():
+def recommend_next_lesson_handler():
+    """
+        TODO: documentation:
+        Params:
+            - user_id
+            - child_id
+            - course_id
+    """
+    # Get the user's current rating and fetch the lesson which matches
+    # that rating the closest.
+    user_id = request.args.get("user_id")
+    child_id = request.args.get("child_id")
+    course_id = request.args.get("course_id")
+    child_proficiency = get_child_proficiency(user_id, child_id, course_id)
+    recommended_lesson_id = get_lesson_of_difficulty(child_proficiency, course_id)
+
+    return recommended_lesson_id
+
+# TODO: this route should be in profile/stats
+@recommend_router.route("/STATS_STUB")
+def get_stats_breakdown_handler():
     """
         TODO: documentation
         Params:
@@ -141,7 +115,6 @@ def profile_stats_push_handler():
             - child_id (str)
             - course_id (str)
     """
-
     try:
         user_id = request.args.get("user_id")
         child_id = request.args.get("child_id")
@@ -183,7 +156,7 @@ def profile_stats_push_handler():
         pretty(this_week_performance)
 
     except Exception as err:
-        printColoured(err.stacktrace, color="red")
+        # printColoured(err.stacktrace, color="red")
         printColoured(err, colour="red")
         raise InvalidUserInput(description="Invalid or missing stats fields")
 
