@@ -27,6 +27,7 @@ export function AvatarOverlay({ setAvatarOverlay, callback, selection }) {
           borderRadius: 16,
           padding: "64px 48px",
           position: "relative",
+          zIndex: 10,
         }}
       >
         <div
@@ -76,7 +77,7 @@ export function AvatarOverlay({ setAvatarOverlay, callback, selection }) {
               }}
               onClick={() => callback(avatar)}
             >
-              <AvatarImage animal={avatar} size={"large"} />
+              <AvatarImage avatar={avatar} size={"large"} />
               <p
                 css={{
                   fontFamily: "Poppins",

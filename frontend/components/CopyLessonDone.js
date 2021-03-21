@@ -4,9 +4,15 @@ import { useCallback } from "react";
 import { GapVertical } from "./GapVertical";
 import { GapHorizontal } from "./GapHorizontal";
 
-export function CopyLessonDone({ correct, handleNextQuestion, setIsDone }) {
+export function CopyLessonDone({
+  correct,
+  handleNextQuestion,
+  setIsDone,
+  handleCorrectClick,
+}) {
   const handleContinueLesson = useCallback(() => {
     handleNextQuestion();
+    handleCorrectClick();
     setIsDone(false);
   });
   var correctData = {};

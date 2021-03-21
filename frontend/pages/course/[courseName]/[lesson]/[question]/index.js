@@ -12,6 +12,7 @@ import { CopyLessonDone } from "../../../../../components/CopyLessonDone";
 import { MultiMatchLesson } from "../../../../../components/MultiMatchLesson";
 import { getCourseLessonData } from "../../../../../api/Content";
 import { ContentContext } from "../../../../../context/ContentContext";
+import { postLessonStats } from "../../../../../api/Profile";
 
 export default function Question() {
   const router = useRouter();
@@ -39,6 +40,45 @@ export default function Question() {
 
     useEffect(() => {
       if (currQuestion === -1) {
+        const finalLessonStats = JSON.parse(
+          localStorage.getItem(`lessonStats:${lesson}`)
+        );
+        const startTime = finalLessonStats["start_time"];
+        const currTime = new Date().getTime();
+        const elapsedTime = (currTime - startTime) / 1000;
+        const updatedFinalLessonStats = {
+          ...finalLessonStats,
+          num_incorrect: clicks,
+          time_taken: elapsedTime,
+          completed: true,
+        };
+
+        console.log("Final Lesson Stats:", updatedFinalLessonStats);
+        const {
+          user_id,
+          child_id,
+          course_id,
+          lesson_id,
+          date,
+          num_incorrect,
+          time_taken,
+        } = updatedFinalLessonStats;
+
+        postLessonStats(
+          user_id,
+          child_id,
+          course_id,
+          lesson_id,
+          date,
+          num_incorrect,
+          time_taken
+        );
+
+        localStorage.removeItem(`lessonStats:${lesson}`);
+        alert(
+          `You finished the lesson! Click ok to return back to lessons in ${courseName}.`
+        );
+
         router.push(`/course/${courseName}`);
       } else {
         router.push(`/course/${courseName}/${lesson}/${currQuestion}`);
@@ -47,6 +87,18 @@ export default function Question() {
     const [revealItem, setRevealItem] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
     const [isDone, setIsDone] = useState(false);
+
+    /* All Lesson Stats state */
+    const [clicks, setClicks] = useState(0);
+
+    const handleCorrectClick = useCallback(() => {
+      setClicks(clicks - 1);
+    });
+
+    const handleIncorrectClick = useCallback(() => {
+      setClicks(clicks + 1);
+    });
+
     if (lessonData) {
       switch (lessonData.lessonType) {
         case "identify":
@@ -55,11 +107,14 @@ export default function Question() {
               setRevealItem={setRevealItem}
               correct={questionData.correct}
               handleNextQuestion={handleNextQuestion}
+              handleCorrectClick={handleCorrectClick}
             />
           ) : (
             <IdentifyLesson
               questionData={questionData}
               setRevealItem={setRevealItem}
+              handleCorrectClick={handleCorrectClick}
+              handleIncorrectClick={handleIncorrectClick}
             />
           );
         case "match":

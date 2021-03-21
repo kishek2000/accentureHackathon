@@ -43,6 +43,7 @@ export default function Lesson() {
         lesson,
         content.allCourseLessonData
       );
+
       return (
         <div
           css={{
@@ -117,6 +118,27 @@ export default function Lesson() {
             }}
             onClick={() => {
               setQuestion(1);
+              const start = new Date();
+              const parentId = JSON.parse(localStorage.getItem("user"))[
+                "user_id"
+              ];
+              const childId = JSON.parse(localStorage.getItem("currChild"))[
+                "_id"
+              ];
+
+              const lessonStats = {
+                user_id: parentId,
+                child_id: childId,
+                lesson_id: lesson,
+                course_id: courseName,
+                date: start.getTime(),
+                start_time: start.getTime(),
+              };
+
+              localStorage.setItem(
+                `lessonStats:${lesson}`,
+                JSON.stringify(lessonStats)
+              );
             }}
           >
             BEGIN

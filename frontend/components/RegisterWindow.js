@@ -7,7 +7,7 @@ import { InputBox } from "../components/InputBox";
 import { RegisterButton } from "../components/RegisterButton";
 import { UserContext } from "../context/UserContext";
 import { registerUser } from "../api/AuthenticateUser";
-import { RegistrationHeader } from "./RegisterChildWindow";
+import { RegistrationHeader } from "./RegistrationHeader";
 
 export function RegisterWindow() {
   const [username, setUsername] = useState("t");

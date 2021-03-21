@@ -5,12 +5,14 @@ import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
 
 export function MatchLessonCorrect({
+  handleCorrectClick,
   handleNextQuestion,
   setIsCorrect,
   correct,
 }) {
   const handleContinueLesson = useCallback(() => {
     handleNextQuestion();
+    handleCorrectClick();
     setIsCorrect(false);
   });
   var correctData = {};

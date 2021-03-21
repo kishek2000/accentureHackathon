@@ -13,7 +13,7 @@ export function DashboardStatsRow() {
 
   return (
     <div css={{ display: "flex", flexDirection: "row", overflow: "hidden" }}>
-      <ProficiencyGraph childName={childName} />
+      <ProficiencyGraph />
       <GapHorizontal times={24} />
       <div
         css={{
@@ -41,7 +41,13 @@ export function DashboardStatsRow() {
   );
 }
 
-export function ProficiencyGraph({ childName }) {
+export function ProficiencyGraph() {
+  const [childName, setChildName] = useState();
+
+  useEffect(() => {
+    setChildName(JSON.parse(localStorage.getItem("currChild"))["name"]);
+  });
+
   return (
     <div css={{ display: "flex", flexDirection: "column", width: "45%" }}>
       <div css={{ fontFamily: "Poppins", fontSize: 20, fontWeight: 600 }}>

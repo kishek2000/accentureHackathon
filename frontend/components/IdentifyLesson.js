@@ -1,7 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 
-export function IdentifyLesson({ questionData, setRevealItem }) {
+export function IdentifyLesson({
+  questionData,
+  setRevealItem,
+  handleIncorrectClick,
+}) {
   var places = ["20%", "35%", "50%", "65%", "80%"];
 
   if (questionData) {
@@ -20,6 +24,9 @@ export function IdentifyLesson({ questionData, setRevealItem }) {
     } else {
       return null;
     }
+
+    console.log("rendering component again");
+
     return (
       <div
         css={{
@@ -28,7 +35,10 @@ export function IdentifyLesson({ questionData, setRevealItem }) {
           alignItems: "center",
           justifyContent: "center",
           position: "relative",
+          width: "100vw",
+          height: "100vh",
         }}
+        onClick={() => handleIncorrectClick()}
       >
         {dataMap.map((media) => (
           <div
@@ -51,7 +61,9 @@ export function IdentifyLesson({ questionData, setRevealItem }) {
                 width: 300,
               }}
               draggable={false}
-              onClick={() => setRevealItem(true)}
+              onClick={() => {
+                setRevealItem(true);
+              }}
             />
           </div>
         ))}

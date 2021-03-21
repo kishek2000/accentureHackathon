@@ -3,7 +3,6 @@ import { jsx, css } from "@emotion/react";
 import { GapVertical } from "./GapVertical";
 import { GapHorizontal } from "./GapHorizontal";
 import { CourseCard } from "./CourseCard";
-import { allCourseData } from "../store/courses";
 import { ContentContext } from "../context/ContentContext";
 import { useContext } from "react";
 
