@@ -18,6 +18,7 @@ export function ContinueCourseRow() {
     const router = useRouter();
     router.push(`/course/${course}`);
   }
+
   return (
     <div
       css={{

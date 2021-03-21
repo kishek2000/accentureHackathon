@@ -23,18 +23,22 @@ export const Avatars = [
   "wolf",
 ];
 
-export function AvatarImage({ size }) {
-  const [animal, setAnimal] = useState("");
+export function AvatarImage({ avatar, size }) {
+  const [chosenAvatar, setChosenAvatar] = useState("");
   useEffect(() => {
-    setAnimal(JSON.parse(localStorage.getItem("currChild"))["avatar"]);
+    setChosenAvatar(JSON.parse(localStorage.getItem("currChild"))["avatar"]);
   }, []);
 
   const dimension = size === "small" ? "48px" : "96px";
-  if (animal) {
+  const imgSrc = avatar
+    ? `/avatars/${avatar}.png`
+    : `/avatars/${chosenAvatar}.png`;
+
+  if (chosenAvatar) {
     return (
       <div>
         <img
-          src={`/avatars/${animal}.png`}
+          src={imgSrc}
           css={{
             width: dimension,
             height: dimension,

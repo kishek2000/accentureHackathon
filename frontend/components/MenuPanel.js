@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useCallback, useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { getUserProfile } from "../api/Profile";
+import { HeaderProfile } from "./HeaderProfile";
 
 export function MenuPanel({ selectedScreen, setSelectedScreen }) {
   const [logout, setLogout] = useState(false);
@@ -20,7 +21,7 @@ export function MenuPanel({ selectedScreen, setSelectedScreen }) {
       case "settings":
         const user = JSON.parse(localStorage.getItem("user"));
         const { user_id, token } = user;
-        const userProfileData = await getUserProfile(user_id, token);
+        const userProfileData = await getUserProfile(user_id);
         console.log(userProfileData);
       default:
         break;
@@ -42,53 +43,56 @@ export function MenuPanel({ selectedScreen, setSelectedScreen }) {
   }
 
   return (
-    <div
-      css={{
-        display: "flex",
-        flexDirection: "column",
-        position: "fixed",
-        height: "100vh",
-        background:
-          "linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.51) 57.44%, #FEFEFE 100%)",
-        width: 240,
-        borderRadius: "0px 8px 8px 0px",
-      }}
-    >
-      <GapVertical times={20} />
-      <DashboardGalacticEdLogoRow />
-      <GapVertical times={35} />
-      {menuNavigation.map((menuItem, index) => (
-        <>
-          <MenuItem
-            selectedScreen={selectedScreen}
-            handleScreenSelection={handleScreenSelection}
-            menuItem={menuItem}
-          />
-          {index !== 3 && <GapVertical times={2.5} />}
-        </>
-      ))}
+    <>
       <div
         css={{
-          alignSelf: "end",
-          position: "absolute",
-          bottom: 60,
-          left: 35,
           display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          cursor: "pointer",
+          flexDirection: "column",
+          position: "fixed",
+          height: "100vh",
+          background:
+            "linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.51) 57.44%, #FEFEFE 100%)",
+          width: 240,
+          borderRadius: "0px 8px 8px 0px",
         }}
-        onClick={handleLogout}
       >
-        <img
-          src={"/logout.png"}
-          css={{ height: 36, width: 36, objectFit: "contain" }}
-        />
-        <GapHorizontal times={3} />
-        <div css={{ fontFamily: "Poppins", fontSize: 18, fontWeight: 500 }}>
-          Logout
+        <GapVertical times={20} />
+        <DashboardGalacticEdLogoRow />
+        <GapVertical times={35} />
+        {menuNavigation.map((menuItem, index) => (
+          <>
+            <MenuItem
+              selectedScreen={selectedScreen}
+              handleScreenSelection={handleScreenSelection}
+              menuItem={menuItem}
+            />
+            {index !== 3 && <GapVertical times={2.5} />}
+          </>
+        ))}
+        <div
+          css={{
+            alignSelf: "end",
+            position: "absolute",
+            bottom: 60,
+            left: 35,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+          onClick={handleLogout}
+        >
+          <img
+            src={"/logout.png"}
+            css={{ height: 36, width: 36, objectFit: "contain" }}
+          />
+          <GapHorizontal times={3} />
+          <div css={{ fontFamily: "Poppins", fontSize: 18, fontWeight: 500 }}>
+            Logout
+          </div>
         </div>
       </div>
-    </div>
+      <HeaderProfile callback={handleScreenSelection} />
+    </>
   );
 }

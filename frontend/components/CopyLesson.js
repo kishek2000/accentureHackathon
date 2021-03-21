@@ -2,7 +2,12 @@
 import { jsx, css } from "@emotion/react";
 import { GapVertical } from "./GapVertical";
 
-export function CopyLesson({ questionData, questionTitle, setIsDone }) {
+export function CopyLesson({
+  questionData,
+  questionTitle,
+  setIsDone,
+  handleIncorrectClick,
+}) {
   if (questionData) {
     var mediaData = [];
     if (questionData.actions) {
@@ -16,6 +21,7 @@ export function CopyLesson({ questionData, questionTitle, setIsDone }) {
           flexDirection: "column",
           alignItems: "center",
         }}
+        onClick={() => handleIncorrectClick()}
       >
         <GapVertical times={24} />
         <div css={{ fontFamily: "Poppins", fontSize: 28, fontWeight: 400 }}>
