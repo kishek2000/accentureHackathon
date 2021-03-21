@@ -114,7 +114,7 @@ export default function Course() {
               Lessons
             </div>
             <GapVertical times={1} />
-            <div css={{ fontFamily: "Poppins", fontSize: 24, fontWeight: 300 }}>
+            <div css={{ fontFamily: "Poppins", fontSize: 22, fontWeight: 300 }}>
               Curated lessons in{" "}
               <span css={{ fontWeight: 700 }}>{courseTitle}</span> for{" "}
               {childName}

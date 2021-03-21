@@ -30,7 +30,7 @@ export function ChildSettings() {
         your account.
       </div>
       <GapVertical times={6} />
-      <div
+      {/* <div
         css={{
           display: "flex",
           flexDirection: "row",
@@ -73,29 +73,32 @@ export function ChildSettings() {
             Edit Avatar
           </div>
         </div>
-        <div
-          css={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: "Poppins",
-            fontSize: "16px",
-            padding: "8px 16px",
-            background: "#EEEEEE",
-            borderRadius: 16,
-            height: "20%",
-            cursor: "pointer",
-            transition: "0.7s",
-            "&:hover": {
-              background: "#DDDDDD",
-            },
-          }}
-          onClick={() => {
-            setRegisterChild(true);
-          }}
-        >
-          Add New Child
-        </div>
+      </div> */}
+      <div
+        css={{
+          width: "180px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "Poppins",
+          fontSize: "16px",
+          padding: "8px 16px",
+          background: "white",
+          boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.05)",
+          borderRadius: 16,
+          // height: "20%",
+          cursor: "pointer",
+          transition: "0.7s",
+          "&:hover": {
+            background: "#0500FF",
+            color: "white",
+          },
+        }}
+        onClick={() => {
+          setRegisterChild(true);
+        }}
+      >
+        + Add New Child
       </div>
       {registerChild && <AddChildModal setRegisterChild={setRegisterChild} />}
     </>
@@ -186,6 +189,7 @@ export function AddChildModal({ setRegisterChild }) {
         height: "100vh",
         top: 0,
         left: 0,
+        zIndez: 20,
       }}
     >
       <div

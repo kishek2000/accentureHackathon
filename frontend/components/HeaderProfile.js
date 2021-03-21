@@ -208,18 +208,12 @@ export function SwitchChildModal({ setSwitchChildModal }) {
 }
 
 export function ProfileDropdownOptions({ title, callback, settings, route }) {
-  const [goToSettings, setGoToSettings] = useState(false);
+  // const [goToSettings, setGoToSettings] = useState(false);
   const router = useRouter();
-
-  const handleSettingsCallback = useCallback(() => {
-    setGoToSettings(true);
-  });
-
-  if (goToSettings) {
-    console.log("going to settings");
+  const goToSettings = () => {
     localStorage.setItem("dashboardScreen", "settings");
-    router.push(`/dashboard`);
-  }
+    router.push("/dashboard");
+  };
 
   return (
     <div
@@ -229,11 +223,11 @@ export function ProfileDropdownOptions({ title, callback, settings, route }) {
         marginLeft: 20,
         "&:hover": { fontWeight: 500 },
       }}
-      onClick={(e) => {
-        console.log(e.target);
+      onClick={() => {
         if (settings) {
           if (route) {
-            handleSettingsCallback();
+            console.log("ya");
+            goToSettings();
           } else {
             callback("settings");
           }

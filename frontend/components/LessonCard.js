@@ -39,6 +39,7 @@ export function LessonCard({
           fontSize: 18,
           textAlign: "center",
           width: "90%",
+          // whiteSpace: "nowrap",
         }}
       >
         {title}
