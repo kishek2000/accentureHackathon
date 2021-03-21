@@ -40,6 +40,8 @@ See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">h
 - GET `/api/courses/lessons`
 - GET `/api/courses/all`
 - GET `/api/courses/full`
+- GET `/api/lessons/`
+  - Parameters: `course_id`, `lesson_id`
 
 ### User Profile Statistics and Routes:
 
@@ -65,7 +67,6 @@ See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">h
 - GET `/api/recommend/next_lesson` [TODO]
   - Parameters: `user_id`, `child_id`, `course_id`
   - Returns: `lesson_id` of the recommended lesson for the given course
-
 
 ### JSON Formats/Document Schema:
 
