@@ -57,6 +57,7 @@ def profile_stats_push_handler():
             - time_on_completion (integer timestamp in seconds)
             - num_incorrect (int)
             - time_taken (float or int)
+            - parent_engagement_rating (int?)  [Optional field]
     """
     request_data = dict(request.form)
     printColoured(" ➤ A child has just completed a lesson! Received some stats to commit:")
