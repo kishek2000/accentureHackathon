@@ -56,43 +56,43 @@ def profile_stats_push_handler():
             - child_id (str)
             - course_id (str)
             - lesson_id (str)
-            - time_on_completion (integer timestamp in seconds)
+            - date (integer timestamp in seconds)
             - num_incorrect (int)
             - time_taken (float or int)
-            - parent_engagement_rating (int?)  [Optional field]
     """
     request_data = dict(request.form)
     printColoured(" ➤ A child has just completed a lesson! Received some stats to commit:")
     pretty(request_data)
 
-    # try:
-    course_id = request_data["course_id"]
-    lesson_id = request_data["lesson_id"]
-    difficulty = get_lesson_difficulty(
-        course_id, 
-        lesson_id
-    )
-    curr_rating = get_user_rating(request_data["user_id "])
-    new_proficiency = getNewRating(
-        1000,
-        curr_rating,
-        50,
-        request_data["time_taken"],
-        request_data["num_incorrect"]
-    )
-    return jsonify(save_stats({
-        "course_id": course_id,
-        "lesson_id": lesson_id,
-        "num_incorrect": request_data["num_incorrect"],
-        "time_taken": request_data["time_taken"],
-        "time_on_completion": request_data["time_on_completion"],
-        "difficulty": difficulty,
-        "proficiency": new_proficiency
-    }, request_data["user_id"], request_data["child_id"]))
-    # except:
-    #     pass
-        # raise InvalidUserInput(description="Invalid or missing stats fields")
-
+    try:
+        course_id = request_data["course_id"]
+        lesson_id = request_data["lesson_id"]
+        difficulty = get_lesson_difficulty(
+            course_id, 
+            lesson_id
+        )
+        curr_rating = get_user_rating(request_data["user_id"], request_data["child_id"])
+        new_proficiency = getNewRating(
+            1000,
+            curr_rating if curr_rating else 800,  # TODO: placeholder
+            50,
+            request_data["time_taken"],
+            request_data["num_incorrect"]
+        )
+        return jsonify(save_stats({
+            "course_id": course_id,
+            "lesson_id": lesson_id,
+            "num_incorrect": request_data["num_incorrect"],
+            "time_taken": request_data["time_taken"],
+            "date": request_data["date"],
+            "difficulty": difficulty,
+            "proficiency": new_proficiency
+        }, request_data["user_id"], request_data["child_id"]))
+    except InvalidUserInput as err:
+        raise InvalidUserInput(description=err.get_description())
+    except Exception as err:
+        print(err)
+        raise InvalidUserInput(description="Invalid or missing stats fields " + err)
 
 @profile_router.route("/stats", methods=["DELETE"])
 def profile_stats_wipe_handler():
