@@ -93,12 +93,13 @@ def register(username: str, email: str, password: str, confirm_password: str) ->
 def register_child(child, parent_user_id):
     """
     """
+    # TODO: all proficiencies are initialised to 500
     child["proficiency"] = {
-        "shapes": 800,
-        "actions": 800,
-        "objects": 800,
-        "emotions": 800,
-        "colours": 800
+        "shapes": 500,
+        "actions": 500,
+        "objects": 500,
+        "emotions": 500,
+        "colours": 500
     }
     parent = save_child(child, parent_user_id)
     printColoured(" ➤ Registered a child")

@@ -2,6 +2,7 @@
 A suite of database operations that abstract over the specific DBMS used and the driver
 library or ODM used to interface with that DBMS.
 """
+import re
 from GalacticEd import db
 from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.utils.debug import pretty
@@ -79,28 +80,63 @@ def get_courses_full():
 
 # ===== Lessons Operations =====
 
-def get_lesson(lesson_id: str) -> List:
+def get_all_lessons(course_id: str) -> List:
+    """
+        TODO: documentation
+    """
+    try:
+        course = db.courses_full.find_one({ "courseId": course_id })
+        # for each_lesson in course["lessons"]:
+        #     each_lesson["_id"] = str(each_lesson["_id"])
+        return course["lessons"]
+    except:
+        raise InvalidUserInput(
+            description="Failed to find the course '{}'".format(
+                course_id
+            )
+        )
+
+def get_lesson(course_id: str, lesson_id: str) -> List:
     """
         Retrieves the lesson with the target lesson_id
 
         Args:
+            course_id (str)
             lesson_id (str)
         
         Returns:
             dict: mapped from the 'lesson' json document
     """
-    lesson = db.lessons.find_one({ "lessonId": lesson_id })
-    lesson["_id"] = str(lesson["_id"])
-    return lesson
+    try:
+        course = db.courses_full.find_one({ "courseId": course_id })
+        lesson = [ l for l in course["lessons"] if l["lessonId"] == lesson_id ][0]
+        lesson["_id"] = str(lesson["_id"])
+        return lesson
+    except:
+        raise InvalidUserInput(
+            description="Failed to find: course '{}', lesson '{}'".format(
+                course_id, lesson_id
+            )
+        )
+
+# TODO: stub function for getting the lesson difficulty:
+def determine_lesson_difficulty(course_id: str, lesson_id: str):
+    """
+
+    """
+    p = re.compile("\w+-(\d+)")
+    result = p.search(lesson_id)
+    return int(result.group(1)) * 500
 
 def get_lesson_difficulty(course_id: str, lesson_id: str):
-    all_course = get_courses_full()
     try: 
-        target_course = [ course for course in all_course if course["courseId"] == course_id ][0] 
-        target_lesson = [ lesson for lesson in target_course["lessons"] ]
-        printColoured(" ➤ Found '{}' lesson '{}'".format(course_id, lesson_id))
-        return target_lesson["difficulty"] if "difficulty" in target_lesson else 0.5
-    except:
+        # target_course = [ course for course in all_course if course["courseId"] == course_id ][0] 
+        # target_lesson = [ lesson for lesson in target_course["lessons"] ]
+        difficulty = determine_lesson_difficulty(course_id, lesson_id)
+        printColoured(" ➤ Found '{}' lesson '{}' of difficulty: {}".format(course_id, lesson_id, difficulty))
+        return difficulty
+    except Exception as err:
+        print("HERE: {}".format(err))
         raise InvalidUserInput(
             description="Failed to find course '{}', lesson '{}'".format(
                 course_id, lesson_id
@@ -246,9 +282,12 @@ def get_user(user_id: str) -> Dict:
         Returns:
             dict: of shape: { _id, name, email, password }
     """
-    target_user = db.users.find_one({"_id": ObjectId(user_id)})
-    target_user["_id"] = str(target_user["_id"])
-    return target_user
+    try:
+        target_user = db.users.find_one({"_id": ObjectId(user_id)})
+        target_user["_id"] = str(target_user["_id"])
+        return target_user
+    except:
+        raise InvalidUserInput(description="Failed to find user with id: {}".format(user_id))
 
 def get_user_by_email(email):
     """
@@ -278,14 +317,36 @@ def get_child_proficiency(user_id: str, child_id: str, course_id: str):
         Given the target user and child, gets that child's current
         proficiency rating for a given category
     """
+    printColoured(" > Getting proficiency for {} in course: {}".format(child_id, course_id), colour="yellow")
     parent = get_user(user_id)
     child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
     return int(child["proficiency"][course_id])
 
-def get_user_rating(user_id: str, child_id: str):
-    """
-        TODO
-    """
+def set_child_proficiency(parent_user_id: str, child_id: str, course_id: str, new_proficiency: int):
+    parent = get_user(parent_user_id)
+    child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+
+    parent = get_user(user_id=parent_user_id)
+    target_child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+
+    db.users.update_one(
+        {
+            "_id": ObjectId(parent_user_id),
+            "children": {
+                "$elemMatch": {
+                    "_id": {
+                        "$eq": child_id
+                    }
+                }
+            }
+        },
+        {
+            "$set": {
+                "children.$.proficiency.{}".format(course_id): new_proficiency
+            }
+        }
+    )
+    print(" @@@@@@@@@@@@@@@@@@@@@@@@@")
 
 def password_verified(email, password):
     """

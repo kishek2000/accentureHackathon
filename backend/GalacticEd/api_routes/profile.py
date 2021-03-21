@@ -2,7 +2,7 @@
 Route handlers for fetching profile data and learning statistics about a 
 particular user
 """
-
+import re
 from flask import (
     Blueprint,
     render_template,
@@ -20,8 +20,9 @@ from GalacticEd.database_ops import (
     get_user,
     save_stats,
     get_lesson_difficulty,
+    get_child_proficiency,
     clear_child_stats,
-    get_user_rating
+    set_child_proficiency
 )
 from GalacticEd.utils.debug import pretty
 from GalacticEd.proficiency import getNewRating
@@ -67,18 +68,22 @@ def profile_stats_push_handler():
     try:
         course_id = request_data["course_id"]
         lesson_id = request_data["lesson_id"]
+        user_id = request_data["user_id"]
+        child_id = request_data["child_id"]
         difficulty = get_lesson_difficulty(
             course_id, 
             lesson_id
         )
-        curr_rating = get_user_rating(request_data["user_id"], request_data["child_id"])
+        curr_rating = get_child_proficiency(user_id, child_id, course_id)
+        printColoured(" !!!!!!!!! Proficiency now: ")
         new_proficiency = getNewRating(
-            1000,
-            curr_rating if curr_rating else 800,  # TODO: placeholder
-            50,
-            request_data["time_taken"],
-            request_data["num_incorrect"]
+            difficulty,
+            curr_rating,
+            40,   # TODO: placeholder expTime value
+            float(request_data["time_taken"]),
+            int(request_data["num_incorrect"])
         )
+        set_child_proficiency(user_id, child_id, course_id, new_proficiency)
         return jsonify(save_stats({
             "course_id": course_id,
             "lesson_id": lesson_id,
@@ -87,12 +92,13 @@ def profile_stats_push_handler():
             "date": request_data["date"],
             "difficulty": difficulty,
             "proficiency": new_proficiency
-        }, request_data["user_id"], request_data["child_id"]))
+        }, user_id, child_id))
     except InvalidUserInput as err:
-        raise InvalidUserInput(description=err.get_description())
-    except Exception as err:
         print(err)
-        raise InvalidUserInput(description="Invalid or missing stats fields " + err)
+        raise InvalidUserInput(description=err.get_description())
+    # except Exception as err:
+    #     print(err)
+    #     raise InvalidUserInput(description="Invalid or missing stats fields: {}".format(err))
 
 @profile_router.route("/stats", methods=["DELETE"])
 def profile_stats_wipe_handler():
