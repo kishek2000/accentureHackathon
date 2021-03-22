@@ -54,8 +54,38 @@ See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">h
 #### Statistics:
 
 - GET `/api/profile/stats`
-  - Parameters: `user_id`, `token`
-  - Returns: JSON (See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">here</a> for details)
+  - Parameters: `user_id`, `child_id`, `token`
+  - Returns: JSON { categorical_stats: { shapes: [...], ... }, proficiencies: { shapes: [...] }  } 
+  - Result JSON looks like this:
+  ```
+  {
+    "categorical_stats": {
+        "actions": [
+            {
+                "course_id": "actions",
+                "date": "1",               // UNIX timestamp in seconds
+                "difficulty": 500,
+                "lesson_id": "level-1",
+                "num_incorrect": "0",
+                "proficiency": 595,
+                "time_taken": "20"
+            }
+        ],
+        "colours": [],
+        "emotions": [],
+        "objects": [],
+        "shapes": []
+    },
+    "proficiencies": {
+        "actions": 595,
+        "colours": 500,
+        "emotions": 500,
+        "objects": 500,
+        "shapes": 500
+    }
+  }
+  ```
+
 - POST `/api/profile/stats` - saves the child's performance stats
   - Parameters: `user_id`, `child_id`, `course_id` (eg. "shapes"), `lesson_id` (eg. ""), `time_on_completion` (int timestamp in seconds), `num_incorrect`, `time_taken` (float in seconds)
     - Note: the `child_id` is obtained by accessing the endpoint `api/auth/login`

@@ -80,7 +80,7 @@ def child_register_handler():
         user_id = request.form["user_id"]
         return jsonify(register_child({
             "name": request.form["name"],
-            "avatar": request.form["avatar"],
+            # "avatar": request.form["avatar"],
             "birthday": request.form["birthday"],
             "learning_style": request.form["learning_style"],
             # "attention_span": request.form["attention_span"],

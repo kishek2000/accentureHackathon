@@ -154,20 +154,33 @@ def save_child(child, parent_user_id):
     new_children = parent["children"].copy()
     child["_id"] = "{}-{}".format(parent_user_id, child["name"])
     child["statistics"] = []
+    child["most_recent_course_id"] = ""
     new_children.append(child)
     db.users.update_one({ "_id": ObjectId(parent_user_id) }, { "$set": { "children": new_children } })
     return (get_user(user_id=parent_user_id), child["_id"])
 
 # ===== Statistics Operations =====
 
-def get_stats(user_id: str):
+def get_stats(parent_user_id: str, child_id: str):
     """
         TODO
     """
-    stats = [ stat for stat in db.stats.find({ "user_id": user_id }) ]
-    for each_stat in stats:
-        each_stat["_id"] = str(each_stat["_id"])
-    return stats
+    parent = get_user(user_id=parent_user_id)
+    target_child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+
+    stats = target_child["statistics"]
+    categorical_stats = {
+        "shapes": [ stat for stat in stats if stat["course_id"] == "shapes" ],
+        "emotions": [ stat for stat in stats if stat["course_id"] == "emotion" ],
+        "actions": [ stat for stat in stats if stat["course_id"] == "actions" ],
+        "colours": [ stat for stat in stats if stat["course_id"] == "colours" ],
+        "objects": [ stat for stat in stats if stat["course_id"] == "objects" ]
+    }
+    curr_proficiencies = target_child["proficiency"]
+    return {
+        "proficiencies": curr_proficiencies,
+        "categorical_stats": categorical_stats
+    }
 
 def clear_child_stats(parent_user_id: str, child_id: str):
     """
@@ -198,12 +211,15 @@ def save_stats(stats, parent_user_id, child_id):
     """
         TODO
         pushes an object to db.users.children.statistics array
+        ALSO saves the most_recent_course_id
     """
     parent = get_user(user_id=parent_user_id)
     target_child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
     # new_stats = target_child["statistics"].copy()
     # new_stats.append(stats)
+    most_recent_course_id = stats["course_id"]
 
+    # TODO: it's suboptimal to update twice. Haven't figured out how to merge the two actions 
     db.users.update_one(
         {
             "_id": ObjectId(parent_user_id),
@@ -218,6 +234,23 @@ def save_stats(stats, parent_user_id, child_id):
         {
             "$push": {
                 "children.$.statistics": stats
+            }
+        }
+    )
+    db.users.update_one(
+        {
+            "_id": ObjectId(parent_user_id),
+            "children": {
+                "$elemMatch": {
+                    "_id": {
+                        "$eq": child_id
+                    }
+                }
+            }
+        },
+        {
+            "$set": {
+                "children.$.most_recent_course_id": most_recent_course_id
             }
         }
     )
