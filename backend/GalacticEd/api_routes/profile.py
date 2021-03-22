@@ -45,8 +45,9 @@ def profile_stats_fetch_handler():
         Given a user_id and token, get their children's associated stats
     """
     user_id = request.args.get("user_id")
+    child_id = request.args.get("child_id")
     printColoured(" ➤ Getting child stats: {}".format(user_id))
-    stats = get_stats(user_id)
+    stats = get_stats(user_id, child_id)
     return jsonify(stats)
 
 @profile_router.route("/stats", methods=["POST"])
