@@ -19,7 +19,9 @@ export function CourseCard({
         alignItems: "center",
         background: "white",
         boxShadow:
-          shadow === false ? "" : "0px 4px 42px 7px rgba(213, 213, 213, 0.37)",
+          shadow === "false"
+            ? ""
+            : "0px 4px 10px 7px rgba(213, 213, 213, 0.17)",
         borderRadius: 16,
         cursor: "pointer",
       }}

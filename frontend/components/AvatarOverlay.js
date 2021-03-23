@@ -77,6 +77,7 @@ export function AvatarOverlay({ setAvatarOverlay, callback, selection }) {
               }}
               onClick={() => callback(avatar)}
             >
+              {console.log(avatar)}
               <AvatarImage avatar={avatar} size={"large"} />
               <p
                 css={{
