@@ -18,12 +18,13 @@ from GalacticEd.database_ops import (
 
 lessons_router = Blueprint("lessons", __name__)
 
-@lessons_router.route("/lessons", methods=["GET"])
+@lessons_router.route("/", methods=["GET"])
 def get_lessons():
     """
         Fetches a course with a specific name/ID
 
         Query parameters:
+            course_id
             lesson_id
 
         Returns:
@@ -32,33 +33,7 @@ def get_lessons():
                     { lessonId, course, level, lesson, prompt, questions }
                 where 'questions' is a json array with shape (for the 'shapes' course):
                     [ { shapes, correct } ]      
-
-        # TODO: IMPORTANT. I changed some of the fields. Review with Adi. Should this route even being used?
-        Sample return value:
-            {
-                "lessonId": "shapes-level-1",
-                "level": "1",
-                "course": "shapes",
-                "lesson": "What's that Shape?",
-                "prompt": "Select the square in each question to pass!",
-                "questions": [
-                    {
-                        "shapes": [{ "shape": "square", "colour": 0 }],
-                        "correct": "square",
-                    },
-                    ...
-                ]
-            }
     """
     lesson_id = request.args.get("lesson_id")
-    return jsonify(get_lesson(lesson_id))
-
-"""
-    TODO
-    Define an endpoint: POST /api/lessons/<LESSON_TYPE>/<LESSON_LEVEL>
-
-    This endpoint takes in the child's performance as measured by the frontend and 
-    saves it to the database.
-
-    TODO What are the parameters we should be saving?
-"""
+    course_id = request.args.get("course_id")
+    return jsonify(get_lesson(course_id, lesson_id))

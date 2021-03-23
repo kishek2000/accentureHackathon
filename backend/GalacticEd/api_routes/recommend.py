@@ -2,7 +2,7 @@
 Route handlers for recommending courses to children based on their 
 performance statistics
 """
-
+import sys
 from flask import (
     Blueprint,
     request,
@@ -14,9 +14,12 @@ from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.database_ops import (
     get_courses_lessons,
     get_courses_all,
+    get_child_proficiency,
     get_stats,
     get_user,
-    get_stats_in_range
+    get_stats_in_range,
+    get_all_lessons,
+    get_lesson_difficulty
 )
 from GalacticEd.proficiency import getNewRating
 from GalacticEd.utils.debug import pretty, print_pretty_json
@@ -44,7 +47,7 @@ def stats_summarise(stats: List):
         averages[0] += float(each_stat["time_taken"])
         averages[1] += float(each_stat["num_incorrect"])
         averages[2] += float(each_stat["difficulty"])
-    for i, each_field in enumerate(averages, start=0):
+    for i, _ in enumerate(averages, start=0):
         averages[i] = averages[i] / len(stats)
 
     return {
@@ -53,9 +56,58 @@ def stats_summarise(stats: List):
         "avg_difficulty": averages[2]
     }
 
+def calc_proficiency(time_taken, num_incorrect, difficulty):
+    """
+        Based on: 
+            - time_taken 
+            - num_incorrect 
+            - difficulty
+            - past results? Eg. the difference between avg. proficiency this week and avg. proficiency last week
+        Return some measure of proficiency (that could be used to recommend 
+        the target difficulty of the next lesson)
+    """
+
+def get_lesson_of_difficulty(target_difficult: int, course_id: str):
+    """
+        Gets the ID of the lesson 
+    """
+    # Get all lessons in the category
+    lessons = get_all_lessons(course_id)
+
+    # Find the lesson with the minimal absolute difference with target_difficulty 
+    target_lesson_id = ""
+    minimal_diff = sys.maxsize
+    for each_lesson in lessons:
+        lesson_difficulty = get_lesson_difficulty(course_id, each_lesson["lessonId"])
+        print("Target diff: {}, curr diff: {}".format(target_difficult, lesson_difficulty))
+        if abs(lesson_difficulty - target_difficult) < minimal_diff:
+            minimal_diff = abs(lesson_difficulty - target_difficult) 
+            print("Best diff so far: {}".format(minimal_diff))
+            target_lesson_id = each_lesson["lessonId"]
+    return target_lesson_id
 
 @recommend_router.route("/next_lesson", methods=["GET"])
-def profile_stats_push_handler():
+def recommend_next_lesson_handler():
+    """
+        TODO: documentation:
+        Params:
+            - user_id
+            - child_id
+            - course_id
+    """
+    # Get the user's current rating and fetch the lesson which matches
+    # that rating the closest.
+    user_id = request.args.get("user_id")
+    child_id = request.args.get("child_id")
+    course_id = request.args.get("course_id")
+    child_proficiency = get_child_proficiency(user_id, child_id, course_id)
+    recommended_lesson_id = get_lesson_of_difficulty(child_proficiency, course_id)
+
+    return recommended_lesson_id
+
+# TODO: this route should be in profile/stats
+@recommend_router.route("/STATS_STUB")
+def get_stats_breakdown_handler():
     """
         TODO: documentation
         Params:
@@ -63,7 +115,6 @@ def profile_stats_push_handler():
             - child_id (str)
             - course_id (str)
     """
-
     try:
         user_id = request.args.get("user_id")
         child_id = request.args.get("child_id")
@@ -105,7 +156,7 @@ def profile_stats_push_handler():
         pretty(this_week_performance)
 
     except Exception as err:
-        printColoured(err.stacktrace, color="red")
+        # printColoured(err.stacktrace, color="red")
         printColoured(err, colour="red")
         raise InvalidUserInput(description="Invalid or missing stats fields")
 

@@ -19,6 +19,31 @@ topicAnalytics.forEach((eachTopic) => {
   });
 });
 
+/*
+Some pseudocode:
+
+const dataToPlot = []
+
+const extractProficiencyOnDay = (startTimestamp, endTimestamp, course_id) {
+    statsInRange = categorical_stats[course_id].filter((stat) => {
+        stat.date > startTimestamp && stat.date < endTimestamp
+    })
+    // use reduce() to get the avg proficiency of statsInRange
+}
+
+const getDatapointsThisMonth = () => {
+    for startTimestamp, endTimestamp in last 30 days:
+        proficiencyThatDay = extractProficiencyOnDay(startTimestamp, endTimestamp)
+        dataToPlot.push(proficiencyThatDay)
+}
+
+dataToPlot looks like this: [
+    39, 40, 42, 45, 47, 41, 44, 40, 55, 58, 60, 55, 58, 61, 62, 57, 65, 68, 69, 75, 74, 72, 75, 77, 78, 79, 80, 75, 72, 82, 85, 90, 90
+]
+
+*/
+
+
 const BarChart = ({ timeResolution }) => {
   const data = {
     labels: ["Shapes", "Colours", "Actions", "Objects"],
