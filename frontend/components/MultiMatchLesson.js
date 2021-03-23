@@ -9,6 +9,7 @@ export function MultiMatchLesson({
   setIsCorrect,
   questionData,
   questionTitle,
+  handleIncorrectClick,
 }) {
   if (questionData) {
     var prompt = null;
@@ -43,6 +44,7 @@ export function MultiMatchLesson({
           justifyContent: "center",
           height: "85vh",
         }}
+        onClick={() => handleIncorrectClick()}
       >
         <GapVertical times={24} />
         <div

@@ -21,11 +21,11 @@ export function AccountSettings() {
           padding: "36px 64px",
           borderRadius: 16,
           width: "100%",
-          height: "30%",
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.12)",
+          // height: "30%",
+          boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.05)",
         }}
       >
-        <div css={{ display: "flex", flexDirection: "column", width: "30%" }}>
+        {/* <div css={{ display: "flex", flexDirection: "column", width: "30%" }}>
           <div css={{ fontFamily: "Poppins", fontWeight: 600, fontSize: 20 }}>
             THEME
           </div>
@@ -71,7 +71,7 @@ export function AccountSettings() {
           <MutableAccountSetting field={"Email"} value={"kishek12@gmail.com"} />
           <GapVertical times={2} />
           <MutableAccountSetting field={"Password"} value={"*******"} />
-        </div>
+        </div> */}
       </div>
     </>
   );

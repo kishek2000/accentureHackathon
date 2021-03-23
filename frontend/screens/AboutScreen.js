@@ -32,8 +32,8 @@ export function AboutScreen() {
         <TimeSpentGraph />
       </div>
       <GapVertical times={9} />
-
-      <GapVertical times={15} />
+      {/* 
+      <GapVertical times={15} /> */}
     </div>
   );
 }

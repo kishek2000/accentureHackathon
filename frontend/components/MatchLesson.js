@@ -4,7 +4,12 @@ import { useCallback } from "react";
 import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
 
-export function MatchLesson({ questionData, setIsCorrect, questionTitle }) {
+export function MatchLesson({
+  questionData,
+  setIsCorrect,
+  questionTitle,
+  handleIncorrectClick,
+}) {
   if (questionData) {
     var dataMap = [];
     var correctMap = [];
@@ -40,6 +45,7 @@ export function MatchLesson({ questionData, setIsCorrect, questionTitle }) {
           alignItems: "center",
           justifyContent: "center",
         }}
+        onClick={() => handleIncorrectClick()}
       >
         <GapVertical times={24} />
         <div
