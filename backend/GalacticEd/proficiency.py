@@ -1,5 +1,8 @@
 import math 
 
+
+# TODO: make this specific to each category 
+
 # Update user proficiency using elo model
 def getNewRating(qRating: float, uRating: float , expTime: float, actTime: float, nIncorrect: int):
     K = 95 # K Factor (indicates rating flexibility)
@@ -7,6 +10,8 @@ def getNewRating(qRating: float, uRating: float , expTime: float, actTime: float
     # Calculate expected result
     scoreExpected = 1 / (1 + pow(10, (uRating - qRating)/400))
 
+
+    # TODO: set max penalty
     # if (nIncorrect == 0):
     #     scoreActual = 1
     # else:

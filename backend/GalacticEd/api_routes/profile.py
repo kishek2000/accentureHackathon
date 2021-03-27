@@ -50,6 +50,12 @@ def profile_stats_fetch_handler():
     stats = get_stats(user_id, child_id)
     return jsonify(stats)
 
+
+# TODO: Would be a cool idea to have the frontend display the last X stats for each category
+
+
+
+
 @profile_router.route("/stats", methods=["POST"])
 def profile_stats_push_handler():
     """
