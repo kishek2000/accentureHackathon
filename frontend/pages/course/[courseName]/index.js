@@ -11,11 +11,13 @@ import { LessonCard } from "../../../components/LessonCard";
 
 import { ContentContext } from "../../../context/ContentContext";
 import { HeaderProfile } from "../../../components/HeaderProfile";
+import { getRecommendedLesson } from "../../../api/Recommendation";
 
 export default function Course() {
   const router = useRouter();
   const { courseName } = router.query;
   const [lesson, setLesson] = useState();
+  const [recommendedLessonId, setRecommendedLessonId] = useState();
   const { content } = useContext(ContentContext);
   const handleLessonCallback = useCallback((text) => {
     setLesson(text);
@@ -23,11 +25,24 @@ export default function Course() {
 
   const [childName, setChildName] = useState("");
 
+  const getRecommended = useCallback(async () => {
+    const childId = JSON.parse(localStorage.getItem("currChild"))["_id"];
+    const userId = JSON.parse(localStorage.getItem("user"))["user_id"];
+    const courseId = courseName;
+    const recommendedLessonId = await getRecommendedLesson(
+      courseId,
+      userId,
+      childId
+    );
+    setRecommendedLessonId(recommendedLessonId);
+  });
+
   useEffect(() => {
     setChildName(JSON.parse(localStorage.getItem("currChild"))["name"]);
   });
 
   if (courseName) {
+    getRecommended();
     const courseData = content.courseLessonData.filter((course) => {
       return course.title === courseName;
     })[0];
@@ -60,7 +75,7 @@ export default function Course() {
           <div css={{ position: "relative" }}>
             <div
               css={{
-                height: "40vh",
+                height: "38vh",
                 width: "100%",
                 position: "relative",
                 zIndex: 1,
@@ -101,7 +116,7 @@ export default function Course() {
               </div>
             </div>
           </div>
-          <GapVertical times={16} />
+          <GapVertical times={12} />
           <div css={{ marginLeft: 120 }}>
             <div
               css={{
@@ -114,7 +129,7 @@ export default function Course() {
               Lessons
             </div>
             <GapVertical times={1} />
-            <div css={{ fontFamily: "Poppins", fontSize: 24, fontWeight: 300 }}>
+            <div css={{ fontFamily: "Poppins", fontSize: 22, fontWeight: 300 }}>
               Curated lessons in{" "}
               <span css={{ fontWeight: 700 }}>{courseTitle}</span> for{" "}
               {childName}
@@ -136,8 +151,9 @@ export default function Course() {
                     level={lesson?.level}
                     background={lessonBackgroundMap[lesson?.level]}
                     handleLessonCallback={handleLessonCallback}
+                    recommended={lesson.id === recommendedLessonId}
                   />
-                  <GapHorizontal times={8} />
+                  <GapHorizontal times={10} />
                 </>
               ))}
             </div>

@@ -26,7 +26,10 @@ export const Avatars = [
 export function AvatarImage({ avatar, size }) {
   const [chosenAvatar, setChosenAvatar] = useState("");
   useEffect(() => {
-    setChosenAvatar(JSON.parse(localStorage.getItem("currChild"))["avatar"]);
+    const currChild = JSON.parse(localStorage.getItem("currChild"));
+    if (currChild) {
+      setChosenAvatar(currChild["avatar"]);
+    }
   }, []);
 
   const dimension = size === "small" ? "48px" : "96px";
@@ -34,7 +37,7 @@ export function AvatarImage({ avatar, size }) {
     ? `/avatars/${avatar}.png`
     : `/avatars/${chosenAvatar}.png`;
 
-  if (chosenAvatar) {
+  if (imgSrc) {
     return (
       <div>
         <img
