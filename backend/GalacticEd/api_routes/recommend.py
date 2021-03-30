@@ -69,7 +69,7 @@ def calc_proficiency(time_taken, num_incorrect, difficulty):
 
 def get_lesson_of_difficulty(target_difficult: int, course_id: str):
     """
-        Gets the ID of the lesson 
+        Gets the ID of the lesson, lesson difficulty
     """
     # Get all lessons in the category
     lessons = get_all_lessons(course_id)
@@ -78,6 +78,7 @@ def get_lesson_of_difficulty(target_difficult: int, course_id: str):
     target_lesson_id = ""
     minimal_diff = sys.maxsize
     target_lesson_diff = 0
+    prev_lesson_diff = 0
     for each_lesson in lessons:
         lesson_difficulty = get_lesson_difficulty(course_id, each_lesson["lessonId"])
         print("Target diff: {}, curr diff: {}".format(target_difficult, lesson_difficulty))

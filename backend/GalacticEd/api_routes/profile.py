@@ -17,6 +17,7 @@ from GalacticEd.database_ops import (
     get_courses_lessons,
     get_courses_all,
     get_stats,
+    get_all_lessons,
     get_user,
     save_stats,
     get_lesson_difficulty,
@@ -161,8 +162,44 @@ def progress_until_next_level():
         This gives a measure of progress until the next level for a particular child 
         in a specific category
     """
+    user_id = request.args.get("user_id")
+    child_id = request.args.get("child_id")
+    course_id = request.args.get("course_id")
 
+    # Get all lessons in the category
+    lessons = get_all_lessons(course_id)
 
+    # Find the lesson with the minimal absolute difference with target_difficulty 
+    child_proficiency = get_child_proficiency(user_id, child_id, course_id)
+    lower_bound_difficulty = 0
+    upper_bound_difficulty = 0
+    lesson_difficulties = [ 
+        (lesson["lessonId"], get_lesson_difficulty(course_id, lesson["lessonId"])) 
+        for lesson in lessons 
+    ]
+
+    next_lesson = ""
+    for lesson_diff in lesson_difficulties:
+        if child_proficiency > lesson_diff[1]:
+            lower_bound_difficulty = lesson_diff[1]
+        else:
+            upper_bound_difficulty = lesson_diff[1]
+            next_lesson = lesson_diff[0]
+            break
+    
+    progress = 0
+    if upper_bound_difficulty == 0:
+        upper_bound_difficulty = 3000
+        progress = 1
+    else:
+        progress = (child_proficiency - lower_bound_difficulty) / float(upper_bound_difficulty - lower_bound_difficulty)
+    return jsonify({
+        "child_proficiency": child_proficiency,
+        "lower_bound": lower_bound_difficulty,
+        "upper_bound": upper_bound_difficulty,
+        "next_lesson": next_lesson,
+        "progress": progress
+    })
 
 """
     Next goals:
