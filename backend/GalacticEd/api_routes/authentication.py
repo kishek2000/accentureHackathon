@@ -63,7 +63,11 @@ def register_handler():
             # user_confirm_password = request.form["confirm_password"]
             user_confirm_password = user_password   # TODO: Temporary workaround
             return jsonify(register(user_name, user_email, user_password, user_confirm_password))
-        except:
+        except InvalidUserInput as err:
+            printColoured(err, colour="red")
+            raise InvalidUserInput(description=err.get_description())
+        except Exception as err:
+            printColoured(err, colour="red")
             raise InvalidUserInput(description="Invalid or missing fields. Check the form you submitted again")
     else:
         return render_template("register.html")
@@ -83,8 +87,6 @@ def child_register_handler():
             # "avatar": request.form["avatar"],
             "birthday": request.form["birthday"],
             "learning_style": request.form["learning_style"],
-            # "attention_span": request.form["attention_span"],
-            "favourite_object": request.form["favourite_object"]
         }, user_id))
     except Exception as err:
         print(err)
