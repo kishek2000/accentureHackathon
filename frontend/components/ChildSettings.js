@@ -100,7 +100,12 @@ export function ChildSettings() {
       >
         + Add New Child
       </div>
-      {registerChild && <AddChildModal setRegisterChild={setRegisterChild} />}
+      {registerChild && (
+        <AddChildModal
+          setRegisterChild={setRegisterChild}
+          registerChild={registerChild}
+        />
+      )}
     </>
   );
 }
@@ -142,6 +147,7 @@ export function AddChildModal({ setRegisterChild }) {
     );
 
     localStorage.setItem("user", JSON.stringify(currUser));
+    setRegisterChild(false);
   }, [name, dob, LS]);
 
   const handleNameCallback = useCallback(
@@ -200,7 +206,7 @@ export function AddChildModal({ setRegisterChild }) {
           alignItems: "center",
           justifyContent: "center",
           background: "white",
-          width: "30%",
+          width: "35%",
           height: "50%",
           borderRadius: 16,
         }}
