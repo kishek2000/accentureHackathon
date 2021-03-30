@@ -22,7 +22,9 @@ from GalacticEd.database_ops import (
     get_lesson_difficulty,
     get_child_proficiency,
     clear_child_stats,
-    set_child_proficiency
+    set_child_proficiency,
+    set_rec_params,
+    get_rec_params
 )
 from GalacticEd.utils.debug import pretty
 from GalacticEd.proficiency import getNewRating
@@ -53,9 +55,6 @@ def profile_stats_fetch_handler():
 
 # TODO: Would be a cool idea to have the frontend display the last X stats for each category
 
-
-
-
 @profile_router.route("/stats", methods=["POST"])
 def profile_stats_push_handler():
     """
@@ -83,10 +82,12 @@ def profile_stats_push_handler():
         )
         curr_rating = get_child_proficiency(user_id, child_id, course_id)
         printColoured(" !!!!!!!!! Proficiency now: ")
+        rec_params = get_rec_params(user_id, child_id)
+        
         new_proficiency = getNewRating(
+            rec_params,
             difficulty,
             curr_rating,
-            40,   # TODO: placeholder expTime value
             float(request_data["time_taken"]),
             int(request_data["num_incorrect"])
         )
@@ -125,3 +126,56 @@ def profile_stats_wipe_handler():
         })
     except:
         raise InvalidUserInput("Invalid input")
+
+@profile_router.route("/set_params", methods=["PUT"])
+def profile_set_recommender_params():
+    """
+        TODO
+        This is for the user to manually set the values for the parameters being used
+        as part of the recommendation engine
+        Params:
+            - user_id  (str)
+            - child_id (str)
+            - exp_time                   (eg. 40   -> expected time of completion)
+            - incorrect_penalty_factor   (eg. 10   -> loss in proficiency per incorrect)
+            - time_multiplier            (eg. 0.05 -> eg. this means going above exp_time by 10 secs will lead to 50% proficiency increase/decrease of K)
+            - k_factor                   (eg. 95   -> a base amount to change proficiency by)
+    """
+    request_data = dict(request.form)
+    try:
+        return jsonify(set_rec_params(
+            request_data["user_id"],
+            request_data["child_id"],
+            float(request_data["exp_time"]),
+            float(request_data["incorrect_penalty_factor"]),
+            float(request_data["time_multiplier"]),
+            float(request_data["k_factor"]),
+        ))
+    except Exception as err: 
+        raise InvalidUserInput("Invalid inputs: {}".format(err))    
+    
+@profile_router.route("/progress")
+def progress_until_next_level():
+    """
+        TODO
+        This gives a measure of progress until the next level for a particular child 
+        in a specific category
+    """
+
+
+
+"""
+    Next goals:
+
+    - Tuning the rec engine parameters (on a per child, per category basis)
+        - eg. Slower or faster ELO change depending on learning speed
+        - eg. More forgiving standard for lesson progression
+        - eg. Adjust effect of time taken/expected time taken changing
+    - Initial diagnostic test for newly registered children [Optional?]
+    - Configurable theming (removing dinosaurs, longer interval for those
+    congratulations screens? etc.)
+    - Rendering more stats
+        - "You are X% "
+    - Uploading new lessons
+    - Badges/achievements
+"""

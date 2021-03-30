@@ -77,6 +77,7 @@ def get_lesson_of_difficulty(target_difficult: int, course_id: str):
     # Find the lesson with the minimal absolute difference with target_difficulty 
     target_lesson_id = ""
     minimal_diff = sys.maxsize
+    target_lesson_diff = 0
     for each_lesson in lessons:
         lesson_difficulty = get_lesson_difficulty(course_id, each_lesson["lessonId"])
         print("Target diff: {}, curr diff: {}".format(target_difficult, lesson_difficulty))
@@ -84,7 +85,8 @@ def get_lesson_of_difficulty(target_difficult: int, course_id: str):
             minimal_diff = abs(lesson_difficulty - target_difficult) 
             print("Best diff so far: {}".format(minimal_diff))
             target_lesson_id = each_lesson["lessonId"]
-    return target_lesson_id
+            target_lesson_diff = lesson_difficulty
+    return (target_lesson_id, target_lesson_diff)
 
 @recommend_router.route("/next_lesson", methods=["GET"])
 def recommend_next_lesson_handler():
@@ -101,9 +103,8 @@ def recommend_next_lesson_handler():
     child_id = request.args.get("child_id")
     course_id = request.args.get("course_id")
     child_proficiency = get_child_proficiency(user_id, child_id, course_id)
-    recommended_lesson_id = get_lesson_of_difficulty(child_proficiency, course_id)
-
-    return recommended_lesson_id
+    target_lesson = get_lesson_of_difficulty(child_proficiency, course_id)
+    return target_lesson[0]
 
 # TODO: this route should be in profile/stats
 @recommend_router.route("/STATS_STUB")

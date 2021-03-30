@@ -4,12 +4,20 @@ import math
 # TODO: make this specific to each category 
 
 # Update user proficiency using elo model
-def getNewRating(qRating: float, uRating: float , expTime: float, actTime: float, nIncorrect: int):
-    K = 95 # K Factor (indicates rating flexibility)
-    
-    # Calculate expected result
-    scoreExpected = 1 / (1 + pow(10, (uRating - qRating)/400))
+def getNewRating(
+        rec_params: dict,
+        qRating: float, 
+        uRating: float, 
+        actTime: float, 
+        nIncorrect: int
+    ):
+    expTime = float(rec_params["exp_time"])
+    K = float(rec_params["k_factor"])        # K Factor (indicates rating flexibility)
+    incorrect_penalty_factor = float(rec_params["incorrect_penalty_factor"])
+    time_multiplier = float(rec_params["time_multiplier"])
 
+    # Calculate expected result
+    # scoreExpected = 1 / (1 + pow(10, (uRating - qRating)/400))
 
     # TODO: set max penalty
     # if (nIncorrect == 0):
@@ -20,9 +28,9 @@ def getNewRating(qRating: float, uRating: float , expTime: float, actTime: float
 
     # Reference: https://en.wikipedia.org/wiki/Elo_rating_system#Theory
     if actTime >= expTime:
-        K *= -0.05 * (actTime - expTime)   # TODO: temp moderator
+        K *= -time_multiplier * (actTime - expTime)   # TODO: temp moderator
     else:
-        K *= 0.05 * (expTime - actTime) 
+        K *= time_multiplier * (expTime - actTime) 
 
     adjustment = K #  * (scoreActual - scoreExpected)
     # Perform time adjustment TODO
@@ -30,11 +38,6 @@ def getNewRating(qRating: float, uRating: float , expTime: float, actTime: float
     # Apply elo adjustment to get new elo 
     newRating = uRating + adjustment
 
-    incorrect_penalty_factor = 10
     newRating -= nIncorrect * incorrect_penalty_factor
 
     return int(newRating)
-
-# sample calculation
-# print(getNewRating(1000, 800, 1, 1, 0))
-
