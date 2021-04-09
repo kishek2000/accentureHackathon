@@ -188,15 +188,17 @@ def progress_until_next_level():
             break
     
     progress = 0
+    threshold = (upper_bound_difficulty - lower_bound_difficulty) / 2
     if upper_bound_difficulty == 0:
         upper_bound_difficulty = 3000
         progress = 1
     else:
-        progress = (child_proficiency - lower_bound_difficulty) / float(upper_bound_difficulty - lower_bound_difficulty)
+        progress = (child_proficiency - lower_bound_difficulty) / float(threshold)
     return jsonify({
         "child_proficiency": child_proficiency,
         "lower_bound": lower_bound_difficulty,
         "upper_bound": upper_bound_difficulty,
+        "threshold": threshold,
         "next_lesson": next_lesson,
         "progress": progress
     })

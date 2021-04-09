@@ -50,6 +50,10 @@ See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">h
 - GET `/api/profile/`
   - Parameters: `user_id`, `token`
   - Returns JSON containing the user's profile data (See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">here</a> for details)
+- GET `/api/profile/progress`
+  - Parameters: `user_id`, `token`, `child_id`, `course_id`
+  - Returns JSON containing: { __progress__, __next_lesson__, `child_proficiency`, `lower_bound`, `upper_bound` }
+    - `progress` and `next_lesson` are enough for displaying the progress bar
 
 #### Statistics:
 
