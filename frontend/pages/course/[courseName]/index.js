@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
 
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -10,17 +10,39 @@ import { GapVertical } from "../../../components/GapVertical";
 import { LessonCard } from "../../../components/LessonCard";
 
 import { ContentContext } from "../../../context/ContentContext";
+import { HeaderProfile } from "../../../components/HeaderProfile";
+import { getRecommendedLesson } from "../../../api/Recommendation";
 
 export default function Course() {
   const router = useRouter();
   const { courseName } = router.query;
   const [lesson, setLesson] = useState();
+  const [recommendedLessonId, setRecommendedLessonId] = useState();
   const { content } = useContext(ContentContext);
   const handleLessonCallback = useCallback((text) => {
     setLesson(text);
   });
 
+  const [childName, setChildName] = useState("");
+
+  const getRecommended = useCallback(async () => {
+    const childId = JSON.parse(localStorage.getItem("currChild"))["_id"];
+    const userId = JSON.parse(localStorage.getItem("user"))["user_id"];
+    const courseId = courseName;
+    const recommendedLessonId = await getRecommendedLesson(
+      courseId,
+      userId,
+      childId
+    );
+    setRecommendedLessonId(recommendedLessonId);
+  });
+
+  useEffect(() => {
+    setChildName(JSON.parse(localStorage.getItem("currChild"))["name"]);
+  });
+
   if (courseName) {
+    getRecommended();
     const courseData = content.courseLessonData.filter((course) => {
       return course.title === courseName;
     })[0];
@@ -32,107 +54,112 @@ export default function Course() {
     const courseTitle = courseName[0].toUpperCase() + courseName.slice(1);
 
     return (
-      <main css={{ width: "100vw", position: "relative" }}>
-        <div css={{ position: "absolute", zIndex: 3, left: 36, top: 36 }}>
-          <Link href={"/dashboard"}>
-            <p
-              css={{
-                color: "white",
-                fontFamily: "Poppins",
-                fontSize: 20,
-                textDecoration: "none",
-                cursor: "pointer",
-              }}
-            >
-              {"< Back"}
-            </p>
-          </Link>
-        </div>
-        <div css={{ position: "relative" }}>
-          <div
-            css={{
-              height: "40vh",
-              width: "100%",
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            <img
-              src={`${courseData.image}`}
-              css={{ width: "100%", objectFit: "cover", height: "100%" }}
-            />
+      <>
+        <main css={{ width: "100vw", height: "100vh", position: "relative" }}>
+          <HeaderProfile route={true} />
+          <div css={{ position: "absolute", zIndex: 3, left: 36, top: 36 }}>
+            <Link href={"/dashboard"}>
+              <p
+                css={{
+                  color: "white",
+                  fontFamily: "Poppins",
+                  fontSize: 20,
+                  textDecoration: "none",
+                  cursor: "pointer",
+                }}
+              >
+                {"< Back"}
+              </p>
+            </Link>
           </div>
-          <div
-            css={{
-              position: "absolute",
-              bottom: 80,
-              left: 120,
-              zIndex: 2,
-            }}
-          >
+          <div css={{ position: "relative" }}>
             <div
               css={{
-                fontFamily: "Poppins",
-                color: "white",
-                fontWeight: 700,
-                fontSize: 64,
+                height: "38vh",
+                width: "100%",
+                position: "relative",
+                zIndex: 1,
               }}
             >
-              {courseTitle}
+              <img
+                src={`${courseData.image}`}
+                css={{ width: "100%", objectFit: "cover", height: "100%" }}
+              />
             </div>
             <div
               css={{
-                color: "white",
-                fontFamily: "Poppins",
-                fontSize: 20,
-                fontWeight: 300,
+                position: "absolute",
+                bottom: 80,
+                left: 120,
+                zIndex: 2,
               }}
             >
-              {courseData.description}
+              <div
+                css={{
+                  fontFamily: "Poppins",
+                  color: "white",
+                  fontWeight: 700,
+                  fontSize: 64,
+                }}
+              >
+                {courseTitle}
+              </div>
+              <div
+                css={{
+                  color: "white",
+                  fontFamily: "Poppins",
+                  fontSize: 20,
+                  fontWeight: 300,
+                }}
+              >
+                {courseData.description}
+              </div>
             </div>
           </div>
-        </div>
-        <GapVertical times={16} />
-        <div css={{ marginLeft: 120 }}>
-          <div
-            css={{
-              fontFamily: "Poppins",
-              fontSize: 32,
-              fontWeight: 600,
-              alignSelf: "center",
-            }}
-          >
-            Lessons
+          <GapVertical times={12} />
+          <div css={{ marginLeft: 120 }}>
+            <div
+              css={{
+                fontFamily: "Poppins",
+                fontSize: 32,
+                fontWeight: 600,
+                alignSelf: "center",
+              }}
+            >
+              Lessons
+            </div>
+            <GapVertical times={1} />
+            <div css={{ fontFamily: "Poppins", fontSize: 22, fontWeight: 300 }}>
+              Curated lessons in{" "}
+              <span css={{ fontWeight: 700 }}>{courseTitle}</span> for{" "}
+              {childName}
+            </div>
+            <GapVertical times={8} />
+            <div
+              css={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              {courseData.lessons.map((lesson) => (
+                <>
+                  <LessonCard
+                    title={lesson.title}
+                    id={lesson.id}
+                    description={lesson?.description}
+                    level={lesson?.level}
+                    background={lessonBackgroundMap[lesson?.level]}
+                    handleLessonCallback={handleLessonCallback}
+                    recommended={lesson.id === recommendedLessonId}
+                  />
+                  <GapHorizontal times={10} />
+                </>
+              ))}
+            </div>
           </div>
-          <GapVertical times={1} />
-          <div css={{ fontFamily: "Poppins", fontSize: 24, fontWeight: 300 }}>
-            Curated lessons in{" "}
-            <span css={{ fontWeight: 700 }}>{courseTitle}</span> for Jeremy
-          </div>
-          <GapVertical times={8} />
-          <div
-            css={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            {courseData.lessons.map((lesson) => (
-              <>
-                <LessonCard
-                  title={lesson.title}
-                  id={lesson.id}
-                  description={lesson?.description}
-                  level={lesson?.level}
-                  background={lessonBackgroundMap[lesson?.level]}
-                  handleLessonCallback={handleLessonCallback}
-                />
-                <GapHorizontal times={8} />
-              </>
-            ))}
-          </div>
-        </div>
-      </main>
+        </main>
+      </>
     );
   }
   return null;

@@ -34,6 +34,11 @@ export function LoginWindow() {
         type: "authenticated",
         payload: loginResponse,
       });
+      localStorage.setItem("user", JSON.stringify(loginResponse));
+      localStorage.setItem(
+        "currChild",
+        JSON.stringify(loginResponse["children"][0])
+      );
     } else {
       alert("Invalid username or password");
     }
@@ -211,6 +216,7 @@ export function GoogleSignInButton() {
         boxShadow: "0px 0px 27px rgba(0, 0, 0, 0.06)",
         borderRadius: 16,
         cursor: "pointer",
+        transition: "1s",
       }}
     >
       <img src={"/google.png"} css={{ width: 24, height: 24 }} />

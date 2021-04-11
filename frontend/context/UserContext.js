@@ -32,6 +32,13 @@ export function userAuthenticationReducer(state, action) {
         ...state,
         user: {},
       };
+    case "reset":
+      return {
+        ...state,
+        user: {
+          user: action.payload,
+        },
+      };
     default:
       break;
   }

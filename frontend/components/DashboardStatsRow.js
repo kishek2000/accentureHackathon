@@ -3,8 +3,14 @@ import { jsx, css } from "@emotion/react";
 import { GapHorizontal } from "../components/GapHorizontal";
 import LineChart from "../components/LineChart";
 import { AllTraits } from "../components/AllTraits";
+import { useEffect, useState } from "react";
 
 export function DashboardStatsRow() {
+  const [childName, setChildName] = useState("");
+  useEffect(() => {
+    setChildName(JSON.parse(localStorage.getItem("currChild"))["name"]);
+  });
+
   return (
     <div css={{ display: "flex", flexDirection: "row", overflow: "hidden" }}>
       <ProficiencyGraph />
@@ -23,27 +29,33 @@ export function DashboardStatsRow() {
             fontFamily: "Poppins",
             fontSize: 16,
             fontWeight: 400,
-            width: "90%",
+            width: "100%",
           }}
         >
-          We’ve discovered that Jeremy has these traits. Click see more for more
-          info.
+          We’ve discovered that {childName} has these traits. Click see more for
+          more info.
         </div>
-        <AllTraits childName={"Jeremy"} />
+        <AllTraits childName={childName} />
       </div>
     </div>
   );
 }
 
 export function ProficiencyGraph() {
+  const [childName, setChildName] = useState();
+
+  useEffect(() => {
+    setChildName(JSON.parse(localStorage.getItem("currChild"))["name"]);
+  });
+
   return (
     <div css={{ display: "flex", flexDirection: "column", width: "45%" }}>
       <div css={{ fontFamily: "Poppins", fontSize: 20, fontWeight: 600 }}>
         Proficiency
       </div>
       <div css={{ fontFamily: "Poppins", fontSize: 16, fontWeight: 400 }}>
-        View Jeremy’s change in proficiency over time. Click see more for more
-        analysis.
+        View {childName}’s change in proficiency over time. Click see more for
+        more analysis.
       </div>
       <LineChart />
     </div>

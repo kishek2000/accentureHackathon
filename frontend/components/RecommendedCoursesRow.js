@@ -4,11 +4,12 @@ import { GapVertical } from "./GapVertical";
 import { GapHorizontal } from "./GapHorizontal";
 import { CourseCard } from "./CourseCard";
 import { allCourseData } from "../store/courses";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export function RecommendedCoursesRow() {
   const [course, setCourse] = useState();
+  const [childName, setChildName] = useState("");
   const handleCourseCallback = useCallback(
     (courseTitle) => {
       setCourse(courseTitle[0].toLowerCase() + courseTitle.slice(1));
@@ -20,6 +21,11 @@ export function RecommendedCoursesRow() {
     const router = useRouter();
     router.push(`/course/${course}`);
   }
+
+  useEffect(() => {
+    setChildName(JSON.parse(localStorage.getItem("currChild"))["name"]);
+  });
+
   return (
     <div
       css={{
@@ -32,7 +38,7 @@ export function RecommendedCoursesRow() {
         Recommended Courses
       </div>
       <div css={{ fontFamily: "Poppins", fontWeight: 400 }}>
-        Jeremy’s recommended courses in order of most recommended.
+        {childName}’s recommended courses in order of most recommended.
       </div>
       <GapVertical times={6} />
       <div
@@ -43,19 +49,23 @@ export function RecommendedCoursesRow() {
           width: "85%",
           overflowX: "scroll",
           paddingBottom: 24,
+          justifyContent: "space-between",
         }}
       >
         {allCourseData.map((course, index) => (
-          <>
+          <div
+            key={index}
+            css={{ paddingRight: index !== allCourseData.length - 1 ? 24 : 0 }}
+          >
             <CourseCard
+              key={course.title}
               title={course.title}
               thumbnail={course.thumbnail}
-              key={course.id}
+              keyVal={course.title}
               handleCourseCallback={handleCourseCallback}
               shadow={false}
             />
-            <GapHorizontal times={6} />
-          </>
+          </div>
         ))}
         <div css={{ width: 1, opacity: 0 }}>.</div>
       </div>

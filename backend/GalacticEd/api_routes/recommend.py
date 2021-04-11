@@ -18,6 +18,7 @@ from GalacticEd.database_ops import (
     get_user,
     get_stats_in_range
 )
+from GalacticEd.proficiency import getNewRating
 from GalacticEd.utils.debug import pretty, print_pretty_json
 
 import time

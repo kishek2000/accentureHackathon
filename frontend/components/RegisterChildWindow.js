@@ -10,15 +10,17 @@ import { InputBox } from "./InputBox";
 import { RegisterButton } from "./RegisterButton";
 import { ContentContext } from "../context/ContentContext";
 import { getCourses } from "../api/Content";
+import { AvatarOverlay } from "./AvatarOverlay";
+import { RegistrationHeader } from "./RegistrationHeader";
+import { LearningStyleDropdown } from "./LearningStyleDropdown";
+import { AvatarSelection } from "./AvatarSelection";
 
 export function RegisterChildWindow() {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [avatarOverlay, setAvatarOverlay] = useState(false);
   const [dob, setDob] = useState("");
-  const [attSpan, setAttSpan] = useState("");
   const [LS, setLS] = useState("");
-  const [FO, setFO] = useState("");
-
   const [registerChild, setRegisterChild] = useState(false);
 
   const { user, userDispatch } = useContext(UserContext);
@@ -30,9 +32,7 @@ export function RegisterChildWindow() {
       name,
       avatar,
       dob,
-      attSpan,
-      LS,
-      FO
+      LS
     );
     const allCourseData = await getCourses();
     contentDispatch({
@@ -41,9 +41,23 @@ export function RegisterChildWindow() {
     });
     userDispatch({
       type: "authenticated-child",
-      payload: registerChildResponse["updated_parent"].children[0],
+      payload: registerChildResponse["updated_parent"][0].children[0],
     });
-  }, [name, dob, attSpan, LS, FO]);
+    const currUser = JSON.parse(localStorage.getItem("user"));
+    console.log(currUser, currUser["children"]);
+    const totalChildren =
+      registerChildResponse["updated_parent"][0].children.length;
+    currUser["children"].push(
+      registerChildResponse["updated_parent"][0].children[totalChildren - 1]
+    );
+    localStorage.setItem(
+      "currChild",
+      JSON.stringify(
+        registerChildResponse["updated_parent"][0].children[totalChildren - 1]
+      )
+    );
+    localStorage.setItem("user", JSON.stringify(currUser));
+  }, [name, dob, LS]);
 
   const handleNameCallback = useCallback(
     (text) => {
@@ -51,6 +65,10 @@ export function RegisterChildWindow() {
     },
     [name]
   );
+
+  const handleAvatarOverlayCallback = useCallback(() => {
+    setAvatarOverlay(true);
+  }, [avatarOverlay]);
 
   const handleAvatarCallback = useCallback(
     (text) => {
@@ -66,13 +84,6 @@ export function RegisterChildWindow() {
     [dob]
   );
 
-  const handleAttSpanCallback = useCallback(
-    (text) => {
-      setAttSpan(text);
-    },
-    [attSpan]
-  );
-
   const handleLSCallback = useCallback(
     (text) => {
       setLS(text);
@@ -80,19 +91,11 @@ export function RegisterChildWindow() {
     [LS]
   );
 
-  const handleFOCallback = useCallback(
-    (text) => {
-      setFO(text);
-    },
-    [FO]
-  );
-
   useEffect(() => {
-    localStorage.setItem("content", content);
+    localStorage.setItem("content", JSON.stringify(content));
   }, [content]);
 
   useEffect(() => {
-    // console.log(user);
     if (user.user?.children?.length > 0) {
       setRegisterChild(true);
     }
@@ -105,44 +108,10 @@ export function RegisterChildWindow() {
         flexDirection: "column",
         height: "100%",
         justifyContent: "center",
+        position: "relative",
       }}
     >
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "absolute",
-          top: 36,
-          left: "50%",
-          transform: "translate(-50%, 0%)",
-        }}
-      >
-        <img
-          src={"/logo.png"}
-          style={{ width: 48, height: 48, objectFit: "contain" }}
-        />
-        <div
-          css={{
-            fontFamily: "Poppins",
-            fontWeight: 800,
-            fontSize: 48,
-          }}
-        >
-          GalaticEd
-        </div>
-        <div
-          css={{
-            fontFamily: "Poppins",
-            fontWeight: 200,
-            fontSize: 16,
-            marginTop: -12,
-          }}
-        >
-          Learning tailored to you.
-        </div>
-      </div>
+      <RegistrationHeader />
       <div
         css={{
           display: "flex",
@@ -164,10 +133,12 @@ export function RegisterChildWindow() {
           Register Child
         </div>
         <GapVertical times={4} />
-
         <InputBox placeholder="First Name" callback={handleNameCallback} />
         <GapVertical times={3} />
-        <InputBox placeholder="Avatar" callback={handleAvatarCallback} />
+        <AvatarSelection
+          avatar={avatar}
+          handleAvatarOverlayCallback={handleAvatarOverlayCallback}
+        />
         <GapVertical times={3} />
         <InputBox
           placeholder="Birthdate"
@@ -175,20 +146,7 @@ export function RegisterChildWindow() {
           callback={handleDobCallback}
         />
         <GapVertical times={3} />
-        <RegisterChildInputWithHelp
-          placeholder={"Attention Span"}
-          callback={handleAttSpanCallback}
-        />
-        <GapVertical times={3} />
-        <RegisterChildInputWithHelp
-          placeholder={"Learning Style"}
-          callback={handleLSCallback}
-        />
-        <GapVertical times={3} />
-        <RegisterChildInputWithHelp
-          placeholder={"Favourite Object"}
-          callback={handleFOCallback}
-        />
+        <LearningStyleDropdown handleLSCallback={handleLSCallback} LS={LS} />
         <GapVertical times={6} />
         <RegisterButton
           route={"/dashboard"}
@@ -196,25 +154,13 @@ export function RegisterChildWindow() {
           register={registerChild}
         />
       </div>
-    </div>
-  );
-}
-
-export function RegisterChildInputWithHelp({ placeholder, callback, type }) {
-  return (
-    <div
-      css={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        position: "relative",
-      }}
-    >
-      <InputBox placeholder={placeholder} callback={callback} type={type} />
-      <img
-        src={"/help.png"}
-        css={{ width: 16, height: 16, position: "absolute", right: -24 }}
-      />
+      {avatarOverlay ? (
+        <AvatarOverlay
+          setAvatarOverlay={setAvatarOverlay}
+          callback={handleAvatarCallback}
+          selection={avatar}
+        />
+      ) : null}
     </div>
   );
 }

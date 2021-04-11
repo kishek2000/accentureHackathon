@@ -7,6 +7,7 @@ import { InputBox } from "../components/InputBox";
 import { RegisterButton } from "../components/RegisterButton";
 import { UserContext } from "../context/UserContext";
 import { registerUser } from "../api/AuthenticateUser";
+import { RegistrationHeader } from "./RegistrationHeader";
 
 export function RegisterWindow() {
   const [username, setUsername] = useState("t");
@@ -26,6 +27,7 @@ export function RegisterWindow() {
           type: "authenticated",
           payload: registerResponse,
         });
+        localStorage.setItem("user", JSON.stringify(registerResponse));
       }
     } else {
       alert("Passwords entered are not the same");
@@ -67,42 +69,7 @@ export function RegisterWindow() {
         justifyContent: "center",
       }}
     >
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "absolute",
-          top: 36,
-          left: "50%",
-          transform: "translate(-50%, 0%)",
-        }}
-      >
-        <img
-          src={"/logo.png"}
-          style={{ width: 48, height: 48, objectFit: "contain" }}
-        />
-        <div
-          css={{
-            fontFamily: "Poppins",
-            fontWeight: 800,
-            fontSize: 48,
-          }}
-        >
-          GalaticEd
-        </div>
-        <div
-          css={{
-            fontFamily: "Poppins",
-            fontWeight: 200,
-            fontSize: 16,
-            marginTop: -12,
-          }}
-        >
-          Learning tailored to you.
-        </div>
-      </div>
+      <RegistrationHeader />
       <div
         css={{
           display: "flex",

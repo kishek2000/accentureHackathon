@@ -20,9 +20,11 @@ from GalacticEd.database_ops import (
     get_user,
     save_stats,
     get_lesson_difficulty,
-    clear_child_stats
+    clear_child_stats,
+    get_user_rating
 )
 from GalacticEd.utils.debug import pretty
+from GalacticEd.proficiency import getNewRating
 
 profile_router = Blueprint("profile", __name__)
 
@@ -69,13 +71,22 @@ def profile_stats_push_handler():
         course_id, 
         lesson_id
     )
+    curr_rating = get_user_rating(request_data["user_id "])
+    new_proficiency = getNewRating(
+        1000,
+        curr_rating,
+        50,
+        request_data["time_taken"],
+        request_data["num_incorrect"]
+    )
     return jsonify(save_stats({
         "course_id": course_id,
         "lesson_id": lesson_id,
         "num_incorrect": request_data["num_incorrect"],
         "time_taken": request_data["time_taken"],
         "time_on_completion": request_data["time_on_completion"],
-        "difficulty": difficulty
+        "difficulty": difficulty,
+        "proficiency": new_proficiency
     }, request_data["user_id"], request_data["child_id"]))
     # except:
     #     pass

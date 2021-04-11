@@ -7,10 +7,12 @@ import { GapVertical } from "./GapVertical";
 export function IdentifyLessonCorrect({
   correct,
   handleNextQuestion,
+  handleCorrectClick,
   setRevealItem,
 }) {
   const handleContinueLesson = useCallback(() => {
     handleNextQuestion();
+    handleCorrectClick();
     setRevealItem(false);
   });
 
