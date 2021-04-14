@@ -10,7 +10,7 @@ from flask import (
     redirect,
     jsonify
 )
-from GalacticEd.models import User
+from GalacticEd.models import User, LearningProfile
 from GalacticEd.exceptions import InvalidUserInput
 from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.database_ops import (
@@ -72,11 +72,14 @@ def profile_stats_push_handler():
         lesson_id
     )
     curr_rating = get_user_rating(request_data["user_id "])
-    new_proficiency = getNewRating(
+    # todo look this up per user or per user/course
+    profile = LearningProfile()
+    new_proficiency = profile.getNewRating(
         1000,
         curr_rating,
         50,
         request_data["time_taken"],
+        10, # todo num_questions
         request_data["num_incorrect"]
     )
     return jsonify(save_stats({
