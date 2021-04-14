@@ -59,7 +59,7 @@ export function IdentifyLesson({
             }}
           >
             
-            <MergedImage mediaPrefix={mediaPrefix} media={media} setRevealItem={setRevealItem} themeImage={theme[Math.floor(Math.random() * theme.length)]}/>
+            <MergedImage mediaPrefix={mediaPrefix} media={media} setRevealItem={setRevealItem} themeImage={`pets/` + theme[Math.floor(Math.random() * theme.length)]}/>
           </div>
         ))}
       </div>

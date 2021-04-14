@@ -4,11 +4,24 @@ import mergeImages from 'merge-images';
 import {useState} from 'react';
 
 export function MergedImage({mediaPrefix, media, setRevealItem, themeImage}) {
+    if (mediaPrefix != `/shapes/`) {
+        return (<img
+            src={`${mediaPrefix}${media.src}.png`}
+            css={{
+              filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
+              cursor: "pointer",
+              width: 300,
+            }}
+            draggable={false}
+            onClick={() => {
+              setRevealItem(true);
+            }}
+          />)
+    }
     const [imgSrc, setImgSrc] = useState(0);
-    console.log(themeImage);
     mergeImages([
       `${mediaPrefix}${media.src}.png`,
-      `/themes/pets/` + themeImage
+      `/themes/` + themeImage
     ])
       .then((src) => {
         setImgSrc(src);
