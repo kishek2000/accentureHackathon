@@ -420,16 +420,24 @@ def get_rec_params(parent_user_id: str, child_id: str):
 def set_rec_params(
         parent_user_id: str, 
         child_id: str, 
-        exp_time: int, 
-        incorrect_penalty_factor: float, 
-        time_multiplier: float,
-        k_factor: float
+        increase_scalar: float, 
+        decrease_scalar: float, 
+        sensitivity: float,
+        expected_time_scalar: float,
+        time_sensitivity: float,
     ):
     """
         TODO: sets the child's rec engine parameters
     """
     parent = get_user(parent_user_id)
     child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+    profileDict = {
+        "prof_increase_scalar": increase_scalar, 
+        "prof_decrease_scalar": decrease_scalar, 
+        "prof_sensitivity": sensitivity,
+        "expected_speed_scalar": expected_time_scalar,
+        "time_sensitivity": time_sensitivity
+    }
     db.users.update_one(
         {
             "_id": ObjectId(parent_user_id),
@@ -443,20 +451,12 @@ def set_rec_params(
         },
         {
             "$set": {
-                "children.$.rec_params": {
-                    "exp_time": exp_time, 
-                    "incorrect_penalty_factor": incorrect_penalty_factor, 
-                    "time_multiplier": time_multiplier,
-                    "k_factor": k_factor
-                }
+                "children.$.rec_params": profileDict
             }
         }
     )
     return {
-        "new_params": {
-            "exp_time": exp_time, 
-            "incorrect_penalty_factor": incorrect_penalty_factor, 
-            "time_multiplier": time_multiplier,
-            "k_factor": k_factor
-        }
+        LearningProfile({
+            profileDict
+        })
     }

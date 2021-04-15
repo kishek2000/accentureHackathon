@@ -4,16 +4,22 @@ DEBUG = True
 
 #Childs overall learning profile
 class LearningProfile:
-    def __init__(self):
+    def __init__(self, **kwargs):
 
         # Values that can be tweaked to adjust proficiency model (for this user)
 
+        # Defaults
         self.prof_increase_scalar = 1.0
         self.prof_decrease_scalar = 1.0
         self.prof_sensitivity = 1.0
 
         self.expected_speed_scalar = 1.0
         self.time_sensitivity = 1.0
+        
+        # Pass in values
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
 
     # Expected score of user x: float (0 < x < 1)
     def expectedScore(self, uRating, qRating):

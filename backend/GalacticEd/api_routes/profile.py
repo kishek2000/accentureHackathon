@@ -84,13 +84,14 @@ def profile_stats_push_handler():
         printColoured(" !!!!!!!!! Proficiency now: ")
         rec_params = get_rec_params(user_id, child_id)
         # todo look this up per user or per user/course
-        profile = LearningProfile()
+        profile = LearningProfile(**rec_params)
+        #(self, uRating: float, qRating: float, expTime: float, actTime: float, nQuestions: int, nIncorrect: int)
         new_proficiency = profile.getNewRating(
-            rec_params,
-            difficulty,
             curr_rating,
-            10,
+            difficulty,
+            30, # todo expected time of lesson
             float(request_data["time_taken"]),
+            10, # todo actual number of questions in lesson
             int(request_data["num_incorrect"])
         )
         set_child_proficiency(user_id, child_id, course_id, new_proficiency)
