@@ -10,7 +10,7 @@ from flask import (
     redirect,
     jsonify
 )
-from GalacticEd.models import User
+from GalacticEd.models import User, LearningProfile
 from GalacticEd.exceptions import InvalidUserInput
 from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.database_ops import (
@@ -28,7 +28,6 @@ from GalacticEd.database_ops import (
     get_rec_params
 )
 from GalacticEd.utils.debug import pretty
-from GalacticEd.proficiency import getNewRating
 
 profile_router = Blueprint("profile", __name__)
 
@@ -84,11 +83,13 @@ def profile_stats_push_handler():
         curr_rating = get_child_proficiency(user_id, child_id, course_id)
         printColoured(" !!!!!!!!! Proficiency now: ")
         rec_params = get_rec_params(user_id, child_id)
-        
-        new_proficiency = getNewRating(
+        # todo look this up per user or per user/course
+        profile = LearningProfile()
+        new_proficiency = profile.getNewRating(
             rec_params,
             difficulty,
             curr_rating,
+            10,
             float(request_data["time_taken"]),
             int(request_data["num_incorrect"])
         )

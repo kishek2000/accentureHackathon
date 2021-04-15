@@ -120,7 +120,7 @@ export const shapesLessonThree = {
       shapes: [
         { src: "square", title: "Square", hue: 0 },
         { src: "rectangle", title: "Rectangle", hue: 45 },
-        { src: "explosion", title: "Explosion", hue: 100 },
+        { src: "pentagon", title: "pentagon", hue: 100 },
       ],
       correct: {
         shape: { src: "rectangle", title: "Rectangle", hue: 45 },
@@ -153,12 +153,12 @@ export const shapesLessonFour = {
     },
     {
       shapes: [
-        { src: "explosion", title: "Explosion", hue: 200 },
+        { src: "pentagon", title: "pentagon", hue: 200 },
         { src: "rectangle", title: "Rectangle", hue: 400 },
         { src: "triangle", title: "Triangle", hue: 0 },
       ],
       correct: {
-        shape: { src: "explosion", title: "Explosion", hue: 200 },
+        shape: { src: "pentagon", title: "pentagon", hue: 200 },
         commentTitle: "Correct!",
         subTitle: "You clicked the",
       },
@@ -169,7 +169,7 @@ export const shapesLessonFour = {
         { src: "rectangle", title: "Rectangle", hue: 400 },
         { src: "circle", title: "Circle", hue: 500 },
         { src: "square", title: "Square", hue: 300 },
-        { src: "explosion", title: "Explosion", hue: 200 },
+        { src: "pentagon", title: "pentagon", hue: 200 },
       ],
       correct: {
         shape: { src: "triangle", title: "Triangle", hue: 0 },
@@ -183,8 +183,8 @@ export const shapesLessonFour = {
         { src: "square", title: "Square", hue: 200 },
         { src: "rectangle", title: "Rectangle", hue: 45 },
         { src: "rectangle", title: "Rectangle", hue: 500 },
-        { src: "explosion", title: "Explosion", hue: 100 },
-        { src: "explosion", title: "Explosion", hue: 200 },
+        { src: "pentagon", title: "pentagon", hue: 100 },
+        { src: "pentagon", title: "pentagon", hue: 200 },
         { src: "circle", title: "Circle", hue: 300 },
       ],
       correct: {

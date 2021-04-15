@@ -96,7 +96,7 @@ export const shapesLessonThree = {
       shapes: [
         { shape: "square", colour: 0 },
         { shape: "rectangle", colour: 45 },
-        { shape: "explosion", colour: 100 },
+        { shape: "pentagon", colour: 100 },
       ],
       correctShape: "rectangle",
       difficulty: 3,
@@ -123,11 +123,11 @@ export const shapesLessonFour = {
     },
     {
       shapes: [
-        { shape: "explosion", colour: 200 },
+        { shape: "pentagon", colour: 200 },
         { shape: "rectangle", colour: 300 },
         { shape: "triangle", colour: 0 },
       ],
-      correctShape: "explosion",
+      correctShape: "pentagon",
       difficulty: 3,
       averageTime: 10,
     },
@@ -135,7 +135,7 @@ export const shapesLessonFour = {
       shapes: [
         { shape: "square", colour: 0 },
         { shape: "circle", colour: 50 },
-        { shape: "explosion", colour: 100 },
+        { shape: "pentagon", colour: 100 },
         { shape: "rectangle", colour: 150 },
         { shape: "triangle", colour: 200 },
       ],
@@ -147,8 +147,8 @@ export const shapesLessonFour = {
       shapes: [
         { shape: "square", colour: 0 },
         { shape: "square", colour: 300 },
-        { shape: "explosion", colour: 50 },
-        { shape: "explosion", colour: 250 },
+        { shape: "pentagon", colour: 50 },
+        { shape: "pentagon", colour: 250 },
         { shape: "rectangle", colour: 100 },
         { shape: "rectangle", colour: 200 },
         { shape: "circle", colour: 150 },
