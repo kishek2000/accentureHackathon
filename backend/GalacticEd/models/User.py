@@ -11,6 +11,7 @@ class User:
         self.avatar = "https://images.unsplash.com/photo-1545996124-0501ebae84d0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
         self.children = []
         self._id = None
+        self.learningProfile = LearningProfile()
 
     def commit_user(self):
         self._id = save_user(self)

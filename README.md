@@ -40,6 +40,8 @@ See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">h
 - GET `/api/courses/lessons`
 - GET `/api/courses/all`
 - GET `/api/courses/full`
+- GET `/api/lessons/`
+  - Parameters: `course_id`, `lesson_id`
 
 ### User Profile Statistics and Routes:
 
@@ -48,17 +50,56 @@ See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">h
 - GET `/api/profile/`
   - Parameters: `user_id`, `token`
   - Returns JSON containing the user's profile data (See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">here</a> for details)
+- GET `/api/profile/progress`
+  - Parameters: `user_id`, `token`, `child_id`, `course_id`
+  - Returns JSON containing: { __progress__, __next_lesson__, `child_proficiency`, `lower_bound`, `upper_bound` }
+    - `progress` and `next_lesson` are enough for displaying the progress bar
 
 #### Statistics:
 
 - GET `/api/profile/stats`
-  - Parameters: `user_id`, `token`
-  - Returns: JSON (See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">here</a> for details)
+  - Parameters: `user_id`, `child_id`, `token`
+  - Returns: JSON { categorical_stats: { shapes: [...], ... }, proficiencies: { shapes: [...] }  } 
+  - Result JSON looks like this:
+  ```
+  {
+    "categorical_stats": {
+        "actions": [
+            {
+                "course_id": "actions",
+                "date": "1",               // UNIX timestamp in seconds
+                "difficulty": 500,
+                "lesson_id": "level-1",
+                "num_incorrect": "0",
+                "proficiency": 595,
+                "time_taken": "20"
+            }
+        ],
+        "colours": [],
+        "emotions": [],
+        "objects": [],
+        "shapes": []
+    },
+    "proficiencies": {
+        "actions": 595,
+        "colours": 500,
+        "emotions": 500,
+        "objects": 500,
+        "shapes": 500
+    }
+  }
+  ```
+
 - POST `/api/profile/stats` - saves the child's performance stats
   - Parameters: `user_id`, `child_id`, `course_id` (eg. "shapes"), `lesson_id` (eg. ""), `time_on_completion` (int timestamp in seconds), `num_incorrect`, `time_taken` (float in seconds)
     - Note: the `child_id` is obtained by accessing the endpoint `api/auth/login`
 - DELETE `/api/profile/stats` - clears the child's performance data
   - Parameters: `user_id`, `child_id`
+- PUT `/api/profile/set_params`
+  - Parameters: `user_id`, `child_id`, `exp_time`, `incorrect_penalty_factor`, `time_multiplier`, `k_factor`
+- GET `/api/profile/progress`
+  - Parameters: `user_id`, `child_id`, `course_id`
+  - Returns: { `next_lesson`, `progress` }, where `next_lesson` is a lesson ID and `progress` is a value like `0.12` indicating 12% progress until `next_lesson`
 
 ### Recommendation Routes:
 

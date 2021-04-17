@@ -2,6 +2,7 @@
 A suite of database operations that abstract over the specific DBMS used and the driver
 library or ODM used to interface with that DBMS.
 """
+import re
 from GalacticEd import db
 from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.utils.debug import pretty
@@ -79,28 +80,63 @@ def get_courses_full():
 
 # ===== Lessons Operations =====
 
-def get_lesson(lesson_id: str) -> List:
+def get_all_lessons(course_id: str) -> List:
+    """
+        TODO: documentation
+    """
+    try:
+        course = db.courses_full.find_one({ "courseId": course_id })
+        # for each_lesson in course["lessons"]:
+        #     each_lesson["_id"] = str(each_lesson["_id"])
+        return course["lessons"]
+    except:
+        raise InvalidUserInput(
+            description="Failed to find the course '{}'".format(
+                course_id
+            )
+        )
+
+def get_lesson(course_id: str, lesson_id: str) -> List:
     """
         Retrieves the lesson with the target lesson_id
 
         Args:
+            course_id (str)
             lesson_id (str)
         
         Returns:
             dict: mapped from the 'lesson' json document
     """
-    lesson = db.lessons.find_one({ "lessonId": lesson_id })
-    lesson["_id"] = str(lesson["_id"])
-    return lesson
+    try:
+        course = db.courses_full.find_one({ "courseId": course_id })
+        lesson = [ l for l in course["lessons"] if l["lessonId"] == lesson_id ][0]
+        lesson["_id"] = str(lesson["_id"])
+        return lesson
+    except:
+        raise InvalidUserInput(
+            description="Failed to find: course '{}', lesson '{}'".format(
+                course_id, lesson_id
+            )
+        )
+
+# TODO: stub function for getting the lesson difficulty:
+def determine_lesson_difficulty(course_id: str, lesson_id: str):
+    """
+
+    """
+    p = re.compile("\w+-(\d+)")
+    result = p.search(lesson_id)
+    return int(result.group(1)) * 500
 
 def get_lesson_difficulty(course_id: str, lesson_id: str):
-    all_course = get_courses_full()
     try: 
-        target_course = [ course for course in all_course if course["courseId"] == course_id ][0] 
-        target_lesson = [ lesson for lesson in target_course["lessons"] ]
-        printColoured(" ➤ Found '{}' lesson '{}'".format(course_id, lesson_id))
-        return target_lesson["difficulty"] if "difficulty" in target_lesson else 0.5
-    except:
+        # target_course = [ course for course in all_course if course["courseId"] == course_id ][0] 
+        # target_lesson = [ lesson for lesson in target_course["lessons"] ]
+        difficulty = determine_lesson_difficulty(course_id, lesson_id)
+        printColoured(" ➤ Found '{}' lesson '{}' of difficulty: {}".format(course_id, lesson_id, difficulty))
+        return difficulty
+    except Exception as err:
+        print("HERE: {}".format(err))
         raise InvalidUserInput(
             description="Failed to find course '{}', lesson '{}'".format(
                 course_id, lesson_id
@@ -118,20 +154,41 @@ def save_child(child, parent_user_id):
     new_children = parent["children"].copy()
     child["_id"] = "{}-{}".format(parent_user_id, child["name"])
     child["statistics"] = []
+    child["most_recent_course_id"] = ""
+    
+    # Default recommendation engine parameters
+    child["rec_params"] = {
+        "k_factor": 95,
+        "incorrect_penalty_factor": 10,
+        "expected_time": 40,
+        "time_multiplier": 0.05
+    }
     new_children.append(child)
     db.users.update_one({ "_id": ObjectId(parent_user_id) }, { "$set": { "children": new_children } })
     return (get_user(user_id=parent_user_id), child["_id"])
 
 # ===== Statistics Operations =====
 
-def get_stats(user_id: str):
+def get_stats(parent_user_id: str, child_id: str):
     """
         TODO
     """
-    stats = [ stat for stat in db.stats.find({ "user_id": user_id }) ]
-    for each_stat in stats:
-        each_stat["_id"] = str(each_stat["_id"])
-    return stats
+    parent = get_user(user_id=parent_user_id)
+    target_child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+
+    stats = target_child["statistics"]
+    categorical_stats = {
+        "shapes": [ stat for stat in stats if stat["course_id"] == "shapes" ],
+        "emotions": [ stat for stat in stats if stat["course_id"] == "emotion" ],
+        "actions": [ stat for stat in stats if stat["course_id"] == "actions" ],
+        "colours": [ stat for stat in stats if stat["course_id"] == "colours" ],
+        "objects": [ stat for stat in stats if stat["course_id"] == "objects" ]
+    }
+    curr_proficiencies = target_child["proficiency"]
+    return {
+        "proficiencies": curr_proficiencies,
+        "categorical_stats": categorical_stats
+    }
 
 def clear_child_stats(parent_user_id: str, child_id: str):
     """
@@ -162,12 +219,15 @@ def save_stats(stats, parent_user_id, child_id):
     """
         TODO
         pushes an object to db.users.children.statistics array
+        ALSO saves the most_recent_course_id
     """
     parent = get_user(user_id=parent_user_id)
     target_child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
     # new_stats = target_child["statistics"].copy()
     # new_stats.append(stats)
+    most_recent_course_id = stats["course_id"]
 
+    # TODO: it's suboptimal to update twice. Haven't figured out how to merge the two actions 
     db.users.update_one(
         {
             "_id": ObjectId(parent_user_id),
@@ -182,6 +242,23 @@ def save_stats(stats, parent_user_id, child_id):
         {
             "$push": {
                 "children.$.statistics": stats
+            }
+        }
+    )
+    db.users.update_one(
+        {
+            "_id": ObjectId(parent_user_id),
+            "children": {
+                "$elemMatch": {
+                    "_id": {
+                        "$eq": child_id
+                    }
+                }
+            }
+        },
+        {
+            "$set": {
+                "children.$.most_recent_course_id": most_recent_course_id
             }
         }
     )
@@ -246,9 +323,12 @@ def get_user(user_id: str) -> Dict:
         Returns:
             dict: of shape: { _id, name, email, password }
     """
-    target_user = db.users.find_one({"_id": ObjectId(user_id)})
-    target_user["_id"] = str(target_user["_id"])
-    return target_user
+    try:
+        target_user = db.users.find_one({"_id": ObjectId(user_id)})
+        target_user["_id"] = str(target_user["_id"])
+        return target_user
+    except:
+        raise InvalidUserInput(description="Failed to find user with id: {}".format(user_id))
 
 def get_user_by_email(email):
     """
@@ -278,14 +358,33 @@ def get_child_proficiency(user_id: str, child_id: str, course_id: str):
         Given the target user and child, gets that child's current
         proficiency rating for a given category
     """
+    printColoured(" > Getting proficiency for {} in course: {}".format(child_id, course_id), colour="yellow")
     parent = get_user(user_id)
     child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
     return int(child["proficiency"][course_id])
 
-def get_user_rating(user_id: str, child_id: str):
-    """
-        TODO
-    """
+def set_child_proficiency(parent_user_id: str, child_id: str, course_id: str, new_proficiency: int):
+    parent = get_user(parent_user_id)
+    child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+
+    db.users.update_one(
+        {
+            "_id": ObjectId(parent_user_id),
+            "children": {
+                "$elemMatch": {
+                    "_id": {
+                        "$eq": child_id
+                    }
+                }
+            }
+        },
+        {
+            "$set": {
+                "children.$.proficiency.{}".format(course_id): new_proficiency
+            }
+        }
+    )
+    print(" @@@@@@@@@@@@@@@@@@@@@@@@@")
 
 def password_verified(email, password):
     """
@@ -308,3 +407,56 @@ def wipe_user(email):
     """
     printColoured(" ➤ Removing a user: {}".format(email), colour="yellow")
     db.users.remove({"email": email})
+
+def get_rec_params(parent_user_id: str, child_id: str):
+    """
+        TODO: gets the child's rec engine parameters
+    """
+    # Fetch child from db and return their parameters
+    parent = get_user(parent_user_id)
+    child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+    return child["rec_params"]
+
+def set_rec_params(
+        parent_user_id: str, 
+        child_id: str, 
+        increase_scalar: float, 
+        decrease_scalar: float, 
+        sensitivity: float,
+        expected_time_scalar: float,
+        time_sensitivity: float,
+    ):
+    """
+        TODO: sets the child's rec engine parameters
+    """
+    parent = get_user(parent_user_id)
+    child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+    profileDict = {
+        "prof_increase_scalar": increase_scalar, 
+        "prof_decrease_scalar": decrease_scalar, 
+        "prof_sensitivity": sensitivity,
+        "expected_speed_scalar": expected_time_scalar,
+        "time_sensitivity": time_sensitivity
+    }
+    db.users.update_one(
+        {
+            "_id": ObjectId(parent_user_id),
+            "children": {
+                "$elemMatch": {
+                    "_id": {
+                        "$eq": child_id
+                    }
+                }
+            }
+        },
+        {
+            "$set": {
+                "children.$.rec_params": profileDict
+            }
+        }
+    )
+    return {
+        LearningProfile({
+            profileDict
+        })
+    }

@@ -12,11 +12,37 @@ const uppercaseAll = (text) => {
   }
 };
 
+/*
+Some pseudocode:
+
+const dataToPlot = []
+
+const extractProficiencyOnDay = (startTimestamp, endTimestamp, course_id) {
+    statsInRange = categorical_stats[course_id].filter((stat) => {
+        stat.date > startTimestamp && stat.date < endTimestamp
+    })
+    // use reduce() to get the avg proficiency of statsInRange
+}
+
+const getDatapointsThisMonth = () => {
+    for startTimestamp, endTimestamp in last 30 days:
+        proficiencyThatDay = extractProficiencyOnDay(startTimestamp, endTimestamp)
+        dataToPlot.push(proficiencyThatDay)
+}
+
+dataToPlot looks like this: [
+    39, 40, 42, 45, 47, 41, 44, 40, 55, 58, 60, 55, 58, 61, 62, 57, 65, 68, 69, 75, 74, 72, 75, 77, 78, 79, 80, 75, 72, 82, 85, 90, 90
+]
+
+*/
+
+
 const LineChart = ({ category, timeResolution }) => {
   // TODO: Replace hardcoded dates
   let dates = [];
   switch (timeResolution) {
     case "week":
+      // TODO: generate dates strings of today to 7 days ago (maybe map timestamps directly to date strings using Date() methods)
       dates = [
         "10/1/21",
         "11/1/21",
@@ -28,6 +54,7 @@ const LineChart = ({ category, timeResolution }) => {
       ];
       break;
     case "month":
+      // TODO: generate dates strings of today to 30 days ago 
       dates = [
         "20/12/20",
         "21/12/20",
@@ -60,6 +87,7 @@ const LineChart = ({ category, timeResolution }) => {
       ];
       break;
     default:
+      // TODO: generate dates strings of today to 7 days ago 
       dates = [
         "10/1/21",
         "11/1/21",
