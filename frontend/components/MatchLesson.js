@@ -39,7 +39,10 @@ export function MatchLesson({
         setIsCorrect(true);
       }
     });
-    const places = ["20%", "35%", "50%", "65%", "80%"];
+
+
+    const hplaces = ["6%", "20%", "34%", "48%", "62%", "76%", "88%"];
+    const vplaces = ["12%", "20%", "34%", "48%", "62%", "76%", "88%"];
 
     /*TODO Grab this from somewhere*/
     var theme = pets;
@@ -96,10 +99,10 @@ export function MatchLesson({
               css={{
                 position: "absolute",
                 top: `${
-                  places.splice(Math.floor(Math.random() * places.length), 1)[0]
+                  vplaces.splice(Math.floor(Math.random() * vplaces.length), 1)[0]
                 }`,
                 left: `${
-                  places.splice(Math.floor(Math.random() * places.length), 1)[0]
+                  hplaces.splice(Math.floor(Math.random() * hplaces.length), 1)[0]
                 }`,
               }}
             >
@@ -124,7 +127,10 @@ function MergedImage({mediaPrefix, media, onClickFunction, correctMap, themeImag
         css={{
           filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
           cursor: "pointer",
-          width: 300,
+          maxWidth: "28vw",
+          maxHeight: "28vh",
+          width: "auto",
+          height: "auto"
         }}
         draggable={false}
         onClick={() => onClickFunction(media.src, correctMap.src)}
@@ -143,7 +149,10 @@ function MergedImage({mediaPrefix, media, onClickFunction, correctMap, themeImag
     css={{
       filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
       cursor: "pointer",
-      width: 300,
+      maxWidth: "28vw",
+      maxHeight: "28vh",
+      width: "auto",
+      height: "auto"
     }}
     draggable={false}
     onClick={() => onClickFunction(media.src, correctMap.src)}

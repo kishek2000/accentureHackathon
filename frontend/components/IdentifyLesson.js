@@ -9,7 +9,8 @@ export function IdentifyLesson({
   setRevealItem,
   handleIncorrectClick,
 }) {
-  var places = ["20%", "35%", "50%", "65%", "80%"];
+  const hplaces = ["6%", "20%", "34%", "48%", "62%", "76%", "90%"];
+  const vplaces = ["12%", "20%", "34%", "48%", "62%", "76%", "88%"];
 
   if (questionData) {
     var dataMap = [];
@@ -51,10 +52,10 @@ export function IdentifyLesson({
             css={{
               position: "fixed",
               top: `${
-                places.splice(Math.floor(Math.random() * places.length), 1)[0]
+                vplaces.splice(Math.floor(Math.random() * vplaces.length), 1)[0]
               }`,
               left: `${
-                places.splice(Math.floor(Math.random() * places.length), 1)[0]
+                hplaces.splice(Math.floor(Math.random() * hplaces.length), 1)[0]
               }`,
               transform: "translate(-50%, -50%)",
             }}
@@ -76,7 +77,10 @@ function MergedImage({mediaPrefix, media, onClickFunction, themeImage}) {
           css={{
             filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
             cursor: "pointer",
-            width: 300,
+            maxWidth: "28vw",
+            maxHeight: "28vh",
+            width: "auto",
+            height: "auto"
           }}
           draggable={false}
           onClick={() => {
@@ -97,7 +101,10 @@ function MergedImage({mediaPrefix, media, onClickFunction, themeImage}) {
     css={{
       filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
       cursor: "pointer",
-      width: 300,
+      maxWidth: "28vw",
+      maxHeight: "28vh",
+      width: "auto",
+      height: "auto"
     }}
     draggable={false}
     onClick={() => {
