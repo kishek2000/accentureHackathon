@@ -360,6 +360,7 @@ def get_child_proficiency(user_id: str, child_id: str, course_id: str):
     """
     printColoured(" > Getting proficiency for {} in course: {}".format(child_id, course_id), colour="yellow")
     parent = get_user(user_id)
+    print(dict(parent))
     child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
     return int(child["proficiency"][course_id])
 

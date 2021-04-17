@@ -11,7 +11,7 @@ def getNewRating(
         actTime: float, 
         nIncorrect: int
     ):
-    expTime = float(rec_params["exp_time"])
+    expTime = float(rec_params["expected_time"])
     K = float(rec_params["k_factor"])        # K Factor (indicates rating flexibility)
     incorrect_penalty_factor = float(rec_params["incorrect_penalty_factor"])
     time_multiplier = float(rec_params["time_multiplier"])
