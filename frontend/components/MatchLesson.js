@@ -3,6 +3,9 @@ import { jsx, css } from "@emotion/react";
 import { useCallback } from "react";
 import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
+import mergeImages from 'merge-images';
+import {useState} from 'react';
+import {pets} from '../store/themes';
 
 export function MatchLesson({
   questionData,
@@ -37,6 +40,10 @@ export function MatchLesson({
       }
     });
     const places = ["20%", "35%", "50%", "65%", "80%"];
+
+    /*TODO Grab this from somewhere*/
+    var theme = pets;
+
     return (
       <div
         css={{
@@ -96,16 +103,11 @@ export function MatchLesson({
                 }`,
               }}
             >
-              <img
-                src={`${mediaPrefix}${media.src}.png`}
-                css={{
-                  filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
-                  cursor: "pointer",
-                  width: 300,
-                }}
-                draggable={false}
-                onClick={() => handleMatchSelection(media.src, correctMap.src)}
-              />
+              <MergedImage mediaPrefix={mediaPrefix} 
+                          media={media} 
+                          onClickFunction={handleMatchSelection} 
+                          correctMap={correctMap} 
+                          themeImage={`pets/` + theme[Math.floor(Math.random() * theme.length)]}/>
             </div>
           ))}
         </div>
@@ -113,4 +115,37 @@ export function MatchLesson({
     );
   }
   return null;
+}
+
+function MergedImage({mediaPrefix, media, onClickFunction, correctMap, themeImage}) {
+  if (mediaPrefix != `/shapes/`) {
+      return (<img
+        src={`${mediaPrefix}${media.src}.png`}
+        css={{
+          filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
+          cursor: "pointer",
+          width: 300,
+        }}
+        draggable={false}
+        onClick={() => onClickFunction(media.src, correctMap.src)}
+      />)
+  }
+  const [imgSrc, setImgSrc] = useState(0);
+  mergeImages([
+    `${mediaPrefix}${media.src}.png`,
+    `/themes/` + themeImage
+  ])
+    .then((src) => {
+      setImgSrc(src);
+    }).catch(err => console.log(err.toString()));
+  return (<img
+    src={imgSrc}
+    css={{
+      filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
+      cursor: "pointer",
+      width: 300,
+    }}
+    draggable={false}
+    onClick={() => onClickFunction(media.src, correctMap.src)}
+  />);
 }
