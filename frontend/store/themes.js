@@ -1,4 +1,4 @@
-export const airSea = [
+export const offroad = [
     "balloon.png",
     "battleship.png",
     "helicopter.png",
