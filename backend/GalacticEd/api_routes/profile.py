@@ -28,6 +28,7 @@ from GalacticEd.database_ops import (
     get_rec_params
 )
 from GalacticEd.utils.debug import pretty
+from GalacticEd.models.LearningProfile import LearningProfile
 
 profile_router = Blueprint("profile", __name__)
 

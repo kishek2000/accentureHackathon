@@ -20,6 +20,15 @@ class LearningProfile:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
+    # TODO: Temporary workaround for: "cannot encode object: <GalacticEd.models.LearningProfile.LearningProfile..."
+    def get_as_dict(self):
+        return {
+            "prof_increase_scalar": self.prof_increase_scalar,
+            "prof_decrease_scalar": self.prof_decrease_scalar,
+            "prof_sensitivity": self.prof_sensitivity,
+            "expected_speed_scalar": self.expected_speed_scalar,
+            "time_sensitivity": self.time_sensitivity,
+        }
 
     # Expected score of user x: float (0 < x < 1)
     def expectedScore(self, uRating, qRating):
