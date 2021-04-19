@@ -134,11 +134,11 @@ export const coloursLessonThree = {
     {
       colours: [
         { src: "square", title: "Red", hue: 0 },
-        { src: "explosion", title: "Green", hue: 120 },
+        { src: "pentagon", title: "Green", hue: 120 },
         { src: "rectangle", title: "Blue", hue: 240 },
       ],
       correct: {
-        colour: { src: "explosion", title: "Green", hue: 120 },
+        colour: { src: "pentagon", title: "Green", hue: 120 },
         commentTitle: "Correct!",
         subTitle: "You clicked ",
       },
@@ -224,13 +224,13 @@ export const coloursLessonFive = {
     },
     {
       colours: [
-        { src: "explosion", title: "Pink", hue: 318 },
+        { src: "pentagon", title: "Pink", hue: 318 },
         { src: "circle", title: "Purple", hue: 277 },
         { src: "rectangle", title: "Blue", hue: 240 },
         { src: "rectangle", title: "Red", hue: 0 },
       ],
       correct: {
-        colour: { src: "explosion", title: "Pink", hue: 318 },
+        colour: { src: "pentagon", title: "Pink", hue: 318 },
         commentTitle: "Correct!",
         subTitle: "You clicked ",
       },

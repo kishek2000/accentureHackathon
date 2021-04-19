@@ -10,7 +10,7 @@ from flask import (
     redirect,
     jsonify
 )
-from GalacticEd.models import User
+from GalacticEd.models import User, LearningProfile
 from GalacticEd.exceptions import InvalidUserInput
 from GalacticEd.utils.colourisation import printColoured
 from GalacticEd.database_ops import (
@@ -28,7 +28,6 @@ from GalacticEd.database_ops import (
     get_rec_params
 )
 from GalacticEd.utils.debug import pretty
-from GalacticEd.proficiency import getNewRating
 
 profile_router = Blueprint("profile", __name__)
 
@@ -84,12 +83,13 @@ def profile_stats_push_handler():
         curr_rating = get_child_proficiency(user_id, child_id, course_id)
         printColoured(" !!!!!!!!! Proficiency now: ")
         rec_params = get_rec_params(user_id, child_id)
-        
-        new_proficiency = getNewRating(
-            rec_params,
-            difficulty,
+        profile = LearningProfile(**rec_params)
+        new_proficiency = profile.getNewRating( #(uRating: float, qRating: float, expTime: float, actTime: float, nQuestions: int, nIncorrect: int)
             curr_rating,
+            difficulty,
+            30, # todo expected time of lesson
             float(request_data["time_taken"]),
+            10, # todo actual number of questions in lesson
             int(request_data["num_incorrect"])
         )
         set_child_proficiency(user_id, child_id, course_id, new_proficiency)
@@ -135,22 +135,24 @@ def profile_set_recommender_params():
         This is for the user to manually set the values for the parameters being used
         as part of the recommendation engine
         Params:
-            - user_id  (str)
-            - child_id (str)
-            - exp_time                   (eg. 40   -> expected time of completion)
-            - incorrect_penalty_factor   (eg. 10   -> loss in proficiency per incorrect)
-            - time_multiplier            (eg. 0.05 -> eg. this means going above exp_time by 10 secs will lead to 50% proficiency increase/decrease of K)
-            - k_factor                   (eg. 95   -> a base amount to change proficiency by)
+            - user_id: str, 
+            - child_id: str, 
+            - increase_scalar: float, 
+            - decrease_scalar: float, 
+            - sensitivity: float,
+            - expected_time_scalar: float,
+            - time_sensitivity: float,
     """
     request_data = dict(request.form)
     try:
         return jsonify(set_rec_params(
             request_data["user_id"],
             request_data["child_id"],
-            float(request_data["exp_time"]),
-            float(request_data["incorrect_penalty_factor"]),
-            float(request_data["time_multiplier"]),
-            float(request_data["k_factor"]),
+            float(request_data["increase_scalar"]),
+            float(request_data["decrease_scalar"]),
+            float(request_data["sensitivity"]),
+            float(request_data["expected_time_scalar"]),
+            float(request_data["time_sensitivity"])
         ))
     except Exception as err: 
         raise InvalidUserInput("Invalid inputs: {}".format(err))    
