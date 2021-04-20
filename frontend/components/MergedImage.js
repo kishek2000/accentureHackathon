@@ -3,7 +3,11 @@ import { jsx, css } from "@emotion/react";
 import mergeImages from 'merge-images';
 import {useState} from 'react';
 
-export function MergedImage({mediaPrefix, media, setRevealItem, themeImage}) {
+/**
+ * Right now this isn't actually used anywhere because there's enough differences between IdentifyLesson and MatchLesson
+ * so that it's easier just to have distinct copies of this in those files. */
+
+export function MergedImage({mediaPrefix, media, onClickFunction, themeImage}) {
     if (mediaPrefix != `/shapes/`) {
         return (<img
             src={`${mediaPrefix}${media.src}.png`}
@@ -35,7 +39,7 @@ export function MergedImage({mediaPrefix, media, setRevealItem, themeImage}) {
       }}
       draggable={false}
       onClick={() => {
-        setRevealItem(true);
+        onClickFunction(true);
       }}
     />);
   }
