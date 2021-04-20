@@ -6,7 +6,12 @@ import { GapVertical } from "./GapVertical";
 import * as themes from '../store/themes';
 
 export function ThemeSettings() {
-    const [currTheme, setTheme] = useState();
+    var [numUpdated, forceUpdate] = useState(0);
+    var curTheme = localStorage.getItem("theme");
+    if (curTheme == null) {
+        curTheme = "none";
+    }
+    console.log(curTheme);
     return (
         <div>
             <div css={{ fontFamily: "Poppins", fontSize: 20, fontWeight: 600 }}>
@@ -16,16 +21,25 @@ export function ThemeSettings() {
                 Pick a theme your child has interest in.
             </div>
             <GapVertical times={6} />
-            <form onChange={(e) => {setTheme(e.target.value)}}>
-                <select value={currTheme}>
-                {Object.keys(themes).sort().map((theme) => (
-                    <option value={theme}>{theme}</option>
-                ))}
+            <form onChange={(e) => {
+                if (e.target.value != null) {
+                    localStorage.setItem('theme', e.target.value);
+                    forceUpdate(numUpdated+1);
+                } else {
+                    localStorage.removeItem('theme');
+                    forceUpdate(numUpdated+1);
+                }
+            }}>
+                <select defaultValue={curTheme}>
+                    <option value={null}>none</option>
+                    {Object.keys(themes).sort().map((theme) => (
+                        <option value={theme}>{theme}</option>
+                    ))}
                 </select>
             </form>
             <div>
-                {currTheme != null && themes[currTheme].map((picLink) => (
-                    <img src={'/themes/' + currTheme + '/' + picLink} css={{
+                {curTheme != "none" && themes[curTheme].map((picLink) => (
+                    <img src={'/themes/' + curTheme + '/' + picLink} css={{
                         width: "100px",
                         height: "100px",
                       }} />

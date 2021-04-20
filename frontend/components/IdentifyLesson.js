@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import {pets} from '../store/themes';
 import mergeImages from 'merge-images';
 import {useState} from 'react';
+import * as themes from '../store/themes';
+
 
 export function IdentifyLesson({
   questionData,
@@ -31,8 +32,11 @@ export function IdentifyLesson({
 
     console.log("rendering component again");
 
-    /*TODO Grab this from somewhere*/
-    var theme = pets;
+    
+    var themeName = localStorage.getItem('theme')
+    if (themeName === null) {
+      themeName = "none";
+    }
 
     return (
       <div
@@ -61,7 +65,11 @@ export function IdentifyLesson({
             }}
           >
             
-            <MergedImage mediaPrefix={mediaPrefix} media={media} onClickFunction={setRevealItem} themeImage={`pets/` + theme[Math.floor(Math.random() * theme.length)]}/>
+            <MergedImage 
+              mediaPrefix={mediaPrefix}
+              media={media}
+              onClickFunction={setRevealItem}
+              themeImage={themeName + `/` + themes[themeName][Math.floor(Math.random() * themes[themeName].length)]}/>
           </div>
         ))}
       </div>
@@ -71,7 +79,7 @@ export function IdentifyLesson({
 }
 
 function MergedImage({mediaPrefix, media, onClickFunction, themeImage}) {
-  if (mediaPrefix != `/shapes/`) {
+  if (mediaPrefix != `/shapes/` || themeImage == `none/none`) {
       return (<img
           src={`${mediaPrefix}${media.src}.png`}
           css={{
@@ -84,7 +92,7 @@ function MergedImage({mediaPrefix, media, onClickFunction, themeImage}) {
           }}
           draggable={false}
           onClick={() => {
-            setRevealItem(true);
+            onClickFunction(true);
           }}
         />)
   }
