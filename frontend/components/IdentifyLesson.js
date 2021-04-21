@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import {pets} from '../store/themes';
-import mergeImages from 'merge-images';
-import {useState} from 'react';
+import { pets } from "../store/themes";
+import mergeImages from "merge-images";
+import { useState } from "react";
 
 export function IdentifyLesson({
   questionData,
@@ -28,8 +28,6 @@ export function IdentifyLesson({
     } else {
       return null;
     }
-
-    console.log("rendering component again");
 
     /*TODO Grab this from somewhere*/
     var theme = pets;
@@ -60,8 +58,14 @@ export function IdentifyLesson({
               transform: "translate(-50%, -50%)",
             }}
           >
-            
-            <MergedImage mediaPrefix={mediaPrefix} media={media} onClickFunction={setRevealItem} themeImage={`pets/` + theme[Math.floor(Math.random() * theme.length)]}/>
+            <MergedImage
+              mediaPrefix={mediaPrefix}
+              media={media}
+              onClickFunction={setRevealItem}
+              themeImage={
+                `pets/` + theme[Math.floor(Math.random() * theme.length)]
+              }
+            />
           </div>
         ))}
       </div>
@@ -70,45 +74,47 @@ export function IdentifyLesson({
   return null;
 }
 
-function MergedImage({mediaPrefix, media, onClickFunction, themeImage}) {
+function MergedImage({ mediaPrefix, media, onClickFunction, themeImage }) {
   if (mediaPrefix != `/shapes/`) {
-      return (<img
-          src={`${mediaPrefix}${media.src}.png`}
-          css={{
-            filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
-            cursor: "pointer",
-            maxWidth: "28vw",
-            maxHeight: "28vh",
-            width: "auto",
-            height: "auto"
-          }}
-          draggable={false}
-          onClick={() => {
-            setRevealItem(true);
-          }}
-        />)
+    return (
+      <img
+        src={`${mediaPrefix}${media.src}.png`}
+        css={{
+          filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
+          cursor: "pointer",
+          maxWidth: "28vw",
+          maxHeight: "28vh",
+          width: "auto",
+          height: "auto",
+        }}
+        draggable={false}
+        onClick={() => {
+          setRevealItem(true);
+        }}
+      />
+    );
   }
   const [imgSrc, setImgSrc] = useState(0);
-  mergeImages([
-    `${mediaPrefix}${media.src}.png`,
-    `/themes/` + themeImage
-  ])
+  mergeImages([`${mediaPrefix}${media.src}.png`, `/themes/` + themeImage])
     .then((src) => {
       setImgSrc(src);
-    }).catch(err => console.log(err.toString()));
-  return (<img
-    src={imgSrc}
-    css={{
-      filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
-      cursor: "pointer",
-      maxWidth: "28vw",
-      maxHeight: "28vh",
-      width: "auto",
-      height: "auto"
-    }}
-    draggable={false}
-    onClick={() => {
-      onClickFunction(true);
-    }}
-  />);
+    })
+    .catch((err) => console.log(err.toString()));
+  return (
+    <img
+      src={imgSrc}
+      css={{
+        filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
+        cursor: "pointer",
+        maxWidth: "28vw",
+        maxHeight: "28vh",
+        width: "auto",
+        height: "auto",
+      }}
+      draggable={false}
+      onClick={() => {
+        onClickFunction(true);
+      }}
+    />
+  );
 }

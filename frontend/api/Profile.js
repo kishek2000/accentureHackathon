@@ -25,6 +25,7 @@ export async function postLessonStats(
   postStatsData.append("date", date);
   postStatsData.append("num_incorrect", num_incorrect);
   postStatsData.append("time_taken", time_taken);
+  postStatsData.append("completed", true);
 
   console.log({
     user_id,
@@ -44,6 +45,19 @@ export async function postLessonStats(
   return data;
 }
 
-// export async function getLessonStats(user_id) {
+export async function getLessonStats(user_id, child_id) {
+  const response = await fetch(
+    `${baseURL}/profile/stats?user_id=${user_id}&child_id=${child_id}`
+  );
+  const data = await response.json();
+  console.log(data);
+}
 
-// }
+export async function getCourseProgress(user_id, child_id, course_id) {
+  const response = await fetch(
+    `${baseURL}/profile/progress?user_id=${user_id}&child_id=${child_id}&course_id=${course_id}`
+  );
+  const data = await response.json();
+  console.log(data);
+  return data;
+}
