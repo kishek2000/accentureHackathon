@@ -172,7 +172,6 @@ def progress_until_next_level():
     # Get all lessons in the category
     lessons = get_all_lessons(course_id)
 
-    # Find the lesson with the minimal absolute difference with target_difficulty 
     child_proficiency = get_child_proficiency(user_id, child_id, course_id)
     lower_bound_difficulty = 0
     upper_bound_difficulty = 0
@@ -180,23 +179,27 @@ def progress_until_next_level():
         (lesson["lessonId"], get_lesson_difficulty(course_id, lesson["lessonId"])) 
         for lesson in lessons 
     ]
+    lesson_difficulties.sort()
+
+    printColoured(" * Child proficiency: {}".format(child_proficiency), colour="yellow")
+    printColoured(" * Lesson difficulties: {}".format(lesson_difficulties), colour="yellow")
 
     next_lesson = ""
     for lesson_diff in lesson_difficulties:
-        if child_proficiency > lesson_diff[1]:
+        if child_proficiency >= lesson_diff[1]:
             lower_bound_difficulty = lesson_diff[1]
         else:
             upper_bound_difficulty = lesson_diff[1]
             next_lesson = lesson_diff[0]
             break
     
+    printColoured(" * Next lesson should be: {}".format(next_lesson), colour="yellow")
+
     progress = 0
-    threshold = (upper_bound_difficulty - lower_bound_difficulty) / 2
     if upper_bound_difficulty == 0:
         upper_bound_difficulty = 3000
-        progress = 1
-    else:
-        progress = (child_proficiency - lower_bound_difficulty) / float(threshold)
+    threshold = (upper_bound_difficulty)
+    progress = (child_proficiency - lower_bound_difficulty) / float(threshold - lower_bound_difficulty)
     return jsonify({
         "child_proficiency": child_proficiency,
         "lower_bound": lower_bound_difficulty,

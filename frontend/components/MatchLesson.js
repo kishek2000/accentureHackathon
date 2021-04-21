@@ -40,8 +40,8 @@ export function MatchLesson({
       }
     });
 
-    const hplaces = ["6%", "20%", "34%", "48%", "62%", "76%", "88%"];
-    const vplaces = ["12%", "20%", "34%", "48%", "62%", "76%", "88%"];
+    const hplaces = ["6%", "20%", "34%", "48%", "62%", "76%"];
+    const vplaces = ["12%", "20%", "34%", "48%", "62%", "76%"];
 
     var themeName = localStorage.getItem("theme");
     if (themeName === null) {
