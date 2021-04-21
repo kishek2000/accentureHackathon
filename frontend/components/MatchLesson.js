@@ -5,7 +5,7 @@ import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
 import mergeImages from "merge-images";
 import { useState } from "react";
-import { pets } from "../store/themes";
+import * as themes from "../store/themes";
 
 export function MatchLesson({
   questionData,
@@ -43,8 +43,10 @@ export function MatchLesson({
     const hplaces = ["6%", "20%", "34%", "48%", "62%", "76%", "88%"];
     const vplaces = ["12%", "20%", "34%", "48%", "62%", "76%", "88%"];
 
-    /*TODO Grab this from somewhere*/
-    var theme = pets;
+    var themeName = localStorage.getItem("theme");
+    if (themeName === null) {
+      themeName = "none";
+    }
 
     return (
       <div
@@ -117,7 +119,11 @@ export function MatchLesson({
                 onClickFunction={handleMatchSelection}
                 correctMap={correctMap}
                 themeImage={
-                  `pets/` + theme[Math.floor(Math.random() * theme.length)]
+                  themeName +
+                  `/` +
+                  themes[themeName][
+                    Math.floor(Math.random() * themes[themeName].length)
+                  ]
                 }
               />
             </div>
@@ -136,7 +142,7 @@ function MergedImage({
   correctMap,
   themeImage,
 }) {
-  if (mediaPrefix != `/shapes/`) {
+  if (mediaPrefix != `/shapes/` || themeImage == `none/none`) {
     return (
       <img
         src={`${mediaPrefix}${media.src}.png`}
