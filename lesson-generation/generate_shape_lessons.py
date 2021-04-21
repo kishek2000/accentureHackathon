@@ -25,7 +25,7 @@ def permute_questions():
         }
         for combo in combos
     ]
-    cpprint(final)
+    return final
 
 current_shapes_lessons = open("lesson-jsons/shapes.json", "r")
 current_shapes_lessons_array = ast.literal_eval(current_shapes_lessons.read())
@@ -56,10 +56,9 @@ new_shape_lesson["questions"] = generate_identify_questions(
     )
 )
 
-# current_shapes_lessons_array.append(new_shape_lesson)
+current_shapes_lessons_array.append(new_shape_lesson)
 # cpprint(current_shapes_lessons_array)
-permute_questions()
-exit()
+# permute_questions()
 shapes_lessons = open("lesson-jsons/shapes.json", "w")
 original_stdout = sys.stdout
 sys.stdout = shapes_lessons

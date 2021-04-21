@@ -155,6 +155,14 @@ def save_child(child, parent_user_id):
     child["_id"] = "{}-{}".format(parent_user_id, child["name"])
     child["statistics"] = []
     child["most_recent_course_id"] = ""
+    
+    # Default recommendation engine parameters
+    child["rec_params"] = {
+        "k_factor": 95,
+        "incorrect_penalty_factor": 10,
+        "expected_time": 40,
+        "time_multiplier": 0.05
+    }
     new_children.append(child)
     db.users.update_one({ "_id": ObjectId(parent_user_id) }, { "$set": { "children": new_children } })
     return (get_user(user_id=parent_user_id), child["_id"])
@@ -359,9 +367,6 @@ def set_child_proficiency(parent_user_id: str, child_id: str, course_id: str, ne
     parent = get_user(parent_user_id)
     child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
 
-    parent = get_user(user_id=parent_user_id)
-    target_child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
-
     db.users.update_one(
         {
             "_id": ObjectId(parent_user_id),
@@ -402,3 +407,56 @@ def wipe_user(email):
     """
     printColoured(" ➤ Removing a user: {}".format(email), colour="yellow")
     db.users.remove({"email": email})
+
+def get_rec_params(parent_user_id: str, child_id: str):
+    """
+        TODO: gets the child's rec engine parameters
+    """
+    # Fetch child from db and return their parameters
+    parent = get_user(parent_user_id)
+    child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+    return child["rec_params"]
+
+def set_rec_params(
+        parent_user_id: str, 
+        child_id: str, 
+        increase_scalar: float, 
+        decrease_scalar: float, 
+        sensitivity: float,
+        expected_time_scalar: float,
+        time_sensitivity: float,
+    ):
+    """
+        TODO: sets the child's rec engine parameters
+    """
+    parent = get_user(parent_user_id)
+    child = [ child for child in parent["children"] if child["_id"] == child_id ][0]
+    profileDict = {
+        "prof_increase_scalar": increase_scalar, 
+        "prof_decrease_scalar": decrease_scalar, 
+        "prof_sensitivity": sensitivity,
+        "expected_speed_scalar": expected_time_scalar,
+        "time_sensitivity": time_sensitivity
+    }
+    db.users.update_one(
+        {
+            "_id": ObjectId(parent_user_id),
+            "children": {
+                "$elemMatch": {
+                    "_id": {
+                        "$eq": child_id
+                    }
+                }
+            }
+        },
+        {
+            "$set": {
+                "children.$.rec_params": profileDict
+            }
+        }
+    )
+    return {
+        LearningProfile({
+            profileDict
+        })
+    }

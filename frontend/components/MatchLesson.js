@@ -3,6 +3,9 @@ import { jsx, css } from "@emotion/react";
 import { useCallback } from "react";
 import { GapHorizontal } from "./GapHorizontal";
 import { GapVertical } from "./GapVertical";
+import mergeImages from "merge-images";
+import { useState } from "react";
+import { pets } from "../store/themes";
 
 export function MatchLesson({
   questionData,
@@ -36,7 +39,13 @@ export function MatchLesson({
         setIsCorrect(true);
       }
     });
-    const places = ["20%", "35%", "50%", "65%", "80%"];
+
+    const hplaces = ["6%", "20%", "34%", "48%", "62%", "76%", "88%"];
+    const vplaces = ["12%", "20%", "34%", "48%", "62%", "76%", "88%"];
+
+    /*TODO Grab this from somewhere*/
+    var theme = pets;
+
     return (
       <div
         css={{
@@ -89,22 +98,27 @@ export function MatchLesson({
               css={{
                 position: "absolute",
                 top: `${
-                  places.splice(Math.floor(Math.random() * places.length), 1)[0]
+                  vplaces.splice(
+                    Math.floor(Math.random() * vplaces.length),
+                    1
+                  )[0]
                 }`,
                 left: `${
-                  places.splice(Math.floor(Math.random() * places.length), 1)[0]
+                  hplaces.splice(
+                    Math.floor(Math.random() * hplaces.length),
+                    1
+                  )[0]
                 }`,
               }}
             >
-              <img
-                src={`${mediaPrefix}${media.src}.png`}
-                css={{
-                  filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
-                  cursor: "pointer",
-                  width: 300,
-                }}
-                draggable={false}
-                onClick={() => handleMatchSelection(media.src, correctMap.src)}
+              <MergedImage
+                mediaPrefix={mediaPrefix}
+                media={media}
+                onClickFunction={handleMatchSelection}
+                correctMap={correctMap}
+                themeImage={
+                  `pets/` + theme[Math.floor(Math.random() * theme.length)]
+                }
               />
             </div>
           ))}
@@ -113,4 +127,51 @@ export function MatchLesson({
     );
   }
   return null;
+}
+
+function MergedImage({
+  mediaPrefix,
+  media,
+  onClickFunction,
+  correctMap,
+  themeImage,
+}) {
+  if (mediaPrefix != `/shapes/`) {
+    return (
+      <img
+        src={`${mediaPrefix}${media.src}.png`}
+        css={{
+          filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
+          cursor: "pointer",
+          maxWidth: "28vw",
+          maxHeight: "28vh",
+          width: "auto",
+          height: "auto",
+        }}
+        draggable={false}
+        onClick={() => onClickFunction(media.src, correctMap.src)}
+      />
+    );
+  }
+  const [imgSrc, setImgSrc] = useState(0);
+  mergeImages([`${mediaPrefix}${media.src}.png`, `/themes/` + themeImage])
+    .then((src) => {
+      setImgSrc(src);
+    })
+    .catch((err) => console.log(err.toString()));
+  return (
+    <img
+      src={imgSrc}
+      css={{
+        filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
+        cursor: "pointer",
+        maxWidth: "28vw",
+        maxHeight: "28vh",
+        width: "auto",
+        height: "auto",
+      }}
+      draggable={false}
+      onClick={() => onClickFunction(media.src, correctMap.src)}
+    />
+  );
 }

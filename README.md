@@ -50,6 +50,10 @@ See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">h
 - GET `/api/profile/`
   - Parameters: `user_id`, `token`
   - Returns JSON containing the user's profile data (See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">here</a> for details)
+- GET `/api/profile/progress`
+  - Parameters: `user_id`, `token`, `child_id`, `course_id`
+  - Returns JSON containing: { __progress__, __next_lesson__, `child_proficiency`, `lower_bound`, `upper_bound` }
+    - `progress` and `next_lesson` are enough for displaying the progress bar
 
 #### Statistics:
 
@@ -91,12 +95,18 @@ See <a href="https://gist.github.com/Tymotex/b25b5d6ad9b9a9e8a5c9b0253581abd0">h
     - Note: the `child_id` is obtained by accessing the endpoint `api/auth/login`
 - DELETE `/api/profile/stats` - clears the child's performance data
   - Parameters: `user_id`, `child_id`
+- PUT `/api/profile/set_params`
+  - Parameters: `user_id`, `child_id`, `exp_time`, `incorrect_penalty_factor`, `time_multiplier`, `k_factor`
+- GET `/api/profile/progress`
+  - Parameters: `user_id`, `child_id`, `course_id`
+  - Returns: { `next_lesson`, `progress` }, where `next_lesson` is a lesson ID and `progress` is a value like `0.12` indicating 12% progress until `next_lesson`
 
 ### Recommendation Routes:
 
 - GET `/api/recommend/next_lesson` [TODO]
   - Parameters: `user_id`, `child_id`, `course_id`
   - Returns: `lesson_id` of the recommended lesson for the given course
+
 
 ### JSON Formats/Document Schema:
 
