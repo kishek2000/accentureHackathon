@@ -172,7 +172,7 @@ export default function Course() {
                       justifyContent: "flex-end",
                     }}
                   >
-                    {courseProgress.progress !== 2 ? (
+                    {courseProgress.progress !== 0 ? (
                       <p
                         css={{
                           margin: 0,
@@ -192,20 +192,21 @@ export default function Course() {
                       textTransform: "uppercase",
                       fontSize: "14px",
                       fontWeight: 500,
+                      marginTop: "84px",
+                      marginLeft: "-24px",
                     }}
                   >
                     {courseProgress.next_lesson
                       .split("-")
                       .map((string, index) => {
                         if (string) {
-                          console.log(string);
                           if (index === 1) {
                             console.log(Number(string));
                             return `${Number(string) - 1}`;
                           }
-                          return string[0].toUpperCase() + string.slice(1);
+                          return string;
                         }
-                        return "";
+                        return recommendedLessonId.split("-").join(" ");
                       })
                       .join(" ")}
                   </p>
@@ -217,15 +218,17 @@ export default function Course() {
                       textTransform: "uppercase",
                       fontSize: "14px",
                       fontWeight: 500,
+                      marginTop: "84px",
+                      marginRight: "-24px",
                     }}
                   >
                     {courseProgress.next_lesson
                       .split("-")
                       .map((string) => {
                         if (string) {
-                          return string[0].toUpperCase() + string.slice(1);
+                          return string;
                         }
-                        return "";
+                        return `END OF ${courseName}`;
                       })
                       .join(" ")}
                   </p>
@@ -278,7 +281,7 @@ function CourseLessons({
           display: "grid",
           alignItems: "center",
           gridTemplateColumns: "repeat(auto-fill, 260px)",
-          gridGap: "60px 24px",
+          gridGap: "80px 24px",
         }}
       >
         {courseData.lessons.map((lesson) => (
@@ -293,6 +296,7 @@ function CourseLessons({
           />
         ))}
       </div>
+      <GapVertical times={20} />
     </div>
   );
 }
