@@ -19,12 +19,13 @@ export function LessonCard({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        justifySelf: "center",
         background: background,
         boxShadow: recommended
           ? "0px 4px 42px 7px rgba(0,0,0, 0.15)"
           : "0px 4px 42px 7px rgba(213, 213, 213, 0.6)",
-        width: recommended ? 300 : 240,
-        height: recommended ? 350 : 280,
+        width: recommended ? "100%" : "90%",
+        height: recommended ? "350px" : "280px",
         borderRadius: 16,
         position: "relative",
       }}

@@ -23,7 +23,6 @@ export function Stats() {
           alignItems: "center",
           alignSelf: "center",
           justifyContent: "space-between",
-          // width: "40%",
         }}
       >
         <div

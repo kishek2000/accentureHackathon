@@ -1,14 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from "@emotion/react";
-import {pets} from '../store/themes';
-import { MergedImage } from './MergedImage';
+import mergeImages from "merge-images";
+import { useState } from "react";
+import * as themes from "../store/themes";
 
 export function IdentifyLesson({
   questionData,
   setRevealItem,
   handleIncorrectClick,
 }) {
-  var places = ["20%", "35%", "50%", "65%", "80%"];
+  const hplaces = ["6%", "20%", "34%", "48%", "62%", "76%", "90%"];
+  const vplaces = ["12%", "20%", "34%", "48%", "62%", "76%", "88%"];
 
   if (questionData) {
     var dataMap = [];
@@ -27,10 +29,10 @@ export function IdentifyLesson({
       return null;
     }
 
-    console.log("rendering component again");
-
-    /*TODO Grab this from somewhere*/
-    var theme = pets;
+    var themeName = localStorage.getItem("theme");
+    if (themeName === null) {
+      themeName = "none";
+    }
 
     return (
       <div
@@ -50,20 +52,75 @@ export function IdentifyLesson({
             css={{
               position: "fixed",
               top: `${
-                places.splice(Math.floor(Math.random() * places.length), 1)[0]
+                vplaces.splice(Math.floor(Math.random() * vplaces.length), 1)[0]
               }`,
               left: `${
-                places.splice(Math.floor(Math.random() * places.length), 1)[0]
+                hplaces.splice(Math.floor(Math.random() * hplaces.length), 1)[0]
               }`,
               transform: "translate(-50%, -50%)",
             }}
           >
-            
-            <MergedImage mediaPrefix={mediaPrefix} media={media} setRevealItem={setRevealItem} themeImage={`pets/` + theme[Math.floor(Math.random() * theme.length)]}/>
+            <MergedImage
+              mediaPrefix={mediaPrefix}
+              media={media}
+              onClickFunction={setRevealItem}
+              themeImage={
+                themeName +
+                `/` +
+                themes[themeName][
+                  Math.floor(Math.random() * themes[themeName].length)
+                ]
+              }
+            />
           </div>
         ))}
       </div>
     );
   }
   return null;
+}
+
+function MergedImage({ mediaPrefix, media, onClickFunction, themeImage }) {
+  if (mediaPrefix != `/shapes/` || themeImage == `none/none`) {
+    return (
+      <img
+        src={`${mediaPrefix}${media.src}.png`}
+        css={{
+          filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
+          cursor: "pointer",
+          maxWidth: "28vw",
+          maxHeight: "28vh",
+          width: "auto",
+          height: "auto",
+        }}
+        draggable={false}
+        onClick={() => {
+          onClickFunction(true);
+        }}
+      />
+    );
+  }
+  const [imgSrc, setImgSrc] = useState(0);
+  mergeImages([`${mediaPrefix}${media.src}.png`, `/themes/` + themeImage])
+    .then((src) => {
+      setImgSrc(src);
+    })
+    .catch((err) => console.log(err.toString()));
+  return (
+    <img
+      src={imgSrc}
+      css={{
+        filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
+        cursor: "pointer",
+        maxWidth: "28vw",
+        maxHeight: "28vh",
+        width: "auto",
+        height: "auto",
+      }}
+      draggable={false}
+      onClick={() => {
+        onClickFunction(true);
+      }}
+    />
+  );
 }

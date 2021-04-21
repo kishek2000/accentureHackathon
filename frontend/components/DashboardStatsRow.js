@@ -32,8 +32,7 @@ export function DashboardStatsRow() {
             width: "100%",
           }}
         >
-          We’ve discovered that {childName} has these traits. Click see more for
-          more info.
+          We’ve discovered that {childName} has these traits.
         </div>
         <AllTraits childName={childName} />
       </div>
@@ -54,8 +53,7 @@ export function ProficiencyGraph() {
         Proficiency
       </div>
       <div css={{ fontFamily: "Poppins", fontSize: 16, fontWeight: 400 }}>
-        View {childName}’s change in proficiency over time. Click see more for
-        more analysis.
+        View {childName}’s change in proficiency over time.
       </div>
       <LineChart />
     </div>
