@@ -197,11 +197,15 @@ export default function Course() {
                     {courseProgress.next_lesson
                       .split("-")
                       .map((string, index) => {
-                        if (index === 1) {
-                          console.log(Number(string));
-                          return `${Number(string) - 1}`;
+                        if (string) {
+                          console.log(string);
+                          if (index === 1) {
+                            console.log(Number(string));
+                            return `${Number(string) - 1}`;
+                          }
+                          return string[0].toUpperCase() + string.slice(1);
                         }
-                        return string[0].toUpperCase() + string.slice(1);
+                        return "";
                       })
                       .join(" ")}
                   </p>
@@ -218,7 +222,10 @@ export default function Course() {
                     {courseProgress.next_lesson
                       .split("-")
                       .map((string) => {
-                        return string[0].toUpperCase() + string.slice(1);
+                        if (string) {
+                          return string[0].toUpperCase() + string.slice(1);
+                        }
+                        return "";
                       })
                       .join(" ")}
                   </p>

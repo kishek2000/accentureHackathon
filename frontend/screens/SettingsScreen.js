@@ -3,6 +3,7 @@ import { jsx, css } from "@emotion/react";
 import { GapVertical } from "../components/GapVertical";
 import { ChildSettings } from "../components/ChildSettings";
 import { AccountSettings } from "../components/AccountSettings";
+import { ThemeSettings } from "../components/ThemeSettings";
 import { useEffect, useState } from "react";
 import { getUserProfile } from "../api/Profile";
 
@@ -21,6 +22,8 @@ export function SettingsScreen() {
       <AccountSettings />
       <GapVertical times={15} />
       <ChildSettings />
+      <GapVertical times={15} />
+      <ThemeSettings />
     </div>
   );
 }
