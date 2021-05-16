@@ -15,19 +15,6 @@ export function MatchLesson({
   questionTitle,
   handleIncorrectClick,
 }) {
-/*
-  var places = [];
-  let vCover = 0;
-  let hCover = 0;
-  while (vCover + imageSize < 100) {
-    hCover = 0;
-    while (hCover + imageSize < 100) {
-      places.push([vCover, hCover]);
-      hCover += imageSize;
-    }
-    vCover += imageSize;
-  }
-*/
   if (questionData) {
     var dataMap = [];
     var correctMap = [];
@@ -67,7 +54,7 @@ export function MatchLesson({
       let good = false;
       while (! good) {
         x = Math.floor(Math.random() * (100 - imageSize));
-        y = Math.floor(Math.random() * (100 - imageSize));
+        y = 15 + Math.floor(Math.random() * (85 - imageSize));
         good = true;
         for (let i = 0; i < places.length; i++) {
           if (Math.abs(places[i][0] - x) < imageSize && Math.abs(places[i][1] - y) < imageSize) {
@@ -133,10 +120,10 @@ export function MatchLesson({
               css={{
                 position: "fixed",
                 top: `${
-                  pos[0] + Math.floor(Math.random() * (100 % imageSize)) + "%"
+                  pos[1] + Math.floor(Math.random() * (100 % imageSize)) + "%"
                 }`,
                 left: `${
-                  pos[1] + Math.floor(Math.random() * (100 % imageSize)) + "%"
+                  pos[0] + Math.floor(Math.random() * (100 % imageSize)) + "%"
                 }`,
               }}
             >

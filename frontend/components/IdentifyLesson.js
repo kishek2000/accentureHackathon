@@ -54,7 +54,7 @@ export function IdentifyLesson({
                 Math.floor(Math.random() * (100 - imageSize)) + "%"
               }`,
               left: `${
-                Math.floor(Math.random() * (100 - imageSize)) + "%"
+                15 + Math.floor(Math.random() * (85 - imageSize)) + "%"
               }`,
             }}
           >
