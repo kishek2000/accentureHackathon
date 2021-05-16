@@ -7,12 +7,27 @@ import mergeImages from "merge-images";
 import { useState } from "react";
 import * as themes from "../store/themes";
 
+const imageSize = 20;
+
 export function MatchLesson({
   questionData,
   setIsCorrect,
   questionTitle,
   handleIncorrectClick,
 }) {
+/*
+  var places = [];
+  let vCover = 0;
+  let hCover = 0;
+  while (vCover + imageSize < 100) {
+    hCover = 0;
+    while (hCover + imageSize < 100) {
+      places.push([vCover, hCover]);
+      hCover += imageSize;
+    }
+    vCover += imageSize;
+  }
+*/
   if (questionData) {
     var dataMap = [];
     var correctMap = [];
@@ -40,12 +55,29 @@ export function MatchLesson({
       }
     });
 
-    const hplaces = ["6%", "20%", "34%", "48%", "62%", "76%", "88%"];
-    const vplaces = ["12%", "20%", "34%", "48%", "62%", "76%", "88%"];
-
     var themeName = localStorage.getItem("theme");
     if (themeName === null) {
       themeName = "none";
+    }
+
+    var places = [];
+    for (let i = 0; i < dataMap.length; i++) {
+      let x;
+      let y;
+      let good = false;
+      while (! good) {
+        x = Math.floor(Math.random() * (100 - imageSize));
+        y = Math.floor(Math.random() * (100 - imageSize));
+        good = true;
+        for (let i = 0; i < places.length; i++) {
+          if (Math.abs(places[i][0] - x) < imageSize && Math.abs(places[i][1] - y) < imageSize) {
+            good = false;
+            break;
+          }
+        }
+      }
+      places.push([x, y]);
+
     }
 
     return (
@@ -76,7 +108,7 @@ export function MatchLesson({
             }}
           />
           <GapHorizontal times={3} />
-          <div css={{ fontFamily: "Poppins", fontSize: 28, fontWeight: 400 }}>
+          <div css={{ fontFamily: "Poppins", fontSize: 28, fontWeight: 400}}>
             {questionTitle}
             <strong
               css={{ fontFamily: "Poppins", fontSize: 28, fontWeight: 700 }}
@@ -95,21 +127,16 @@ export function MatchLesson({
             height: "60vh",
           }}
         >
-          {dataMap.map((media) => (
-            <div
+          {dataMap.map((media) => {
+            let pos = places.splice(Math.floor(Math.random() * places.length), 1)[0];
+            return (<div
               css={{
-                position: "absolute",
+                position: "fixed",
                 top: `${
-                  vplaces.splice(
-                    Math.floor(Math.random() * vplaces.length),
-                    1
-                  )[0]
+                  pos[0] + Math.floor(Math.random() * (100 % imageSize)) + "%"
                 }`,
                 left: `${
-                  hplaces.splice(
-                    Math.floor(Math.random() * hplaces.length),
-                    1
-                  )[0]
+                  pos[1] + Math.floor(Math.random() * (100 % imageSize)) + "%"
                 }`,
               }}
             >
@@ -127,7 +154,7 @@ export function MatchLesson({
                 }
               />
             </div>
-          ))}
+          )})}
         </div>
       </div>
     );
@@ -149,8 +176,8 @@ function MergedImage({
         css={{
           filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
           cursor: "pointer",
-          maxWidth: "28vw",
-          maxHeight: "28vh",
+          maxWidth: imageSize + "vw",
+          maxHeight: imageSize + "vh",
           width: "auto",
           height: "auto",
         }}
@@ -171,8 +198,8 @@ function MergedImage({
       css={{
         filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
         cursor: "pointer",
-        maxWidth: "28vw",
-        maxHeight: "28vh",
+        maxWidth: imageSize + "vw",
+        maxHeight: imageSize + "vh",
         width: "auto",
         height: "auto",
       }}

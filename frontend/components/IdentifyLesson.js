@@ -4,14 +4,13 @@ import mergeImages from "merge-images";
 import { useState } from "react";
 import * as themes from "../store/themes";
 
+const imageSize = 26;
+
 export function IdentifyLesson({
   questionData,
   setRevealItem,
   handleIncorrectClick,
 }) {
-  const hplaces = ["6%", "20%", "34%", "48%", "62%", "76%", "90%"];
-  const vplaces = ["12%", "20%", "34%", "48%", "62%", "76%", "88%"];
-
   if (questionData) {
     var dataMap = [];
     var mediaPrefix = "/shapes/";
@@ -52,12 +51,11 @@ export function IdentifyLesson({
             css={{
               position: "fixed",
               top: `${
-                vplaces.splice(Math.floor(Math.random() * vplaces.length), 1)[0]
+                Math.floor(Math.random() * (100 - imageSize)) + "%"
               }`,
               left: `${
-                hplaces.splice(Math.floor(Math.random() * hplaces.length), 1)[0]
+                Math.floor(Math.random() * (100 - imageSize)) + "%"
               }`,
-              transform: "translate(-50%, -50%)",
             }}
           >
             <MergedImage
@@ -88,8 +86,8 @@ function MergedImage({ mediaPrefix, media, onClickFunction, themeImage }) {
         css={{
           filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
           cursor: "pointer",
-          maxWidth: "28vw",
-          maxHeight: "28vh",
+          maxWidth: imageSize + "vw",
+          maxHeight: imageSize + "vh",
           width: "auto",
           height: "auto",
         }}
@@ -112,8 +110,8 @@ function MergedImage({ mediaPrefix, media, onClickFunction, themeImage }) {
       css={{
         filter: media.hue ? `hue-rotate(${media.hue}deg)` : null,
         cursor: "pointer",
-        maxWidth: "28vw",
-        maxHeight: "28vh",
+        maxWidth: imageSize + "vw",
+        maxHeight: imageSize + "vh",
         width: "auto",
         height: "auto",
       }}
